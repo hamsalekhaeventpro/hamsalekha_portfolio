@@ -55,10 +55,13 @@ export function AboutHero() {
             variants={fadeUp}
             className="font-display font-bold text-cream leading-[1.05]"
             style={{ fontSize: "clamp(2.75rem, 7vw, 6.5rem)" }}
+            aria-label={`${aboutHero.title1} ${aboutHero.title2}`}
           >
-            {aboutHero.title1}
-            <br />
-            <span className="text-gold-light">{aboutHero.title2}</span>
+            <span aria-hidden="true">
+              {aboutHero.title1}
+              <br />
+              <span className="text-gold-light">{aboutHero.title2}</span>
+            </span>
           </motion.h1>
 
           {/* Gold hairline rule */}

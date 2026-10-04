@@ -53,6 +53,7 @@ export function Header() {
               fill
               className="object-contain group-hover:opacity-80 transition-opacity duration-300"
               priority
+              sizes="128px"
             />
           </Link>
 

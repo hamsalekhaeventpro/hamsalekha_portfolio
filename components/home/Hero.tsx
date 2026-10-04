@@ -80,30 +80,34 @@ export function Hero() {
                 fontSize: "clamp(2rem, 5.3vw, 4rem)",
                 lineHeight: 1.05,
               }}
+              aria-label={`${homeHero.line1} ${homeHero.line2}`}
             >
               {/* Line 1 — cream */}
-              <span className="flex flex-wrap gap-x-[0.25em]">
+              <span className="block" aria-hidden="true">
                 {words1.map((word, i) => (
-                  <motion.span
-                    key={`w1-${i}`}
-                    variants={heroWord}
-                    style={{ display: "inline-block" }}
-                  >
-                    {word}
-                  </motion.span>
+                  <span key={`w1-${i}`}>
+                    <motion.span
+                      variants={heroWord}
+                      style={{ display: "inline-block" }}
+                    >
+                      {word}
+                    </motion.span>
+                    {i < words1.length - 1 && " "}
+                  </span>
                 ))}
               </span>
               {/* Line 2 — gold accent */}
-              <span className="flex flex-wrap gap-x-[0.25em] mt-1">
+              <span className="block mt-1" aria-hidden="true">
                 {words2.map((word, i) => (
-                  <motion.span
-                    key={`w2-${i}`}
-                    variants={heroWord}
-                    className="text-gold-light"
-                    style={{ display: "inline-block" }}
-                  >
-                    {word}
-                  </motion.span>
+                  <span key={`w2-${i}`} className="text-gold-light">
+                    <motion.span
+                      variants={heroWord}
+                      style={{ display: "inline-block" }}
+                    >
+                      {word}
+                    </motion.span>
+                    {i < words2.length - 1 && " "}
+                  </span>
                 ))}
               </span>
             </h1>

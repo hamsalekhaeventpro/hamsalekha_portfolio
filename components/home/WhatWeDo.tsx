@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { services } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { useState, useEffect, useRef } from "react";
 
 interface ServiceCardProps {
   number: string;
@@ -28,14 +29,35 @@ function EditorialCard({
   className = "",
   imageClassName = "",
 }: ServiceCardProps) {
+  const [inView, setInView] = useState(false);
+  const cardRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (window.innerWidth < 1024) {
+          setInView(entry.isIntersecting);
+        } else {
+          setInView(false);
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Link
+      ref={cardRef}
       href={href}
+      data-inview={inView}
       className={`group block relative overflow-hidden bg-navy-deep rounded-3xl card-gold-border ${className}`}
     >
       {/* Background Image with subtle zoom */}
       <div
-        className={`absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04] ${imageClassName}`}
+        className={`absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04] group-data-[inview=true]:scale-[1.04] ${imageClassName}`}
       >
         <Image
           src={image}
@@ -45,7 +67,7 @@ function EditorialCard({
           className="object-cover"
         />
         {/* Navy Overlay */}
-        <div className="absolute inset-0 bg-navy-deep/25 group-hover:bg-navy-deep/65 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-navy-deep/25 group-hover:bg-navy-deep/65 group-data-[inview=true]:bg-navy-deep/65 transition-colors duration-500" />
       </div>
 
       {/* Ghost watermark number — Figma pattern */}
@@ -63,12 +85,12 @@ function EditorialCard({
           </h3>
         </div>
 
-        <div className="flex flex-col gap-4 transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+        <div className="flex flex-col gap-4 transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-data-[inview=true]:translate-y-0 group-data-[inview=true]:opacity-100 transition-all duration-500 ease-out">
           <p className="font-display text-2xl md:text-3xl font-medium text-cream max-w-lg leading-snug">
             {tagline}
           </p>
           <span className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light">
-            Explore <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+            Explore <ArrowRight size={15} className="transition-transform group-hover:translate-x-1 group-data-[inview=true]:translate-x-1" />
           </span>
         </div>
       </div>

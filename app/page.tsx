@@ -11,12 +11,9 @@ import { PortfolioPreview } from "@/components/home/PortfolioPreview";
 import { CatalogueBridge } from "@/components/home/CatalogueBridge";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
 import { seoMap } from "@/lib/content";
+import { getPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: seoMap.home.title,
-  description: seoMap.home.description,
-  openGraph: { images: [{ url: seoMap.home.ogImage }] },
-};
+export const metadata: Metadata = getPageMetadata("home", "/");
 
 export default function HomePage() {
   return (

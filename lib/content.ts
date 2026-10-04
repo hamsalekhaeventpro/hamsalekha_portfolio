@@ -200,6 +200,7 @@ export const services: ServiceCard[] = [
     eyebrow: "SINCE 2010",
     title: "Truss & Structures",
     description:
+      // TODO(owner): resolve mixed number format (1,00,000 vs 100,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft)
       "Structures engineered to hold the moment. We raise Bombay truss, pagodas, stages, ramps and backdrops across venues up to 1,00,000 sq ft. Every structure is planned and rigged by our own team.",
     bullets: [
       "Bombay truss and aluminium truss grids",
@@ -343,6 +344,7 @@ export const vaultHero = {
 export const inventory: InventoryRow[] = [
   { category: "Chairs", capacity: "10,000+ across 34 designs" },
   { category: "Sofa units", capacity: "1,100+ across 61 designs" },
+  // TODO(owner): resolve mixed number format (1,00,000 vs 100,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft)
   { category: "Trussing", capacity: "Up to 1,00,000 sq ft" },
   { category: "Gensets", capacity: "40 to 125 KVA" },
   {
@@ -507,6 +509,7 @@ export const aboutPeople = {
 };
 
 export const aboutCTA = {
+  // TODO(owner): founder quote on About is written in third person
   quote: "Twenty years of trust. Twenty years of growth. Twenty years of building experiences. Hamsalekha — 2006 to 2026. The journey continues.",
   ctaLabel: "Talk to Our Team",
   ctaHref: "/contact",
@@ -563,9 +566,9 @@ export const galleryImages: GalleryImage[] = [
     src: "/images/hero.jpg",
     alt: "Grand wedding reception with truss lighting at a Bengaluru venue by Hamsalekha Event Production",
     category: "weddings",
-    eventType: "Wedding",
+    // TODO(owner): confirm what this photo shows.
+    eventType: "From our archive",
     venue: "Bengaluru",
-    year: "2025",
     catalogueHref: microcopy.catalogueUrl,
     span: "tall",
   },
@@ -574,9 +577,9 @@ export const galleryImages: GalleryImage[] = [
     src: "/images/services/lighting.jpg",
     alt: "Reception hall with festoon string lights and chandeliers staged by Hamsalekha",
     category: "weddings",
-    eventType: "Reception",
+    // TODO(owner): confirm what this photo shows.
+    eventType: "From our archive",
     venue: "Bengaluru",
-    year: "2024",
     catalogueHref: microcopy.catalogueUrl,
   },
   {
@@ -605,9 +608,9 @@ export const galleryImages: GalleryImage[] = [
     src: "/images/services/decor.jpg",
     alt: "Traditional mandap with brass deepas and ornate arch, Hamsalekha Event Production",
     category: "celebrations",
-    eventType: "Sangeet",
+    // TODO(owner): confirm what this photo shows.
+    eventType: "From our archive",
     venue: "Bengaluru",
-    year: "2024",
     catalogueHref: microcopy.catalogueUrl,
     span: "tall",
   },
@@ -616,9 +619,9 @@ export const galleryImages: GalleryImage[] = [
     src: "/images/services/furniture.jpg",
     alt: "Imported lounge seating at a cocktail reception by Hamsalekha",
     category: "weddings",
-    eventType: "Reception",
+    // TODO(owner): confirm what this photo shows.
+    eventType: "From our archive",
     venue: "Bengaluru",
-    year: "2024",
     catalogueHref: microcopy.catalogueUrl,
   },
   {
@@ -626,9 +629,9 @@ export const galleryImages: GalleryImage[] = [
     src: "/images/services/production.jpg",
     alt: "Event crew setting up LED stage and lighting rig for a corporate conference by Hamsalekha",
     category: "corporate",
-    eventType: "Corporate Conference",
+    // TODO(owner): confirm what this photo shows.
+    eventType: "From our archive",
     venue: "Bengaluru",
-    year: "2025",
     catalogueHref: microcopy.catalogueUrl,
   },
   {
@@ -636,9 +639,9 @@ export const galleryImages: GalleryImage[] = [
     src: "/images/services/truss.jpg",
     alt: "Aluminium truss grid rigged for a large event venue by Hamsalekha structures team",
     category: "corporate",
-    eventType: "Product Launch",
+    // TODO(owner): confirm what this photo shows.
+    eventType: "From our archive",
     venue: "Bengaluru",
-    year: "2024",
     catalogueHref: microcopy.catalogueUrl,
   },
 ];
@@ -800,6 +803,7 @@ export const faqs: FAQItem[] = [
   },
   {
     question: "How large an event can you handle?",
+    // TODO(owner): resolve mixed number format (1,00,000 vs 100,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft)
     answer:
       "With over 10,000 chairs and trussing up to 1,00,000 sq ft, large weddings, conferences and festivals are well within reach.",
   },
@@ -852,6 +856,7 @@ export const seoMap: Record<string, PageMeta> = {
   },
   vault: {
     title: "Inventory, Warehouse & Crew — Hamsalekha",
+    // TODO(owner): resolve mixed number format (1,00,000 vs 10,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft)
     description:
       "10,000+ chairs, 1,100+ sofa units, trussing up to 1,00,000 sq ft and our own crew — the scale behind every Hamsalekha event.",
     ogImage: "/images/og/home.jpg",

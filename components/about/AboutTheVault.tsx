@@ -29,6 +29,7 @@ export function AboutTheVault() {
             </h2>
             <div className="w-12 h-0.5 bg-gold-dark my-2" />
             <p className="font-sans text-lg text-cream/75 leading-relaxed">
+              {/* TODO(owner): resolve mixed number format (1,00,000 vs 100,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft) */}
               We don&apos;t sub-rent what matters. Our Kothanur facility houses 100,000+ sq ft of proprietary inventory. From the heaviest structural truss down to the last brass deepa, everything is owned, maintained, and dispatched by our team.
             </p>
             <div className="flex flex-col gap-3 mt-6 border-l-2 border-gold/30 pl-6">

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { seoMap, services, eventsWeProduceTags } from "@/lib/content";
+import { getPageMetadata } from "@/lib/metadata";
+// ... imports
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { cn } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: seoMap.services.title,
-  description: seoMap.services.description,
-};
+export const metadata: Metadata = getPageMetadata("services", "/services");
 
 // Gold checkmark bullet
 function GoldCheck() {

@@ -3,10 +3,9 @@ import { seoMap, howWeWorkHero, processSteps, howWeWorkCTA } from "@/lib/content
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
-export const metadata: Metadata = {
-  title: seoMap.howWeWork.title,
-  description: seoMap.howWeWork.description,
-};
+import { getPageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = getPageMetadata("howWeWork", "/how-we-work");
 
 export default function HowWeWorkPage() {
   return (

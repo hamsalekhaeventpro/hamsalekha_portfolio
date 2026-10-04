@@ -5,10 +5,9 @@ import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-export const metadata: Metadata = {
-  title: seoMap.signatureSets.title,
-  description: seoMap.signatureSets.description,
-};
+import { getPageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = getPageMetadata("signatureSets", "/signature-sets");
 
 export default function SignatureSetsPage() {
   return (

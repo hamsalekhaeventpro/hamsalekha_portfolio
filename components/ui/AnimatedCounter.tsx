@@ -36,6 +36,12 @@ export function AnimatedCounter({
 
   useGSAP(
     () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      if (numberRef.current) {
+        numberRef.current.innerText = formatNumber(from);
+      }
+
       const target = { val: from };
       
       gsap.to(target, {
@@ -60,7 +66,7 @@ export function AnimatedCounter({
   return (
     <span ref={containerRef} className={cn("tabular-nums", className)}>
       {prefix}
-      <span ref={numberRef}>{formatNumber(from)}</span>
+      <span ref={numberRef}>{formatNumber(to)}</span>
       {suffix}
     </span>
   );

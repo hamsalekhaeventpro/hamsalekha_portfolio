@@ -46,6 +46,7 @@ export function Footer() {
                   alt="Hamsalekha Event Production"
                   fill
                   className="object-contain"
+                  sizes="192px"
                 />
               </div>
               {/* Gold rule under brand */}

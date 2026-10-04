@@ -10,10 +10,9 @@ import { AboutPeople } from "@/components/about/AboutPeople";
 import { CatalogueBridge } from "@/components/home/CatalogueBridge";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
 
-export const metadata: Metadata = {
-  title: seoMap.about.title,
-  description: seoMap.about.description,
-};
+import { getPageMetadata } from "@/lib/metadata";
+
+export const metadata: Metadata = getPageMetadata("about", "/about");
 
 export default function AboutPage() {
   return (

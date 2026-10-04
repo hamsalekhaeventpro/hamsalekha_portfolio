@@ -63,7 +63,7 @@ export interface GalleryImage {
   category: GalleryCategory;
   eventType: string;
   venue: string;
-  year: string;
+  year?: string;
   catalogueHref?: string;
   span?: "normal" | "tall"; // for masonry visual variation
 }

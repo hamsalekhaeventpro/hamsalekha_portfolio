@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { galleryImages } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -76,32 +76,7 @@ export function PortfolioPreview() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
           >
             {preview.map((img, i) => (
-              <div
-                key={img.id}
-                className={`group relative overflow-hidden rounded-2xl cursor-pointer bg-navy-deep card-gold-border ${
-                  img.span === "tall" ? "row-span-2" : ""
-                } ${i === 0 ? "sm:col-span-2 lg:col-span-2" : ""}`}
-                style={{ minHeight: i === 0 ? "420px" : "260px" }}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                />
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/20 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-400" />
-                {/* Caption */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-400">
-                  <span className="font-sans text-[0.65rem] tracking-[0.2em] uppercase text-gold-light mb-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {img.eventType} · {img.year}
-                  </span>
-                  <h3 className="font-display text-xl font-bold text-cream">
-                    {img.venue}
-                  </h3>
-                </div>
-              </div>
+              <PortfolioCard key={img.id} img={img} index={i} />
             ))}
           </motion.div>
         </AnimatePresence>
@@ -118,5 +93,57 @@ export function PortfolioPreview() {
         </div>
       </div>
     </section>
+  );
+}
+
+function PortfolioCard({ img, index }: { img: (typeof galleryImages)[0]; index: number }) {
+  const [inView, setInView] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (window.innerWidth < 1024) {
+          setInView(entry.isIntersecting);
+        } else {
+          setInView(false);
+        }
+      },
+      { threshold: 0.35 }
+    );
+
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      data-inview={inView}
+      onClick={() => setInView(!inView)}
+      className={`group relative overflow-hidden rounded-2xl cursor-pointer bg-navy-deep card-gold-border ${
+        img.span === "tall" ? "row-span-2" : ""
+      } ${index === 0 ? "sm:col-span-2 lg:col-span-2" : ""}`}
+      style={{ minHeight: index === 0 ? "420px" : "260px" }}
+    >
+      <Image
+        src={img.src}
+        alt={img.alt}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05] group-data-[inview=true]:scale-[1.05]"
+      />
+      {/* Hover overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/20 to-transparent opacity-70 group-hover:opacity-100 group-data-[inview=true]:opacity-100 transition-opacity duration-400" />
+      {/* Caption */}
+      <div className="absolute inset-0 flex flex-col justify-end p-6 translate-y-2 group-hover:translate-y-0 group-data-[inview=true]:translate-y-0 transition-transform duration-400">
+        <span className="font-sans text-[0.65rem] tracking-[0.2em] uppercase text-gold-light mb-1 opacity-0 group-hover:opacity-100 group-data-[inview=true]:opacity-100 transition-opacity duration-300">
+          {img.eventType} · {img.year}
+        </span>
+        <h3 className="font-display text-xl font-bold text-cream">
+          {img.venue}
+        </h3>
+      </div>
+    </div>
   );
 }

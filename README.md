@@ -40,7 +40,7 @@ For production deployment on Netlify or Vercel, the following environment variab
 - `ENQUIRY_FROM_EMAIL`: Authorized sender email (e.g. your-email@example.com)
 - `TURNSTILE_SECRET_KEY`: Cloudflare Turnstile secret key for server verification
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: Public site key for the Turnstile widget
-- `NEXT_PUBLIC_SITE_URL`: The canonical URL of the deployed application
+- `NEXT_PUBLIC_SITE_URL`: The canonical URL of the deployed application (used for metadataBase). Defaults to `https://hamsalekha-event-production.netlify.app` if not set.
 
 > **Note**: Do NOT commit `.env.local` or any file containing actual secret values to this repository.
 

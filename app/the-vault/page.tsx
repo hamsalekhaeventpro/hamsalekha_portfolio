@@ -12,11 +12,9 @@ import {
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { getPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: seoMap.vault.title,
-  description: seoMap.vault.description,
-};
+export const metadata: Metadata = getPageMetadata("vault", "/the-vault");
 
 export default function VaultPage() {
   return (
