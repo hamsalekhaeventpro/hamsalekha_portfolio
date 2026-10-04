@@ -37,12 +37,14 @@ For production deployment on Netlify or Vercel, the following environment variab
 
 - `RESEND_API_KEY`: API key for email delivery
 - `ENQUIRY_TO_EMAIL`: Destination email for customer enquiries
-- `ENQUIRY_FROM_EMAIL`: Authorized sender email (e.g. enquiries@hamsalekha.com)
+- `ENQUIRY_FROM_EMAIL`: Authorized sender email on a verified sending domain
 - `TURNSTILE_SECRET_KEY`: Cloudflare Turnstile secret key for server verification
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: Public site key for the Turnstile widget
 - `NEXT_PUBLIC_SITE_URL`: The canonical URL of the deployed application
 
 > **Note**: Do NOT commit `.env.local` or any file containing actual secret values to this repository.
+
+On Netlify, store the actual `ENQUIRY_FROM_EMAIL` and `ENQUIRY_TO_EMAIL` values only in the site's environment variable settings. Keep `.env.example` values empty and leave secrets scanning enabled.
 
 ## Deployment
 
