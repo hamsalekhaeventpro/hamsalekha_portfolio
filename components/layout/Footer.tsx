@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone } from "lucide-react";
 import { footerTagline, footerColumns, microcopy } from "@/lib/content";
 
@@ -39,14 +40,16 @@ export function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             <div>
-              <p className="font-display text-2xl font-bold text-cream tracking-wide">
-                Hamsalekha
-              </p>
-              <p className="font-sans text-[0.65rem] text-gold-light tracking-[0.22em] uppercase mt-1">
-                Event Production
-              </p>
+              <div className="relative w-48 h-20 shrink-0 overflow-hidden mb-2">
+                <Image
+                  src="/images/hamsalekha-logo-v4.png"
+                  alt="Hamsalekha Event Production"
+                  fill
+                  className="object-contain"
+                />
+              </div>
               {/* Gold rule under brand */}
-              <div className="w-12 h-[2px] bg-gradient-to-r from-gold-dark to-gold mt-4" />
+              <div className="w-12 h-[2px] bg-gradient-to-r from-gold-dark to-gold mt-2" />
             </div>
             <p className="font-sans text-sm text-cream/65 leading-relaxed max-w-xs">
               {footerTagline}

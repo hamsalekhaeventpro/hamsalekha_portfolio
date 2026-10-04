@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -40,18 +41,19 @@ export function Header() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent pointer-events-none" />
 
         <div className="container-site flex items-center justify-between h-16 md:h-20">
-          {/* Wordmark */}
+          {/* Wordmark Logo */}
           <Link
             href="/"
-            className="flex flex-col leading-tight group"
+            className="relative flex items-center justify-center group h-14 w-32 shrink-0 overflow-hidden"
             aria-label="Hamsalekha Event Production — Home"
           >
-            <span className="font-display text-xl font-bold text-cream tracking-wide group-hover:text-gold-light transition-colors duration-300">
-              Hamsalekha
-            </span>
-            <span className="font-sans text-[0.65rem] text-gold-light tracking-[0.2em] uppercase">
-              Event Production
-            </span>
+            <Image
+              src="/images/hamsalekha-logo-v4.png"
+              alt="Hamsalekha Event Production"
+              fill
+              className="object-contain group-hover:opacity-80 transition-opacity duration-300"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -140,9 +142,14 @@ export function Header() {
                 <X size={20} />
               </button>
 
-              {/* Wordmark in drawer */}
-              <div className="absolute top-5 left-6">
-                <span className="font-display text-lg font-bold text-cream">Hamsalekha</span>
+              {/* Logo in drawer */}
+              <div className="absolute top-5 left-6 w-32 h-12 relative">
+                <Image
+                  src="/images/hamsalekha-logo-v4.png"
+                  alt="Hamsalekha Event Production"
+                  fill
+                  className="object-contain"
+                />
               </div>
 
               {/* Gold hairline */}
