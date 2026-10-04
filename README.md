@@ -37,7 +37,7 @@ For production deployment on Netlify or Vercel, the following environment variab
 
 - `RESEND_API_KEY`: API key for email delivery
 - `ENQUIRY_TO_EMAIL`: Destination email for customer enquiries
-- `ENQUIRY_FROM_EMAIL`: Authorized sender email (e.g. enquiries@hamsalekha.com)
+- `ENQUIRY_FROM_EMAIL`: Authorized sender email (e.g. your-email@example.com)
 - `TURNSTILE_SECRET_KEY`: Cloudflare Turnstile secret key for server verification
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: Public site key for the Turnstile widget
 - `NEXT_PUBLIC_SITE_URL`: The canonical URL of the deployed application
