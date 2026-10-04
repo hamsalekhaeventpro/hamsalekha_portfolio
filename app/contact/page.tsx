@@ -85,6 +85,7 @@ function ContactPageContent() {
   useEffect(() => {
     const setParam = searchParams.get("set");
     if (setParam === "glass-house") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedServices((prev) => {
         if (!prev.includes("Signature Set")) {
           const next = [...prev, "Signature Set"];
@@ -93,10 +94,9 @@ function ContactPageContent() {
         }
         return prev;
       });
-      const currentMessage = register("message").name; // Just checking if we can get it, wait better to use watch or getValues. But we can just overwrite if empty.
       setValue("message", "The Glass House\n", { shouldDirty: false });
     }
-  }, [searchParams, setValue, register]);
+  }, [searchParams, setValue]);
 
   const onSubmit = async (data: EnquiryFormValues, e?: React.BaseSyntheticEvent) => {
     if (e) {
@@ -327,7 +327,7 @@ function ContactPageContent() {
 
             <RevealOnScroll direction="right" delay={0.2} className="bg-gold/10 border border-gold/20 rounded-3xl p-6 flex flex-col gap-3">
               <p className="font-display text-base font-semibold text-navy-deep">Prefer to chat?</p>
-              <p className="font-sans text-sm text-text-slate">WhatsApp us and we'll get back to you quickly.</p>
+              <p className="font-sans text-sm text-text-slate">WhatsApp us and we&apos;ll get back to you quickly.</p>
               <a
                 href={`https://wa.me/${microcopy.whatsappNumber}?text=${encodeURIComponent(microcopy.whatsappMessage)}`}
                 target="_blank"

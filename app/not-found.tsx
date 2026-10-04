@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
@@ -10,10 +9,10 @@ export default function NotFound() {
       <div className="flex flex-col items-center gap-6 max-w-lg">
         <span className="font-display text-9xl font-bold text-gold/20 select-none">404</span>
         <h1 className="font-display text-h2 font-bold text-cream">
-          This stage isn't built yet.
+          This stage isn&apos;t built yet.
         </h1>
         <p className="font-sans text-body text-cream/60">
-          The page you're looking for doesn't exist.
+          The page you&apos;re looking for doesn&apos;t exist.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <Button href="/" variant="primary" size="md">
