@@ -51,3 +51,6 @@ CLAUDE.md
 *.pdf
 extract_svg.py
 *.html
+*-REPORT.md
+*-READY.md
+*-AUDIT.md
