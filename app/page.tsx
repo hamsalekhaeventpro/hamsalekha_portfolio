@@ -10,7 +10,6 @@ import { WhoWeWorkWith } from "@/components/home/WhoWeWorkWith";
 import { PortfolioPreview } from "@/components/home/PortfolioPreview";
 import { CatalogueBridge } from "@/components/home/CatalogueBridge";
 import { ClosingCTA } from "@/components/home/ClosingCTA";
-import { seoMap } from "@/lib/content";
 import { getPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getPageMetadata("home", "/");

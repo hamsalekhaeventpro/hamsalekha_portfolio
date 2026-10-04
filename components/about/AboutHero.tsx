@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { aboutHero } from "@/lib/content";
 import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion";
-import { ChevronDown } from "lucide-react";
+
 
 export function AboutHero() {
   const shouldReduceMotion = useReducedMotion();

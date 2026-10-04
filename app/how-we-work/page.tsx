@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { seoMap, howWeWorkHero, processSteps, howWeWorkCTA } from "@/lib/content";
+import { howWeWorkHero, processSteps, howWeWorkCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 

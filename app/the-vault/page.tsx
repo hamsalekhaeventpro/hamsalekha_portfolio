@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import {
-  seoMap,
   vaultHero,
   inventory,
   warehouseSection,

@@ -1,8 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { fadeUp, viewportOnce } from "@/lib/motion";
-import { cn } from "@/lib/utils";
+import { viewportOnce } from "@/lib/motion";
 
 interface RevealOnScrollProps {
   children: React.ReactNode;

@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { viewportOnce } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
 export function HomeIntro() {
   const shouldReduceMotion = useReducedMotion();

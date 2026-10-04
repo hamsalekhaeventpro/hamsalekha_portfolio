@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { seoMap, services, eventsWeProduceTags } from "@/lib/content";
+import { services, eventsWeProduceTags } from "@/lib/content";
 import { getPageMetadata } from "@/lib/metadata";
 // ... imports
 import { SectionHeading } from "@/components/ui/SectionHeading";

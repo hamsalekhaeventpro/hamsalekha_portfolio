@@ -1,7 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { homeClosingCTA, microcopy } from "@/lib/content";
+import { homeClosingCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 

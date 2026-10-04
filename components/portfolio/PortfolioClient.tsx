@@ -4,12 +4,12 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { portfolioHero, featuredStories, galleryImages, portfolioCTA, microcopy } from "@/lib/content";
-import type { GalleryCategory, GalleryImage } from "@/types/content";
+import { portfolioHero, featuredStories, galleryImages, portfolioCTA } from "@/lib/content";
+import type { GalleryCategory } from "@/types/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { scaleIn, staggerContainer } from "@/lib/motion";
+
 import { cn } from "@/lib/utils";
 
 const filters: { label: string; value: GalleryCategory | "all" }[] = [
@@ -136,9 +136,9 @@ export default function PortfolioClient() {
                   onClick={() => openLightbox(idx)}
                 >
                   <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-navy-deep/0 group-hover:bg-navy-deep/50 transition-all duration-300 flex flex-col justify-end p-5">
-                    <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                  {/* Hover overlay — visible by default on touch devices, hover-only on devices with pointer capability */}
+                  <div className="absolute inset-0 bg-navy-deep/50 [@media(any-hover:hover)]:bg-navy-deep/0 [@media(any-hover:hover)]:group-hover:bg-navy-deep/50 transition-all duration-300 flex flex-col justify-end p-5">
+                    <div className="translate-y-0 opacity-100 [@media(any-hover:hover)]:translate-y-4 [@media(any-hover:hover)]:opacity-0 [@media(any-hover:hover)]:group-hover:translate-y-0 [@media(any-hover:hover)]:group-hover:opacity-100 transition-all duration-300">
                       <p className="font-sans text-xs text-cream/80 mb-1">{img.eventType} · {img.venue} · {img.year}</p>
                       {img.catalogueHref && (
                         <a href={img.catalogueHref} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors">

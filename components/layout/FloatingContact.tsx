@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { MessageCircle, X, ArrowUpRight } from "lucide-react";
 import { microcopy } from "@/lib/content";
-import { cn } from "@/lib/utils";
 
 export function FloatingContact() {
   const [isExpanded, setIsExpanded] = useState(false);

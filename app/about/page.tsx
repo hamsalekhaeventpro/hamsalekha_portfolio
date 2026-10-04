@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { seoMap } from "@/lib/content";
 import { AboutHero } from "@/components/about/AboutHero";
 import { Origin } from "@/components/about/Origin";
 import { AboutBrandStatement } from "@/components/about/AboutBrandStatement";

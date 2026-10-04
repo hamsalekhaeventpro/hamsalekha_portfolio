@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { seoMap, signatureSets, customSetCTA } from "@/lib/content";
+import { signatureSets, customSetCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 
 import { getPageMetadata } from "@/lib/metadata";
 
