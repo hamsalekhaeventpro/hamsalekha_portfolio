@@ -35,6 +35,8 @@ export const enquirySchema = z.object({
     .array(z.string())
     .min(1, "Please select at least one service"),
   message: z.string().max(1000, "Message is too long").optional(),
+  honeypot: z.string().max(100).optional(),
+  turnstileToken: z.string().optional(),
 });
 
 export type EnquiryFormValues = z.infer<typeof enquirySchema>;

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { enquirySchema } from "@/lib/form-schema";
+import { Resend } from "resend";
 
 export async function POST(request: Request) {
   try {
@@ -16,16 +17,51 @@ export async function POST(request: Request) {
 
     const data = result.data;
 
-    // ── Send via Resend ──────────────────────────────────────────
-    const apiKey = process.env.RESEND_API_KEY;
-    const toEmail = process.env.ENQUIRY_TO_EMAIL || "hello@hamsalekha.com";
-    const fromEmail = process.env.ENQUIRY_FROM_EMAIL || "enquiries@hamsalekha.com";
-
-    if (!apiKey) {
-      console.warn("RESEND_API_KEY not set — logging enquiry to console");
-      console.log("New enquiry:", JSON.stringify(data, null, 2));
+    // ── Spam Protection: Honeypot ─────────────────────────────
+    if (data.honeypot) {
+      console.warn("Honeypot filled, rejecting silently");
       return NextResponse.json({ success: true });
     }
+
+    // ── Spam Protection: Turnstile ────────────────────────────
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    const isProd = process.env.NODE_ENV === "production";
+
+    if (!turnstileSecret) {
+      if (isProd) {
+        console.error("Missing TURNSTILE_SECRET_KEY in production");
+        return NextResponse.json({ error: "Configuration error" }, { status: 500 });
+      } else {
+        console.warn("Bypassing Turnstile in development (TURNSTILE_SECRET_KEY missing)");
+      }
+    } else {
+      if (!data.turnstileToken) {
+        return NextResponse.json({ error: "Missing CAPTCHA token" }, { status: 400 });
+      }
+      const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `secret=${encodeURIComponent(turnstileSecret)}&response=${encodeURIComponent(data.turnstileToken)}`,
+      });
+      const verifyData = await verifyRes.json();
+      if (!verifyData.success) {
+        console.warn("Turnstile verification failed:", verifyData);
+        return NextResponse.json({ error: "Spam verification failed" }, { status: 400 });
+      }
+    }
+
+    // ── Production Configuration Check ────────────────────────
+    const apiKey = process.env.RESEND_API_KEY;
+    const toEmail = process.env.ENQUIRY_TO_EMAIL;
+    const fromEmail = process.env.ENQUIRY_FROM_EMAIL;
+
+    if (!apiKey || !toEmail || !fromEmail) {
+      console.error("Missing required email configuration (RESEND_API_KEY, ENQUIRY_TO_EMAIL, or ENQUIRY_FROM_EMAIL)");
+      return NextResponse.json({ error: "Configuration error" }, { status: 500 });
+    }
+
+    // ── Send via Resend SDK ───────────────────────────────────
+    const resend = new Resend(apiKey);
 
     const emailBody = `
 New enquiry from the Hamsalekha website
@@ -44,24 +80,16 @@ Message:
 ${data.message || "—"}
     `.trim();
 
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: [toEmail],
-        subject: `New Enquiry — ${data.name} · ${data.eventType} · ${data.eventDate}`,
-        text: emailBody,
-        reply_to: data.email || data.phone,
-      }),
+    const { error: sendError } = await resend.emails.send({
+      from: fromEmail,
+      to: [toEmail],
+      subject: `New Hamsalekha Event Enquiry — ${data.eventType}`,
+      text: emailBody,
+      replyTo: data.email ? data.email : undefined,
     });
 
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error("Resend error:", errText);
+    if (sendError) {
+      console.error("Resend error:", sendError);
       return NextResponse.json({ error: "Email send failed" }, { status: 500 });
     }
 

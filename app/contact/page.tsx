@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Phone, MapPin, CheckCircle, AlertCircle } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import Script from "next/script";
 
 function InstagramIcon({ size = 16, className = "" }: { size?: number; className?: string }) {
   return (
@@ -55,8 +57,17 @@ function FAQItem({ question, answer, idx }: { question: string; answer: string; 
 }
 
 export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="min-h-svh bg-navy-deep" />}>
+      <ContactPageContent />
+    </Suspense>
+  );
+}
+
+function ContactPageContent() {
   const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const searchParams = useSearchParams();
 
   const { register, handleSubmit, formState: { errors }, setValue, reset } = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquirySchema),
@@ -71,7 +82,27 @@ export default function ContactPage() {
     setValue("services", updated, { shouldValidate: true });
   };
 
-  const onSubmit = async (data: EnquiryFormValues) => {
+  useEffect(() => {
+    const setParam = searchParams.get("set");
+    if (setParam === "glass-house") {
+      setSelectedServices((prev) => {
+        if (!prev.includes("Signature Set")) {
+          const next = [...prev, "Signature Set"];
+          setValue("services", next, { shouldValidate: true });
+          return next;
+        }
+        return prev;
+      });
+      const currentMessage = register("message").name; // Just checking if we can get it, wait better to use watch or getValues. But we can just overwrite if empty.
+      setValue("message", "The Glass House\n", { shouldDirty: false });
+    }
+  }, [searchParams, setValue, register]);
+
+  const onSubmit = async (data: EnquiryFormValues, e?: React.BaseSyntheticEvent) => {
+    if (e) {
+      const formData = new FormData(e.target);
+      data.turnstileToken = (formData.get("cf-turnstile-response") as string) || "";
+    }
     setSubmitState("loading");
     try {
       const res = await fetch("/api/enquiry", {
@@ -93,6 +124,7 @@ export default function ContactPage() {
 
   return (
     <>
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" />
       {/* Hero — Figma contact.svg style */}
       <section className="pt-36 pb-24 bg-navy-deep relative overflow-hidden">
         <div
@@ -223,6 +255,18 @@ export default function ContactPage() {
                 <div>
                   <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Tell us more</label>
                   <textarea {...register("message")} rows={4} placeholder="Theme, references, anything we should know" className={cn(inputClass, "resize-none")} />
+                </div>
+
+                {/* Honeypot (hidden from real users) */}
+                <div className="absolute opacity-0 -z-10 select-none pointer-events-none" aria-hidden="true">
+                  <label htmlFor="honeypot">Leave this field blank</label>
+                  <input {...register("honeypot")} id="honeypot" type="text" tabIndex={-1} autoComplete="off" />
+                </div>
+
+                {/* Turnstile */}
+                <div className="pt-2">
+                  <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}></div>
+                  {errors.turnstileToken && <p className={errorClass}>{errors.turnstileToken.message}</p>}
                 </div>
 
                 {/* Submit */}
