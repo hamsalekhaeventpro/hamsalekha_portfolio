@@ -40,3 +40,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# design reference and generated docs
+scratch/
+design-reference/
+"figma pdfs/"
+AGENTS.md
+CLAUDE.md
+*.pdf
+extract_svg.py
+*.html
