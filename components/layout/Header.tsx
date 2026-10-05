@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { ease, duration } from "@/lib/motion";
 import { Menu, X } from "lucide-react";
 import { navItems, microcopy } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -27,13 +28,50 @@ export function Header() {
     setMobileOpen(false);
   }, [pathname]);
 
+  // Focus trap and Escape key listener for mobile menu
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const drawer = document.getElementById("mobile-drawer");
+    if (!drawer) return;
+
+    const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    const focusableContent = drawer.querySelectorAll(focusableElements);
+    const firstFocusableElement = focusableContent[0] as HTMLElement;
+    const lastFocusableElement = focusableContent[focusableContent.length - 1] as HTMLElement;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+        return;
+      }
+      if (e.key === "Tab") {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusableElement) {
+            lastFocusableElement.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === lastFocusableElement) {
+            firstFocusableElement.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    firstFocusableElement?.focus();
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
   return (
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
           scrolled
-            ? "bg-navy-deep/85 backdrop-blur-xl border-b border-white/5 shadow-[0_1px_0_rgba(184,146,58,0.15),0_4px_20px_rgba(15,38,71,0.3)]"
+            ? "bg-navy-deep border-b border-gold/15"
             : "bg-transparent border-b border-transparent"
         )}
       >
@@ -129,10 +167,11 @@ export function Header() {
             />
             {/* Drawer */}
             <motion.div
+              id="mobile-drawer"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 260 }}
+              transition={{ duration: duration.base, ease: ease.expo }}
               className="fixed top-0 right-0 bottom-0 z-50 w-72 bg-navy-deep flex flex-col pt-20 pb-8 px-6 lg:hidden shadow-2xl border-l border-gold/10"
             >
               <button
@@ -169,7 +208,7 @@ export function Header() {
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
                       className={cn(
-                        "block font-sans font-medium py-3 px-4 rounded-xl transition-all text-sm",
+                        "block font-sans font-medium py-3 px-4 rounded-xl transition-colors text-sm",
                         pathname === item.href
                           ? "text-gold-light bg-gold/8 border-l-2 border-gold"
                           : "text-cream/80 hover:text-cream hover:bg-white/6",

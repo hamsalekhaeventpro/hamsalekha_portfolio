@@ -1,169 +1,86 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { services } from "@/lib/content";
+import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { useState, useEffect, useRef } from "react";
-
-interface ServiceCardProps {
-  number: string;
-  title: string;
-  tagline: string;
-  image: string;
-  imageAlt: string;
-  href: string;
-  className?: string;
-  imageClassName?: string;
-}
-
-function EditorialCard({
-  number,
-  title,
-  tagline,
-  image,
-  imageAlt,
-  href,
-  className = "",
-  imageClassName = "",
-}: ServiceCardProps) {
-  const [inView, setInView] = useState(false);
-  const cardRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (window.innerWidth < 1024) {
-          setInView(entry.isIntersecting);
-        } else {
-          setInView(false);
-        }
-      },
-      { threshold: 0.35 }
-    );
-
-    if (cardRef.current) observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <Link
-      ref={cardRef}
-      href={href}
-      data-inview={inView}
-      className={`group block relative overflow-hidden bg-navy-deep rounded-3xl card-gold-border ${className}`}
-    >
-      {/* Background Image with subtle zoom */}
-      <div
-        className={`absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04] group-data-[inview=true]:scale-[1.04] ${imageClassName}`}
-      >
-        <Image
-          src={image}
-          alt={imageAlt}
-          fill
-          sizes="(max-width: 768px) 100vw, 80vw"
-          className="object-cover"
-        />
-        {/* Navy Overlay */}
-        <div className="absolute inset-0 bg-navy-deep/25 group-hover:bg-navy-deep/65 group-data-[inview=true]:bg-navy-deep/65 transition-colors duration-500" />
-      </div>
-
-      {/* Ghost watermark number — Figma pattern */}
-      <span className="absolute top-4 right-6 font-display text-[6rem] font-bold text-cream/8 leading-none pointer-events-none select-none z-0">
-        {number}
-      </span>
-
-      {/* Content */}
-      <div className="relative z-10 p-8 md:p-12 h-full flex flex-col justify-between min-h-[420px]">
-        <div className="flex items-center gap-4 text-cream/90 overflow-hidden">
-          <span className="font-display text-lg font-bold text-gold-light/80">{number}</span>
-          <span className="w-8 h-px bg-gold/30" />
-          <h3 className="font-sans text-xs tracking-[0.22em] uppercase font-semibold text-cream/80">
-            {title}
-          </h3>
-        </div>
-
-        <div className="flex flex-col gap-4 transform translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-data-[inview=true]:translate-y-0 group-data-[inview=true]:opacity-100 transition-all duration-500 ease-out">
-          <p className="font-display text-2xl md:text-3xl font-medium text-cream max-w-lg leading-snug">
-            {tagline}
-          </p>
-          <span className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light">
-            Explore <ArrowRight size={15} className="transition-transform group-hover:translate-x-1 group-data-[inview=true]:translate-x-1" />
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-}
+import { Reveal } from "@/components/motion/Reveal";
+import { ClipReveal } from "@/components/motion/ClipReveal";
+import { services } from "@/lib/content";
+import Image from "next/image";
 
 export function WhatWeDo() {
-  const furniture = services.find((s) => s.title.includes("Furniture"))!;
-  const lighting = services.find((s) => s.title.includes("Lighting"))!;
-  const truss = services.find((s) => s.title.includes("Truss"))!;
-  const decor = services.find((s) => s.title.includes("Decor"))!;
-
   return (
-    <section className="section-py bg-bg-panel" aria-label="Services Chapters">
-      <div className="container-site flex flex-col gap-12">
-        <SectionHeading
-          eyebrow="SERVICES"
-          heading="The pillars of production."
-          subHeading="Book one service or combine them for complete event execution."
-        />
+    <Section tone="base" aria-label="Services Chapters">
+      <div className="container-site flex flex-col gap-12 lg:gap-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <SectionHeading
+            eyebrow="SERVICES"
+            heading="The pillars of production."
+            subHeading="Book one service or combine them for complete event execution."
+          />
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors shrink-0 group"
+          >
+            View all services
+            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
 
-        <div className="flex flex-col gap-5">
-          {/* Furniture - Full Width */}
-          <RevealOnScroll>
-            <EditorialCard
-              number="01"
-              title="FURNITURE"
-              tagline="A seat for every occasion. 10,000+ chairs and 60+ sofa designs."
-              image={furniture.image}
-              imageAlt={furniture.imageAlt}
-              href="/services"
-              imageClassName="opacity-90"
-            />
-          </RevealOnScroll>
-
-          {/* Lighting & Truss - 2 Columns */}
-          <div className="grid md:grid-cols-2 gap-5">
-            <RevealOnScroll delay={0.1}>
-              <EditorialCard
-                number="02"
-                title="LIGHTING & POWER"
-                tagline="Light that sets the mood. Power that never blinks."
-                image={lighting.image}
-                imageAlt={lighting.imageAlt}
-                href="/services"
-              />
-            </RevealOnScroll>
-            <RevealOnScroll delay={0.2}>
-              <EditorialCard
-                number="03"
-                title="TRUSS & STAGING"
-                tagline="Structures engineered to hold the moment."
-                image={truss.image}
-                imageAlt={truss.imageAlt}
-                href="/services"
-              />
-            </RevealOnScroll>
-          </div>
-
-          {/* Decor - Full Width */}
-          <RevealOnScroll delay={0.1}>
-            <EditorialCard
-              number="04"
-              title="DECOR & ACCESSORIES"
-              tagline="The details guests remember."
-              image={decor.image}
-              imageAlt={decor.imageAlt}
-              href="/services"
-            />
-          </RevealOnScroll>
+        <div className="flex flex-col gap-20 md:gap-32 mt-8">
+          {services.map((s, i) => (
+            <div key={s.title} className={`flex flex-col lg:flex-row gap-8 lg:gap-20 items-center ${i % 2 !== 0 ? "lg:flex-row-reverse" : ""}`}>
+              {/* Image with clip reveal */}
+              <div className="relative w-full lg:w-[55%] shrink-0">
+                <Reveal delay={0.2} y={0} className="absolute -top-10 -left-6 lg:-top-16 lg:-left-12 font-display text-[10rem] lg:text-[14rem] leading-none font-bold text-gold/[0.12] select-none z-0 pointer-events-none">
+                  0{i + 1}
+                </Reveal>
+                <div className="relative z-10 w-full aspect-[4/3] rounded-2xl overflow-hidden bg-bg-base shadow-xl">
+                  <ClipReveal direction={i % 2 === 0 ? "left" : "right"} delay={0.1} className="w-full h-full">
+                    <Image
+                      src={s.image}
+                      alt={s.imageAlt}
+                      fill
+                      className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                      sizes="(max-width: 1024px) 100vw, 55vw"
+                    />
+                  </ClipReveal>
+                </div>
+              </div>
+              
+              {/* Text Content */}
+              <div className="flex flex-col gap-5 w-full lg:w-[45%]">
+                <Reveal delay={0.3}>
+                  <div className="flex items-center gap-4">
+                    <span className="h-px w-8 bg-gold/50" />
+                    <span className="font-sans text-eyebrow text-gold-dark uppercase tracking-widest">{s.eyebrow}</span>
+                  </div>
+                </Reveal>
+                <Reveal delay={0.4}>
+                  <h3 className="font-display text-h2 font-bold text-navy-deep leading-tight">
+                    {s.title}
+                  </h3>
+                </Reveal>
+                <Reveal delay={0.5}>
+                  <p className="font-sans text-lg text-text-slate leading-relaxed">
+                    {s.description}
+                  </p>
+                </Reveal>
+                <Reveal delay={0.6}>
+                  <Link
+                    href={s.ctaHref}
+                    className="inline-flex items-center gap-2 mt-2 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors group/link"
+                  >
+                    {s.ctaLabel}
+                    <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
+                  </Link>
+                </Reveal>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

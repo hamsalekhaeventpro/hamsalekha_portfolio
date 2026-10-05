@@ -10,7 +10,7 @@ export function Introduction() {
           {/* Left: large quote */}
           <SectionHeading
             eyebrow={homeIntro.eyebrow}
-            heading={homeIntro.headline}
+            heading={homeIntro.eyebrow}
             align="left"
           />
           {/* Right: body paragraphs */}

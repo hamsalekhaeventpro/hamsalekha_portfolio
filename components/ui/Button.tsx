@@ -16,15 +16,15 @@ interface ButtonProps {
 }
 
 const base =
-  "group inline-flex items-center justify-center gap-2 font-sans font-semibold rounded-full transition-all duration-300 focus-visible:outline-2 focus-visible:outline-gold-dark focus-visible:outline-offset-3 disabled:opacity-50 disabled:cursor-not-allowed select-none";
+  "group inline-flex items-center justify-center gap-2 font-sans font-semibold rounded-control duration-300 min-h-[44px] focus-visible:outline-2 focus-visible:outline-gold-dark focus-visible:outline-offset-3 disabled:opacity-50 disabled:cursor-not-allowed select-none tracking-wide";
 
 const variants = {
   primary:
-    "btn-shimmer text-navy-deep hover:shadow-[0_4px_20px_rgba(201,162,39,0.45)] active:scale-95",
+    "bg-gold text-navy-deep hover:bg-gold-light active:bg-gold-dark transition-colors",
   outline:
-    "border-2 border-gold-outline text-gold-dark bg-transparent hover:bg-gold/10 active:scale-95",
+    "border-2 border-gold-border text-gold-dark bg-transparent hover:bg-gold/8 hover:border-gold transition-colors",
   ghost:
-    "text-navy-deep bg-transparent hover:bg-navy-deep/8 active:scale-95",
+    "text-navy-deep bg-transparent hover:bg-navy-deep/8 transition-colors",
 };
 
 const sizes = {

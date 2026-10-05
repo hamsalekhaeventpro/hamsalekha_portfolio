@@ -13,10 +13,10 @@ export function AboutHero() {
       {/* Background image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <motion.div
-          className="absolute inset-0"
-          initial={{ scale: 1 }}
-          animate={{ scale: shouldReduceMotion ? 1 : 1.08 }}
-          transition={{ duration: 20, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+          className="absolute inset-0 origin-center"
+          initial={{ scale: shouldReduceMotion ? 1 : 1.06 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 3, ease: "easeOut" }}
         >
           <Image
             src={aboutHero.image}
@@ -45,7 +45,7 @@ export function AboutHero() {
           {/* Eyebrow — gold, clearly visible */}
           <motion.div variants={fadeIn} className="flex items-center gap-4">
             <span className="h-px w-10 bg-gold/50 shrink-0" />
-            <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
+            <span className="font-sans text-eyebrow uppercase text-gold-light">
               {aboutHero.eyebrow}
             </span>
           </motion.div>
@@ -53,14 +53,13 @@ export function AboutHero() {
           {/* Main title — two lines, large editorial Playfair */}
           <motion.h1
             variants={fadeUp}
-            className="font-display font-bold text-cream leading-[1.05]"
-            style={{ fontSize: "clamp(2.75rem, 7vw, 6.5rem)" }}
+            className="font-display text-hero font-bold text-cream leading-[1.05]"
             aria-label={`${aboutHero.title1} ${aboutHero.title2}`}
           >
             <span aria-hidden="true">
               {aboutHero.title1}
               <br />
-              <span className="text-gold-light">{aboutHero.title2}</span>
+              <span className="text-gold-light font-cormorant italic font-normal tracking-wide">{aboutHero.title2}</span>
             </span>
           </motion.h1>
 
@@ -73,7 +72,7 @@ export function AboutHero() {
           {/* Approved body paragraph */}
           <motion.p
             variants={fadeIn}
-            className="font-sans text-base md:text-lg text-cream/80 leading-relaxed max-w-xl"
+            className="font-sans text-body text-cream/80 leading-relaxed max-w-xl"
           >
             {aboutHero.body}
           </motion.p>
@@ -88,11 +87,7 @@ export function AboutHero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-3 text-cream/50"
       >
         <span className="font-sans text-[10px] tracking-widest uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-cream/50 to-transparent"
-        />
+        <div className="w-px h-10 bg-gradient-to-b from-cream/50 to-transparent" />
       </motion.div>
     </section>
   );

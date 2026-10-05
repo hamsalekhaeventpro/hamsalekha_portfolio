@@ -104,11 +104,10 @@ export const homeHero = {
   eyebrow: "HAMSALEKHA EVENT PRODUCTION · SINCE 2006",
   line1: "You see the magic.",
   line2: "We set the stage for it.",
-  subline:
-    "Lighting, power, structures, premium furniture and props for weddings, corporate events and celebrations — built, run and struck by one Bengaluru team for twenty years.",
-  cta: "Plan Your Event",
+  subline: "Lighting, power, structures, premium furniture and props for weddings, corporate events and celebrations — built, run and struck by one Bengaluru team for twenty years.",
+  cta: "PLAN YOUR EVENT",
   ctaHref: "/contact",
-  catalogueLabel: "Browse the Catalogue ↗",
+  catalogueLabel: "BROWSE THE CATALOGUE",
   catalogueHref: "https://hamsalekha-event-production.web.app/",
   image: "/images/hero.jpg",
   imageAlt:
@@ -116,47 +115,47 @@ export const homeHero = {
 };
 
 export const homeStats: StatItem[] = [
-  { value: 500, prefix: "", suffix: "+", label: "EVENTS DELIVERED" },
-  { value: 20, prefix: "", suffix: " Years", label: "OF EXCELLENCE" },
-  { value: 50, prefix: "", suffix: "+", label: "CREW MEMBERS" },
-  { value: 6, prefix: "", suffix: " Verticals", label: "SERVICE VERTICALS" },
-  { value: 100, prefix: "", suffix: "+", label: "CORPORATE CLIENTS" },
+  { value: 20, prefix: "", suffix: " years", label: "Building events\nsince 2006" },
+  { value: 10000, prefix: "", suffix: "+", label: "Chairs across\n34 designs" },
+  { value: 1100, prefix: "", suffix: "+", label: "Sofa units\nacross 61 designs" },
+  { value: 100000, prefix: "", suffix: "", label: "Sq ft of trussing\ncapacity" },
+  { value: 40, prefix: "", suffix: "–125", label: "KVA gensets on\ncall" },
 ];
 
 export const homeIntro = {
-  eyebrow: "SINCE 2006",
-  headline: "Twenty years of building events in Bengaluru.",
-  body: "Hamsalekha Event Production began with lighting. Over two decades, we added gensets, truss and structures, premium furniture, décor and full production management — each service added because a client asked for more and we found a way to deliver it.",
-  body2:
-    "Today we are a complete event production house, working alongside planners, decorators, hotels and corporate teams across the city. Everything from our warehouse in Kothanur — installed by our own crew.",
+  eyebrow: "An event production house, not a rental counter.",
+  body: "Most suppliers hand over furniture at the gate. We arrive before the decorator and leave after the last guest. The lights on the mandap, the power behind them, the truss overhead, the stage and every chair all come from one warehouse and one crew.",
+  body2: "That is what twenty years in Bengaluru has built: the inventory to say yes, and the people to deliver it.",
+  ctaLabel: "Our story →",
+  ctaHref: "/about",
 };
 
 export const homeClosingCTA = {
-  headline: "Ready to set the stage?",
-  subline:
-    "Tell us about your event and we'll build the rest.",
-  cta: "Plan Your Event",
+  headline: "Let's create extraordinary.",
+  subline: "Share your date, venue and guest count. Our team will come back with a plan and an itemised proposal.",
+  proof: "SPACES · EXPERIENCES · TOGETHER",
+  cta: "PLAN YOUR EVENT",
   ctaHref: "/contact",
-  secondaryLabel: "Browse the Catalogue →",
-  secondaryHref: microcopy.catalogueUrl,
+  secondaryLabel: "WHATSAPP +91 99725 44316",
+  secondaryHref: "https://wa.me/919972544316",
 };
 
 export const whoWeWorkWith = [
   {
-    label: "Family",
-    description: "Weddings, receptions, pujas, birthdays and milestone celebrations",
+    label: "Wedding planners & decorators",
+    description: "Deep inventory, dependable timelines and a crew that builds faithfully to your design.",
   },
   {
-    label: "Planners & Decorators",
-    description: "We build to your design and coordinate directly with your team",
+    label: "Families",
+    description: "One partner for light, power, stage and furniture, so nothing falls between vendors.",
   },
   {
-    label: "Corporate & Agencies",
-    description: "Conferences, launches, award nights, dealer meets and exhibitions",
+    label: "Corporates & agencies",
+    description: "Conferences, launches, award nights and dealer meets delivered to brief and schedule.",
   },
   {
-    label: "Venues & Hotels",
-    description: "Reliable production partners for resident and visiting events",
+    label: "Venues & convention centres",
+    description: "A production partner that has worked Bengaluru's halls and grounds for two decades.",
   },
 ];
 
@@ -165,15 +164,14 @@ export const services: ServiceCard[] = [
   {
     eyebrow: "SINCE 2006",
     title: "Lighting",
-    description:
-      "Light that sets the mood. Lighting is where Hamsalekha began, and twenty years later it is still at the heart of what we do. We light for the room and for the camera.",
+    description: "Architectural, ambient and stage lighting designed for the venue and the camera.",
     bullets: [
       "Architectural and ambient lighting, uplighting and festoons",
       "Chandeliers and decorative fixtures",
       "Stage, concert and conference lighting",
       "Lighting for convention centres, festivals, roads and outdoor events",
     ],
-    ctaLabel: "Plan your lighting →",
+    ctaLabel: "Explore lighting →",
     ctaHref: "/contact",
     image: "/images/services/lighting.jpg",
     imageAlt:
@@ -182,15 +180,14 @@ export const services: ServiceCard[] = [
   {
     eyebrow: "SINCE 2007",
     title: "Gensets & Power",
-    description:
-      "Power that never blinks. Our gensets, from 40 to 125 KVA, keep every light, sound desk and kitchen running. They arrive with our own operators and a power plan built for your event.",
+    description: "40–125 KVA gensets with our own operators, so the celebration never goes dark.",
     bullets: [
       "Silent gensets from 40 to 125 KVA",
       "Power distribution and cabling",
       "Fuel planning and backup for the full event",
       "On-site technicians from setup to strike",
     ],
-    ctaLabel: "Plan your power →",
+    ctaLabel: "Explore power →",
     ctaHref: "/contact",
     image: "/images/services/power.jpg",
     imageAlt:
@@ -199,16 +196,14 @@ export const services: ServiceCard[] = [
   {
     eyebrow: "SINCE 2010",
     title: "Truss & Structures",
-    description:
-      // TODO(owner): resolve mixed number format (1,00,000 vs 100,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft)
-      "Structures engineered to hold the moment. We raise Bombay truss, pagodas, stages, ramps and backdrops across venues up to 1,00,000 sq ft. Every structure is planned and rigged by our own team.",
+    description: "Bombay truss, pagodas, stages and ramps, engineered up to 1,00,000 sq ft.",
     bullets: [
       "Bombay truss and aluminium truss grids",
       "Pagoda tents and hangar structures",
       "Stages, ramps, risers and catwalks",
       "LED wall and backdrop framing; rigging for lighting, sound and decor",
     ],
-    ctaLabel: "Talk to our structures team →",
+    ctaLabel: "Explore structures →",
     ctaHref: "/contact",
     image: "/images/services/truss.jpg",
     imageAlt:
@@ -217,49 +212,46 @@ export const services: ServiceCard[] = [
   {
     eyebrow: "SINCE 2013",
     title: "Premium Furniture",
-    description:
-      "A seat for every occasion. More than 10,000 chairs across 34 designs and over 1,100 sofa units across 61 designs. Royal carved seating, imported lounges, banquet seating for thousands.",
+    description: "Imported and designer chairs, sofas, lounges and tables for every theme.",
     bullets: [
       "Imported and designer chairs, sofas, lounges and ottomans",
       "Stage and couple seating, thrones and mandap furniture",
       "Dining, banquet, cocktail and conference tables",
       "Bars, counters, consoles and display furniture",
     ],
-    ctaLabel: "Browse the Full Catalogue →",
+    ctaLabel: "Explore furniture →",
     ctaHref: microcopy.catalogueUrl,
     image: "/images/services/furniture.jpg",
     imageAlt:
       "Imported lounge seating with gold and navy velvet sofas arranged for a premium cocktail event by Hamsalekha",
   },
   {
-    eyebrow: "DÉCOR",
+    eyebrow: "TWENTY YEARS OF DETAIL",
     title: "Decor & Props",
-    description:
-      "The details guests remember. Mandap props, entrance gates, traditional brass and themed installations. We work alongside your decorator or style the space end to end.",
+    description: "Mandap props, entrance gates, traditional brass and themed installations.",
     bullets: [
       "Mandap and stage props, arches and entrance gates",
       "Brass, deepas, urulis and traditional decor",
       "Photo zones and lounge styling",
       "Signature sets, including The Glass House and MoonGate",
     ],
-    ctaLabel: "See Signature Sets →",
+    ctaLabel: "Explore decor →",
     ctaHref: "/signature-sets",
     image: "/images/services/decor.jpg",
     imageAlt:
       "Ornate mandap with traditional brass deepas and floral decorations at a South Indian wedding staged by Hamsalekha",
   },
   {
-    eyebrow: "FULL SERVICE",
+    eyebrow: "END TO END",
     title: "Full Event Production",
-    description:
-      "Hand us the brief. We'll hand you the event. For clients who want one accountable partner, we take on the whole build: site recce, layout, lighting, power, structures, furniture, decor coordination, crew and strike.",
+    description: "One accountable team from site recce to final strike.",
     bullets: [
       "Site recce and technical layouts",
       "One production lead from brief to strike",
       "Coordination with your planner, caterer and sound team",
       "On-site crew throughout the event",
     ],
-    ctaLabel: "Request a Proposal →",
+    ctaLabel: "Explore production →",
     ctaHref: "/contact",
     image: "/images/services/production.jpg",
     imageAlt:
@@ -373,6 +365,29 @@ export const protectionPoints = [
   "Gensets run and fuel-planned with backup for the full event",
   "Power distribution handled by our technicians",
   "A site briefing before every build",
+];
+
+export const vaultPillars = [
+  {
+    eyebrow: "POWER",
+    title: "In-house gensets",
+    body: "Silent 40–125 KVA sets with our own operators. Power planned before any wire is laid.",
+  },
+  {
+    eyebrow: "STRUCTURES",
+    title: "Own crew, always",
+    body: "Riggers and carpenters on every build — not subcontractors. They carry the same standards site to site.",
+  },
+  {
+    eyebrow: "INVENTORY",
+    title: "One warehouse",
+    body: "10,000+ chairs, 1,100+ sofa units, lighting and props — all dispatched from Kothanur.",
+  },
+  {
+    eyebrow: "CREW",
+    title: "People who stay",
+    body: "From load-in to strike, our team is on-site. We leave when the venue is back to how we found it.",
+  },
 ];
 
 export const vaultCTA = {

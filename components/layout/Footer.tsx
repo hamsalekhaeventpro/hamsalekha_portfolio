@@ -32,7 +32,7 @@ export function Footer() {
         {/* Anniversary Badge */}
         <div className="mb-12 inline-flex items-center gap-3 border border-gold/15 rounded-full px-5 py-2">
           <span className="w-1.5 h-1.5 rounded-full bg-gold-light" />
-          <span className="font-sans text-xs tracking-widest uppercase text-gold-light">
+          <span className="font-sans text-eyebrow uppercase text-gold-light">
             {microcopy.anniversaryBadge}
           </span>
         </div>
@@ -93,7 +93,7 @@ export function Footer() {
           {/* Link columns */}
           {footerColumns.map((col) => (
             <div key={col.heading} className="flex flex-col gap-5">
-              <h3 className="font-sans text-[0.65rem] font-semibold tracking-[0.22em] uppercase text-gold-light border-b border-gold/15 pb-3">
+              <h3 className="font-sans text-eyebrow uppercase text-gold-light border-b border-gold/15 pb-3">
                 {col.heading}
               </h3>
               <ul className="flex flex-col gap-3">

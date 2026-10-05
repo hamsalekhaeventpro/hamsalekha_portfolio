@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { services } from "@/lib/content";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/layout/Section";
 
 export function TheCraft() {
   // Extract specific services to feature
@@ -17,7 +18,7 @@ export function TheCraft() {
   ];
 
   return (
-    <section className="py-24 md:py-32 bg-bg-panel" aria-label="The Craft">
+    <Section tone="panel" aria-label="The Craft">
       <div className="container-site flex flex-col gap-24 md:gap-32">
         {craftItems.map((item, i) => {
           const isEven = i % 2 === 0;
@@ -36,26 +37,26 @@ export function TheCraft() {
 
               {/* Text Side */}
               <div className={`lg:col-span-5 flex flex-col gap-6 ${isEven ? "lg:order-2" : "lg:order-1 lg:pl-8"}`}>
-                <RevealOnScroll>
+                <Reveal>
                   <div className="flex items-center gap-4 text-gold-dark mb-2">
                     <span className="font-display text-xl font-bold">{item.num}</span>
                     <span className="w-8 h-px bg-gold-dark/30" />
-                    <span className="font-sans text-sm tracking-[0.2em] uppercase font-semibold">
+                    <span className="font-sans text-eyebrow uppercase text-gold-dark">
                       {item.label}
                     </span>
                   </div>
-                  <h3 className="font-display text-3xl md:text-4xl font-bold text-navy-deep leading-tight mb-4">
+                  <h3 className="font-display text-h3 font-bold text-navy-deep leading-tight mb-4">
                     {item.title}
                   </h3>
-                  <p className="font-sans text-text-slate text-lg leading-relaxed">
+                  <p className="font-sans text-text-slate text-body leading-relaxed">
                     {item.description}
                   </p>
-                </RevealOnScroll>
+                </Reveal>
               </div>
             </div>
           );
         })}
       </div>
-    </section>
+    </Section>
   );
 }

@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { signatureSets, customSetCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Reveal } from "@/components/motion/Reveal";
+import { LightsUp } from "@/components/motion/LightsUp";
+import { DayNightCrossfade } from "@/components/motion/DayNightCrossfade";
+import { Section } from "@/components/layout/Section";
 
 import { getPageMetadata } from "@/lib/metadata";
 
@@ -11,8 +14,8 @@ export const metadata: Metadata = getPageMetadata("signatureSets", "/signature-s
 export default function SignatureSetsPage() {
   return (
     <>
-      {/* Hero — Figma sigsets1.svg style */}
-      <section className="pt-36 pb-24 bg-navy-deep relative overflow-hidden">
+      {/* Hero */}
+      <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-60"
           style={{
@@ -21,36 +24,34 @@ export default function SignatureSetsPage() {
           }}
         />
         <div className="container-site relative z-10">
-          <RevealOnScroll className="flex flex-col gap-5 max-w-3xl">
+          <Reveal className="flex flex-col gap-5 max-w-3xl">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-gold/50" />
-              <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
+              <span className="font-sans text-eyebrow uppercase text-gold-light">
                 Signature Sets
               </span>
             </div>
-            <h1
-              className="font-display font-bold text-cream leading-[1.03]"
-              style={{ fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            >
+            <h1 className="font-display font-bold text-hero text-cream leading-[1.03]">
               Sets you won&apos;t find anywhere else.
             </h1>
             <div className="w-16 h-[2px] bg-gradient-to-r from-gold to-gold-light rounded-full" />
-            <p className="font-sans text-lg text-cream/70 max-w-xl">
+            <p className="font-sans text-body text-cream/70 max-w-xl">
               Designed and built by Hamsalekha, our signature sets turn a venue
               into a destination.
             </p>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
-      {/* Signature set blocks — very large editorial layout per Figma */}
+      {/* Signature set blocks */}
       {signatureSets.map((set, i) => {
         const isDark = i === 0;
         return (
-          <section
+          <Section
             key={set.title}
+            tone={isDark ? "stage" : "base"}
             id={set.title.toLowerCase().replace(/\s/g, "-")}
-            className={`relative overflow-hidden ${isDark ? "bg-navy-deep" : "bg-bg-base"}`}
+            className="relative overflow-hidden"
           >
             {isDark && (
               <div
@@ -59,33 +60,41 @@ export default function SignatureSetsPage() {
               />
             )}
 
-            <div className="relative section-py container-site grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-              {/* Image — rounded-3xl with gold glow ring */}
-              <RevealOnScroll
-                direction={i % 2 === 0 ? "right" : "left"}
-                className={`relative h-[480px] lg:h-[600px] rounded-3xl overflow-hidden shadow-gold-glow-lg card-gold-border ${
+            <div className="relative container-site grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              {/* Image */}
+              <Reveal
+                className={`relative h-[480px] lg:h-[720px] rounded-xl overflow-hidden shadow-2xl ${
                   i % 2 !== 0 ? "lg:order-last" : ""
                 }`}
               >
-                <Image
-                  src={set.image}
-                  alt={set.imageAlt}
-                  fill
-                  className="object-cover transition-transform duration-700 hover:scale-[1.04]"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </RevealOnScroll>
+                {i === 0 ? (
+                  <DayNightCrossfade
+                    dayImage={set.image} // TODO: Replace with day image
+                    nightImage={set.image}
+                    alt={set.imageAlt}
+                  />
+                ) : (
+                  <LightsUp trigger="view">
+                    <Image
+                      src={set.image}
+                      alt={set.imageAlt}
+                      fill
+                      className="object-cover transition-transform duration-700 hover:scale-[1.04]"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </LightsUp>
+                )}
+              </Reveal>
 
               {/* Content */}
-              <RevealOnScroll
-                direction={i % 2 === 0 ? "left" : "right"}
+              <Reveal
                 delay={0.12}
                 className="flex flex-col gap-6"
               >
                 <div className="flex items-center gap-4">
                   <span className="h-px w-8 bg-gold/50" />
                   <span
-                    className={`font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold ${
+                    className={`font-sans text-eyebrow uppercase ${
                       isDark ? "text-gold-light" : "text-gold-dark"
                     }`}
                   >
@@ -93,19 +102,18 @@ export default function SignatureSetsPage() {
                   </span>
                 </div>
 
-                {/* Title — large editorial */}
+                {/* Title */}
                 <h2
-                  className={`font-display font-bold leading-[1.04] ${
+                  className={`font-display font-bold text-h2 leading-[1.04] ${
                     isDark ? "text-cream" : "text-navy-deep"
                   }`}
-                  style={{ fontSize: "clamp(2.25rem, 5vw, 4.5rem)" }}
                 >
                   {set.title}
                 </h2>
 
                 {set.launched && (
                   <span
-                    className={`inline-flex px-4 py-1.5 rounded-full border border-gold/40 bg-gold/10 font-sans text-[0.65rem] tracking-[0.2em] uppercase font-semibold ${
+                    className={`inline-flex px-4 py-1.5 rounded-full border border-gold/40 bg-gold/10 font-sans text-eyebrow uppercase ${
                       isDark ? "text-gold-light" : "text-gold-dark"
                     }`}
                   >
@@ -118,7 +126,7 @@ export default function SignatureSetsPage() {
 
                 {/* Headline / Sub-heading */}
                 <h3
-                  className={`font-display text-xl font-semibold ${
+                  className={`font-display text-h4 font-bold ${
                     isDark ? "text-cream/90" : "text-navy-deep"
                   }`}
                 >
@@ -141,7 +149,7 @@ export default function SignatureSetsPage() {
                 {set.bestFor && (
                   <div className="flex flex-col gap-3">
                     <p
-                      className={`font-sans text-[0.65rem] tracking-[0.2em] uppercase font-semibold ${
+                      className={`font-sans text-eyebrow uppercase ${
                         isDark ? "text-gold-light" : "text-gold-dark"
                       }`}
                     >
@@ -189,24 +197,24 @@ export default function SignatureSetsPage() {
                 >
                   {set.ctaLabel}
                 </Button>
-              </RevealOnScroll>
+              </Reveal>
             </div>
-          </section>
+          </Section>
         );
       })}
 
       {/* Custom Sets CTA */}
-      <section className="section-py bg-navy-deep relative overflow-hidden">
+      <Section tone="stage" className="relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{ background: "var(--gradient-radial-glow)" }}
         />
         <div className="container-site relative z-10 flex flex-col items-center text-center gap-7 max-w-2xl mx-auto">
-          <RevealOnScroll className="flex flex-col items-center gap-6">
+          <Reveal className="flex flex-col items-center gap-6">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-gold/40" />
-              <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
+              <span className="font-sans text-eyebrow uppercase text-gold-light">
                 Custom Sets
               </span>
               <span className="h-px w-10 bg-gold/40" />
@@ -215,15 +223,15 @@ export default function SignatureSetsPage() {
               {customSetCTA.headline}
             </h2>
             <div className="w-16 h-[2px] bg-gradient-to-r from-gold-dark via-gold to-gold-light rounded-full" />
-            <p className="font-sans text-lg text-cream/70">
+            <p className="font-sans text-body text-cream/70">
               {customSetCTA.body}
             </p>
             <Button href={customSetCTA.ctaHref} variant="primary" size="lg">
               {customSetCTA.ctaLabel}
             </Button>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

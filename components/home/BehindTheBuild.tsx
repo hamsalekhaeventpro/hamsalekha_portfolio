@@ -1,102 +1,117 @@
-import { Zap, Layers, Box, Users } from "lucide-react";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { ease, duration } from "@/lib/motion";
 
-const pillars = [
-  {
-    Icon: Zap,
-    eyebrow: "POWER",
-    title: "In-house gensets",
-    body: "Silent 40–125 KVA sets with our own operators. Power planned before any wire is laid.",
-  },
-  {
-    Icon: Layers,
-    eyebrow: "STRUCTURES",
-    title: "Own crew, always",
-    body: "Riggers and carpenters on every build — not subcontractors. They carry the same standards site to site.",
-  },
-  {
-    Icon: Box,
-    eyebrow: "INVENTORY",
-    title: "One warehouse",
-    body: "10,000+ chairs, 1,100+ sofa units, lighting and props — all dispatched from Kothanur.",
-  },
-  {
-    Icon: Users,
-    eyebrow: "CREW",
-    title: "People who stay",
-    body: "From load-in to strike, our team is on-site. We leave when the venue is back to how we found it.",
-  },
-];
+const EXPO = ease.expo;
 
-export function TheVault() {
+const PROOF = ["Own warehouse", "Own crew", "Own power"];
+
+export function BehindTheBuild() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const rm = useReducedMotion();
+  const animate = rm ? "visible" : (isInView ? "visible" : "hidden");
+
+  const imgV = {
+    hidden:  { clipPath: "inset(0 0 100% 0)", scale: rm ? 1 : 1.04 },
+    visible: { clipPath: "inset(0 0 0% 0)", scale: 1, transition: { duration: 1.0, ease: EXPO } },
+  };
+  const eyebrowV = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5, delay: 0.5, ease: EXPO } } };
+  const headingV = { hidden: { clipPath: "inset(0 0 100% 0)" }, visible: { clipPath: "inset(0 0 0% 0)", transition: { duration: 0.8, delay: 0.65, ease: EXPO } } };
+  const bodyV    = { hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: duration.reveal, delay: 0.85, ease: EXPO } } };
+  const proofV   = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 1.05, ease: EXPO } } };
+  const ctaV     = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.4, delay: 1.25, ease: EXPO } } };
+
   return (
-    <section className="section-py bg-navy-deep relative overflow-hidden" aria-label="The Vault">
-      {/* Multi-layer radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-50 mix-blend-screen"
-        style={{ background: "var(--gradient-radial-glow)" }}
-      />
-      {/* Gold top border per Figma */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+    <section
+      ref={ref}
+      aria-label="Behind The Build"
+      className="relative overflow-hidden bg-navy-deep"
+      style={{ minHeight: "clamp(420px, 65vh, 800px)" }}
+    >
+      {/* Full-bleed warehouse image */}
+      <motion.div
+        className="absolute inset-0"
+        variants={imgV}
+        initial="hidden"
+        animate={animate}
+      >
+        <Image
+          src="/images/vault/warehouse.jpg"
+          alt="Hamsalekha Event Production warehouse with equipment staging"
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+      </motion.div>
 
-      <div className="container-site flex flex-col gap-12 relative z-10">
-        {/* Section heading */}
-        <RevealOnScroll className="flex flex-col items-center text-center gap-5">
-          <div className="flex items-center gap-4">
-            <span className="h-px w-10 bg-gold/40" />
-            <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
-              The Vault
-            </span>
-            <span className="h-px w-10 bg-gold/40" />
-          </div>
-          <h2 className="font-display text-[clamp(1.75rem,4vw,3.5rem)] font-bold text-cream max-w-2xl">
-            What you don&apos;t see is what never fails.
-          </h2>
-          <div className="w-12 h-[2px] bg-gradient-to-r from-gold-dark via-gold to-gold-light rounded-full" />
-        </RevealOnScroll>
+      {/* Dark gradient — heavy at bottom, lighter at top */}
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/70 to-navy-deep/20" />
 
-        {/* 4-column cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-4">
-          {pillars.map((pillar, i) => {
-            const { Icon } = pillar;
-            return (
-              <RevealOnScroll
-                key={pillar.title}
-                delay={i * 0.1}
-                className="flex flex-col gap-5 p-7 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/8 hover:border-gold/30 hover:bg-white/8 transition-all duration-400 group card-gold-border"
-              >
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-gold/15 flex items-center justify-center group-hover:bg-gold/25 group-hover:scale-105 transition-all duration-400">
-                  <Icon size={24} className="text-gold-light" strokeWidth={1.5} />
-                </div>
-                <div className="flex flex-col gap-1.5 mt-1">
-                  <span className="font-sans text-[0.65rem] tracking-[0.22em] uppercase font-semibold text-gold-light/70">
-                    {pillar.eyebrow}
-                  </span>
-                  <h3 className="font-display text-xl font-bold text-cream">
-                    {pillar.title}
-                  </h3>
-                </div>
-                <p className="font-sans text-sm text-cream/65 leading-relaxed">
-                  {pillar.body}
-                </p>
-              </RevealOnScroll>
-            );
-          })}
+      {/* Content — centered, sits above gradient */}
+      <div className="relative z-10 flex flex-col items-center justify-end h-full text-center container-site pb-16 md:pb-24 pt-24">
+
+        <motion.div variants={eyebrowV} initial="hidden" animate={animate} className="flex items-center gap-4 mb-5">
+          <span className="h-px w-8 bg-gold/50" />
+          <span className="font-sans text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-gold-light">
+            Behind The Build
+          </span>
+          <span className="h-px w-8 bg-gold/50" />
+        </motion.div>
+
+        <div className="overflow-hidden mb-6">
+          <motion.h2
+            variants={headingV}
+            initial="hidden"
+            animate={animate}
+            className="font-display font-bold text-cream"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)", lineHeight: 1.08 }}
+          >
+            Everything you don&apos;t see is ours too.
+          </motion.h2>
         </div>
 
-        {/* CTA link */}
-        <RevealOnScroll className="flex justify-center pt-4">
+        <motion.p
+          variants={bodyV}
+          initial="hidden"
+          animate={animate}
+          className="font-sans text-lg text-cream/75 leading-relaxed max-w-2xl mb-8"
+        >
+          Load-ins before sunrise. Truss raised and checked. Gensets running before the first guest arrives. Our crew owns the backstage, so planners and families can stay out front.
+        </motion.p>
+
+        {/* Proof line — as a single visual unit */}
+        <motion.div
+          variants={proofV}
+          initial="hidden"
+          animate={animate}
+          className="flex items-center gap-4 md:gap-6 mb-8"
+        >
+          {PROOF.map((item, i) => (
+            <div key={item} className="flex items-center gap-4 md:gap-6">
+              {i > 0 && <span className="w-px h-4 bg-gold/40" />}
+              <span className="font-sans text-sm tracking-[0.18em] uppercase text-gold-light font-semibold">
+                {item}
+              </span>
+            </div>
+          ))}
+        </motion.div>
+
+        <motion.div variants={ctaV} initial="hidden" animate={animate}>
           <Link
             href="/the-vault"
-            className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors group"
+            className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors duration-300 group/link uppercase tracking-wider"
           >
-            Discover the full vault
-            <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            Step inside The Vault
+            <ArrowRight size={16} className="transition-transform duration-300 group-hover/link:translate-x-1" />
           </Link>
-        </RevealOnScroll>
+        </motion.div>
+
       </div>
     </section>
   );

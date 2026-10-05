@@ -95,7 +95,7 @@ export default function HowWeWorkPage() {
                 <div className="absolute left-[27px] top-16 bottom-0 w-px bg-gold/20" />
               )}
               {/* Circle with number */}
-              <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-gold/50 bg-gold/8 flex items-center justify-center z-10 hover:border-gold hover:shadow-gold-glow transition-all duration-300">
+              <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-gold/50 bg-gold/8 flex items-center justify-center z-10 hover:border-gold hover:shadow-gold-glow transition duration-300">
                 <span className="font-display text-xl font-bold text-gold-dark">
                   {step.number}
                 </span>

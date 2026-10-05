@@ -67,7 +67,7 @@ function ContactFormInner() {
     }
   };
 
-  const inputClass = "w-full font-sans text-base text-text-navy bg-white border border-[#E7E1D0] rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-royal/40 focus:border-blue-royal transition-all placeholder:text-text-slate/50";
+  const inputClass = "w-full font-sans text-base text-text-navy bg-white border border-[#E7E1D0] rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-royal/40 focus:border-blue-royal transition placeholder:text-text-slate/50";
   const errorClass = "font-sans text-xs text-red-500 mt-1";
 
   return (
@@ -77,37 +77,37 @@ function ContactFormInner() {
         {/* Grid: name + phone */}
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Your name <span className="text-gold-dark">*</span></label>
-            <input {...register("name")} placeholder="Full name" className={inputClass} />
+            <label htmlFor="name" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Your name <span className="text-gold-dark">*</span></label>
+            <input id="name" {...register("name")} placeholder="Full name" className={inputClass} />
             {errors.name && <p className={errorClass}>{errors.name.message}</p>}
           </div>
           <div>
-            <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Phone / WhatsApp <span className="text-gold-dark">*</span></label>
-            <input {...register("phone")} type="tel" placeholder="+91" className={inputClass} />
+            <label htmlFor="phone" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Phone / WhatsApp <span className="text-gold-dark">*</span></label>
+            <input id="phone" {...register("phone")} type="tel" placeholder="+91" className={inputClass} />
             {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
           </div>
         </div>
 
         {/* Email */}
         <div>
-          <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Email <span className="text-text-slate/50 font-normal">(optional)</span></label>
-          <input {...register("email")} type="email" placeholder="you@example.com" className={inputClass} />
+          <label htmlFor="email" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Email <span className="text-text-slate/50 font-normal">(optional)</span></label>
+          <input id="email" {...register("email")} type="email" placeholder="you@example.com" className={inputClass} />
           {errors.email && <p className={errorClass}>{errors.email.message}</p>}
         </div>
 
         {/* Client type + Event type */}
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">I am a… <span className="text-gold-dark">*</span></label>
-            <select {...register("clientType")} className={cn(inputClass, "appearance-none cursor-pointer")}>
+            <label htmlFor="clientType" className="font-sans text-sm font-medium text-text-navy block mb-1.5">I am a… <span className="text-gold-dark">*</span></label>
+            <select id="clientType" {...register("clientType")} className={cn(inputClass, "appearance-none cursor-pointer")}>
               <option value="">Select…</option>
               {["Family", "Planner / Decorator", "Corporate / Agency", "Venue"].map((o) => <option key={o}>{o}</option>)}
             </select>
             {errors.clientType && <p className={errorClass}>{errors.clientType.message}</p>}
           </div>
           <div>
-            <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Event type <span className="text-gold-dark">*</span></label>
-            <select {...register("eventType")} className={cn(inputClass, "appearance-none cursor-pointer")}>
+            <label htmlFor="eventType" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Event type <span className="text-gold-dark">*</span></label>
+            <select id="eventType" {...register("eventType")} className={cn(inputClass, "appearance-none cursor-pointer")}>
               <option value="">Select…</option>
               {["Wedding", "Reception", "Sangeet / Mehendi", "Puja", "Corporate", "Launch", "Other"].map((o) => <option key={o}>{o}</option>)}
             </select>
@@ -118,21 +118,21 @@ function ContactFormInner() {
         {/* Date + Venue */}
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Event date <span className="text-gold-dark">*</span></label>
-            <input {...register("eventDate")} type="date" className={inputClass} />
+            <label htmlFor="eventDate" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Event date <span className="text-gold-dark">*</span></label>
+            <input id="eventDate" {...register("eventDate")} type="date" className={inputClass} />
             {errors.eventDate && <p className={errorClass}>{errors.eventDate.message}</p>}
           </div>
           <div>
-            <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Venue & city <span className="text-gold-dark">*</span></label>
-            <input {...register("venue")} placeholder="Venue name, city" className={inputClass} />
+            <label htmlFor="venue" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Venue & city <span className="text-gold-dark">*</span></label>
+            <input id="venue" {...register("venue")} placeholder="Venue name, city" className={inputClass} />
             {errors.venue && <p className={errorClass}>{errors.venue.message}</p>}
           </div>
         </div>
 
         {/* Guest count */}
         <div>
-          <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Guest count <span className="text-gold-dark">*</span></label>
-          <select {...register("guestCount")} className={cn(inputClass, "appearance-none cursor-pointer")}>
+          <label htmlFor="guestCount" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Guest count <span className="text-gold-dark">*</span></label>
+          <select id="guestCount" {...register("guestCount")} className={cn(inputClass, "appearance-none cursor-pointer")}>
             <option value="">Select…</option>
             {["Under 200", "200–500", "500–1,000", "1,000+"].map((o) => <option key={o}>{o}</option>)}
           </select>
@@ -149,7 +149,7 @@ function ContactFormInner() {
                 key={service}
                 onClick={() => toggleService(service)}
                 className={cn(
-                  "font-sans text-sm px-4 py-2 rounded-full border transition-all duration-200",
+                  "font-sans text-sm px-4 py-2 rounded-full border transition duration-200",
                   selectedServices.includes(service)
                     ? "bg-gold text-navy-deep border-gold"
                     : "bg-transparent text-text-navy border-[var(--border)] hover:border-gold/50"
@@ -164,8 +164,8 @@ function ContactFormInner() {
 
         {/* Message */}
         <div>
-          <label className="font-sans text-sm font-medium text-text-navy block mb-1.5">Tell us more</label>
-          <textarea {...register("message")} rows={4} placeholder="Theme, references, anything we should know" className={cn(inputClass, "resize-none")} />
+          <label htmlFor="message" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Tell us more</label>
+          <textarea id="message" {...register("message")} rows={4} placeholder="Theme, references, anything we should know" className={cn(inputClass, "resize-none")} />
         </div>
 
         {/* Honeypot */}

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { microcopy } from "@/lib/content";
+import { ease, duration } from "@/lib/motion";
 
 const STORAGE_KEY = "hamsalekha-cookie-accepted";
 
@@ -31,10 +32,10 @@ export function CookieNotice() {
           initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
-          transition={{ type: "spring", damping: 28, stiffness: 260 }}
+          transition={{ duration: duration.base, ease: ease.expo }}
           role="region"
           aria-label="Cookie notice"
-          className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-sm z-50 bg-navy-deep text-cream rounded-2xl shadow-2xl border border-white/10 p-5 flex items-start gap-4"
+          className="fixed bottom-24 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-sm z-50 bg-navy-deep text-cream rounded-2xl shadow-2xl border border-white/10 p-5 flex items-start gap-4"
         >
           <div className="flex-1">
             <p className="font-sans text-sm text-cream/85 leading-relaxed">

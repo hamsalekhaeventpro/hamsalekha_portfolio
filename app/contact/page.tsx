@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { contactHero, contactDetails, faqs, careersSection, microcopy } from "@/lib/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/layout/Section";
 import { Phone, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { FaqAccordion } from "@/components/contact/FaqAccordion";
@@ -22,8 +23,8 @@ function InstagramIcon({ size = 16, className = "" }: { size?: number; className
 export default function ContactPage() {
   return (
     <>
-      {/* Hero — Figma contact.svg style */}
-      <section className="pt-36 pb-24 bg-navy-deep relative overflow-hidden">
+      {/* Hero */}
+      <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{
@@ -32,43 +33,40 @@ export default function ContactPage() {
           }}
         />
         <div className="container-site relative z-10">
-          <RevealOnScroll className="flex flex-col gap-5 max-w-3xl">
+          <Reveal className="flex flex-col gap-5 max-w-3xl">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-gold/50" />
-              <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
+              <span className="font-sans text-eyebrow uppercase text-gold-light">
                 {contactHero.eyebrow}
               </span>
             </div>
-            <h1
-              className="font-display font-bold text-cream leading-[1.03]"
-              style={{ fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            >
+            <h1 className="font-display font-bold text-hero text-cream leading-[1.03]">
               {contactHero.headline}
             </h1>
             <div className="w-16 h-[2px] bg-gradient-to-r from-gold to-gold-light rounded-full" />
-            <p className="font-sans text-lg text-cream/70 max-w-xl">
+            <p className="font-sans text-body text-cream/70 max-w-xl">
               {contactHero.subline}
             </p>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
       {/* Form + Details */}
-      <section className="section-py bg-bg-base">
+      <Section tone="base">
         <div className="container-site grid lg:grid-cols-3 gap-12">
           {/* Form */}
           <div className="lg:col-span-2">
-            <RevealOnScroll>
+            <Reveal>
               <ContactForm />
-            </RevealOnScroll>
+            </Reveal>
           </div>
 
           {/* Contact details sidebar */}
           <div className="flex flex-col gap-6">
-            <RevealOnScroll direction="right" delay={0.1} className="bg-navy-deep rounded-3xl p-8 flex flex-col gap-6 border border-gold/15">
+            <Reveal delay={0.1} className="bg-navy-deep rounded-3xl p-8 flex flex-col gap-6 border border-gold/15">
               {/* Gold rule header */}
               <div className="border-b border-gold/20 pb-4">
-                <h3 className="font-display text-xl font-bold text-cream">Reach us</h3>
+                <h3 className="font-display text-h4 font-bold text-cream">Reach us</h3>
               </div>
               <a href={`tel:${contactDetails.phoneRaw}`} className="flex items-center gap-3 text-cream/80 hover:text-gold-light transition-colors group">
                 <Phone size={16} className="text-gold shrink-0" />
@@ -91,10 +89,10 @@ export default function ContactPage() {
               <div className="border-t border-gold/15 pt-4">
                 <p className="font-sans text-xs text-cream/40">{contactDetails.eventSupport}</p>
               </div>
-            </RevealOnScroll>
+            </Reveal>
 
-            <RevealOnScroll direction="right" delay={0.2} className="bg-gold/10 border border-gold/20 rounded-3xl p-6 flex flex-col gap-3">
-              <p className="font-display text-base font-semibold text-navy-deep">Prefer to chat?</p>
+            <Reveal delay={0.2} className="bg-gold/10 border border-gold/20 rounded-3xl p-6 flex flex-col gap-3">
+              <p className="font-display text-body font-semibold text-navy-deep">Prefer to chat?</p>
               <p className="font-sans text-sm text-text-slate">WhatsApp us and we&apos;ll get back to you quickly.</p>
               <a
                 href={`https://wa.me/${microcopy.whatsappNumber}?text=${encodeURIComponent(microcopy.whatsappMessage)}`}
@@ -105,28 +103,28 @@ export default function ContactPage() {
                 Open WhatsApp
                 <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
               </a>
-            </RevealOnScroll>
+            </Reveal>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* FAQ */}
-      <section id="faq" className="section-py bg-bg-panel">
+      <Section tone="panel" id="faq">
         <div className="container-site max-w-3xl flex flex-col gap-10">
           <SectionHeading eyebrow="FAQ" heading="Common questions, straight answers." />
           <FaqAccordion faqs={faqs} />
         </div>
-      </section>
+      </Section>
 
       {/* Careers */}
-      <section id="careers" className="section-py bg-navy-deep">
+      <Section tone="stage" id="careers">
         <div className="container-site grid lg:grid-cols-2 gap-12 items-start">
-          <RevealOnScroll className="flex flex-col gap-5">
-            <span className="font-sans text-[0.7rem] tracking-[0.22em] uppercase font-semibold text-gold-light">{careersSection.eyebrow}</span>
+          <Reveal className="flex flex-col gap-5">
+            <span className="font-sans text-eyebrow uppercase text-gold-light">{careersSection.eyebrow}</span>
             <h2 className="font-display text-h2 font-semibold text-cream">{careersSection.headline}</h2>
             <p className="font-sans text-body text-cream/75">{careersSection.body}</p>
-          </RevealOnScroll>
-          <RevealOnScroll delay={0.1} className="flex flex-col gap-4">
+          </Reveal>
+          <Reveal delay={0.1} className="flex flex-col gap-4">
             {careersSection.bullets.map((b) => (
               <div key={b} className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0" />
@@ -136,9 +134,9 @@ export default function ContactPage() {
             <a href={careersSection.ctaHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors mt-2">
               {careersSection.cta}
             </a>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

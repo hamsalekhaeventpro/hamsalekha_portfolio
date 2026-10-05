@@ -1,8 +1,10 @@
 "use client";
 
-import { whoWeWorkWith } from "@/lib/content";
+import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Reveal } from "@/components/motion/Reveal";
+import { staggerDelay } from "@/lib/motion";
+import { whoWeWorkWith } from "@/lib/content";
 
 // Icons for each category — inline SVG for zero dependency
 const icons = [
@@ -18,7 +20,7 @@ const icons = [
 
 export function WhoWeWorkWith() {
   return (
-    <section className="section-py bg-bg-base" aria-label="Who we work with">
+    <Section tone="panel" aria-label="Who we work with">
       <div className="container-site flex flex-col gap-12">
         <SectionHeading
           eyebrow="WHO WE WORK WITH"
@@ -28,10 +30,10 @@ export function WhoWeWorkWith() {
         {/* 2×2 grid — Figma layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto w-full">
           {whoWeWorkWith.map((item, i) => (
-            <RevealOnScroll
+            <Reveal
               key={item.label}
-              delay={i * 0.1}
-              className="gold-top-bar bg-white rounded-2xl p-8 flex flex-col gap-4 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-300 group"
+              delay={staggerDelay(i)}
+              className="gold-top-bar bg-white rounded-2xl p-8 flex flex-col gap-4 shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300 group"
             >
               {/* Icon */}
               <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center text-gold-dark group-hover:bg-gold/20 transition-colors duration-300">
@@ -42,13 +44,13 @@ export function WhoWeWorkWith() {
                 {item.label}
               </h3>
               {/* Description */}
-              <p className="font-sans text-sm text-text-slate leading-relaxed">
+              <p className="font-sans text-body text-text-slate leading-relaxed">
                 {item.description}
               </p>
-            </RevealOnScroll>
+            </Reveal>
           ))}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

@@ -18,13 +18,21 @@ export function RevealOnScroll({
 }: RevealOnScrollProps) {
   const shouldReduceMotion = useReducedMotion();
 
+  if (shouldReduceMotion) {
+    return (
+      <div data-reveal className={className}>
+        {children}
+      </div>
+    );
+  }
+
   const hidden =
     direction === "up"
-      ? { opacity: 0, y: shouldReduceMotion ? 0 : 16 }
+      ? { opacity: 0, y: 16 }
       : direction === "left"
-      ? { opacity: 0, x: shouldReduceMotion ? 0 : -16 }
+      ? { opacity: 0, x: -16 }
       : direction === "right"
-      ? { opacity: 0, x: shouldReduceMotion ? 0 : 16 }
+      ? { opacity: 0, x: 16 }
       : { opacity: 0 };
 
   const visible = {
@@ -43,6 +51,7 @@ export function RevealOnScroll({
       initial={hidden}
       whileInView={visible}
       viewport={viewportOnce}
+      data-reveal
       className={className}
     >
       {children}

@@ -94,7 +94,7 @@ export function FloatingContact() {
                   </svg>
                   <span className="font-sans text-sm font-medium">Instagram</span>
                 </div>
-                <ArrowUpRight size={16} className="text-cream/40 group-hover:text-gold transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight size={16} className="text-cream/40 group-hover:text-gold transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
 
               <a
@@ -108,7 +108,7 @@ export function FloatingContact() {
                   <MessageCircle size={18} />
                   <span className="font-sans text-sm font-medium">WhatsApp</span>
                 </div>
-                <ArrowUpRight size={16} className="text-cream/40 group-hover:text-gold transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight size={16} className="text-cream/40 group-hover:text-gold transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
             </div>
           </motion.div>

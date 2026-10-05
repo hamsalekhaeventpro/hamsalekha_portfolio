@@ -45,8 +45,8 @@ export function SectionHeading({
           />
           <span
             className={cn(
-              "font-sans text-[0.7rem] font-semibold tracking-[0.22em] uppercase",
-              light ? "text-gold-light" : "text-gold-dark"
+              "font-sans text-eyebrow uppercase",
+              light ? "text-gold" : "text-gold-text"
             )}
           >
             {eyebrow}
@@ -55,10 +55,10 @@ export function SectionHeading({
       )}
       <Tag
         className={cn(
-          "font-display font-bold",
-          light ? "text-cream" : "text-navy-deep"
+          "font-display font-bold text-balance",
+          light ? "text-cream" : "text-navy-deep",
+          Tag === "h1" ? "text-h1" : Tag === "h3" ? "text-h3" : "text-h2"
         )}
-        style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)", lineHeight: "1.1" }}
       >
         {heading}
       </Tag>

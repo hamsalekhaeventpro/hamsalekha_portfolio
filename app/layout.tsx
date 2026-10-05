@@ -7,7 +7,7 @@ import { FloatingContact } from "@/components/layout/FloatingContact";
 import { StickyMobileBar } from "@/components/layout/StickyMobileBar";
 import { LenisProvider } from "@/components/layout/LenisProvider";
 import { CookieNotice } from "@/components/layout/CookieNotice";
-import { seoMap } from "@/lib/content";
+import { seoMap, microcopy } from "@/lib/content";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -62,23 +62,31 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "Hamsalekha Event Production Pvt. Ltd.",
-  description:
-    "Premium event production company in Bengaluru — lighting, gensets, truss, furniture, décor and full production management since 2006.",
-  telephone: "+91-99725-44316",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Kothanur",
-    addressRegion: "Bengaluru",
-    addressCountry: "IN",
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Hamsalekha Event Production",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app",
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app"}/images/hero.jpg`,
+    sameAs: [microcopy.instagramUrl],
+    foundingDate: "2006",
   },
-  foundingDate: "2006",
-  sameAs: ["https://www.instagram.com/hamsalekha.event.production"],
-  url: "https://hamsalekha.com",
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Hamsalekha Event Production",
+    description: seoMap.home.description,
+    telephone: microcopy.phone,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Bengaluru",
+      addressRegion: "Karnataka",
+      addressCountry: "IN",
+    },
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app",
+  }
+];
 
 export default function RootLayout({
   children,
@@ -94,11 +102,22 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <noscript>
+          <style>{`
+            [data-reveal] {
+              opacity: 1 !important;
+              transform: none !important;
+            }
+          `}</style>
+        </noscript>
       </head>
       <body className="font-sans bg-bg-base text-text-navy antialiased">
         <LenisProvider>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] bg-white text-navy-deep px-4 py-2 font-sans font-medium rounded-lg">
+            Skip to main content
+          </a>
           <Header />
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
           <Footer />
         </LenisProvider>
         <FloatingContact />

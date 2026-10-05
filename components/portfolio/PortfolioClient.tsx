@@ -8,7 +8,9 @@ import { portfolioHero, featuredStories, galleryImages, portfolioCTA } from "@/l
 import type { GalleryCategory } from "@/types/content";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/layout/Section";
+import { staggerDelay } from "@/lib/motion";
 
 import { cn } from "@/lib/utils";
 
@@ -33,8 +35,8 @@ export default function PortfolioClient() {
 
   return (
     <>
-      {/* Hero — Figma portfolio.svg style */}
-      <section className="pt-36 pb-24 bg-navy-deep relative overflow-hidden">
+      {/* Hero */}
+      <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{
@@ -43,57 +45,54 @@ export default function PortfolioClient() {
           }}
         />
         <div className="container-site relative z-10">
-          <RevealOnScroll className="flex flex-col gap-5 max-w-3xl">
+          <Reveal className="flex flex-col gap-5 max-w-3xl">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-gold/50" />
-              <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
+              <span className="font-sans text-eyebrow uppercase text-gold-light">
                 {portfolioHero.eyebrow}
               </span>
             </div>
-            <h1
-              className="font-display font-bold text-cream leading-[1.03]"
-              style={{ fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            >
+            <h1 className="font-display font-bold text-hero text-cream leading-[1.03]">
               {portfolioHero.headline}
             </h1>
             <div className="w-16 h-[2px] bg-gradient-to-r from-gold to-gold-light rounded-full" />
-            <p className="font-sans text-lg text-cream/70 max-w-xl">
+            <p className="font-sans text-body text-cream/70 max-w-xl">
               {portfolioHero.subline}
             </p>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
       {/* Featured stories */}
-      <section className="section-py bg-bg-base">
+      <Section tone="base">
         <div className="container-site flex flex-col gap-12">
           <SectionHeading eyebrow="FEATURED STORIES" heading="Stages worth remembering." />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {featuredStories.map((story, i) => (
-              <RevealOnScroll key={story.title} delay={i * 0.1} className="bg-card-bg rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all card-gold-border">
+              <Reveal key={story.title} delay={staggerDelay(i)} className="bg-card-bg rounded-3xl overflow-hidden shadow-card hover:shadow-card-hover hover:-translate-y-1 transition card-gold-border">
                 <div className="relative h-56">
                   <Image src={story.image} alt={story.imageAlt} fill className="object-cover transition-transform duration-500 hover:scale-[1.03]" sizes="(max-width: 1024px) 100vw, 33vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 to-transparent" />
-                  <span className="absolute top-4 left-4 font-sans text-[0.65rem] tracking-[0.18em] uppercase font-semibold text-gold-light bg-navy-deep/75 px-3 py-1.5 rounded-full border border-gold/20">{story.tag}</span>
+                  <span className="absolute top-4 left-4 font-sans text-eyebrow text-gold-light bg-navy-deep/75 px-3 py-1.5 rounded-full border border-gold/20">{story.tag}</span>
                 </div>
                 <div className="p-7 flex flex-col gap-3">
-                  <p className="font-sans text-xs text-gold-dark font-semibold tracking-[0.12em] uppercase">{story.subtitle}</p>
-                  <h3 className="font-display text-xl font-bold text-navy-deep">{story.title}</h3>
+                  <p className="font-sans text-eyebrow text-gold-dark uppercase">{story.subtitle}</p>
+                  <h3 className="font-display text-h4 font-bold text-navy-deep">{story.title}</h3>
                   <div className="w-8 h-[2px] bg-gold/40 rounded-full" />
-                  <p className="font-sans text-sm text-text-slate line-clamp-3 leading-relaxed">{story.body}</p>
+                  <p className="font-sans text-body text-text-slate line-clamp-3 leading-relaxed">{story.body}</p>
                   <a href={story.ctaHref} className="group inline-flex items-center gap-1.5 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors mt-2">
                     {story.ctaLabel.endsWith("→") ? story.ctaLabel.slice(0, -1).trim() : story.ctaLabel}
                     <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
                   </a>
                 </div>
-              </RevealOnScroll>
+              </Reveal>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Gallery */}
-      <section className="section-py bg-bg-panel">
+      <Section tone="panel">
         <div className="container-site flex flex-col gap-8">
           <SectionHeading eyebrow="GALLERY" heading="From our archive." />
 
@@ -106,7 +105,7 @@ export default function PortfolioClient() {
                 aria-selected={active === f.value}
                 onClick={() => setActive(f.value)}
                 className={cn(
-                  "font-sans text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-200",
+                  "font-sans text-sm font-medium px-5 py-2.5 rounded-full border transition duration-200",
                   active === f.value
                     ? "bg-gold text-navy-deep border-gold"
                     : "bg-transparent text-text-navy border-[var(--border)] hover:border-gold/50"
@@ -119,17 +118,15 @@ export default function PortfolioClient() {
 
           {/* Masonry grid */}
           {/* Masonry grid */}
-          <motion.div
-            layout
+          <div
             className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4"
           >
-            <AnimatePresence>
+            <AnimatePresence mode="popLayout">
               {filtered.map((img, idx) => (
                 <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                   key={img.id}
                   className={cn("group relative overflow-hidden rounded-2xl cursor-pointer break-inside-avoid", img.span === "tall" ? "aspect-[2/3]" : "aspect-[4/3]")}
@@ -137,8 +134,8 @@ export default function PortfolioClient() {
                 >
                   <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
                   {/* Hover overlay — visible by default on touch devices, hover-only on devices with pointer capability */}
-                  <div className="absolute inset-0 bg-navy-deep/50 [@media(any-hover:hover)]:bg-navy-deep/0 [@media(any-hover:hover)]:group-hover:bg-navy-deep/50 transition-all duration-300 flex flex-col justify-end p-5">
-                    <div className="translate-y-0 opacity-100 [@media(any-hover:hover)]:translate-y-4 [@media(any-hover:hover)]:opacity-0 [@media(any-hover:hover)]:group-hover:translate-y-0 [@media(any-hover:hover)]:group-hover:opacity-100 transition-all duration-300">
+                  <div className="absolute inset-0 bg-navy-deep/50 [@media(any-hover:hover)]:bg-navy-deep/0 [@media(any-hover:hover)]:group-hover:bg-navy-deep/50 transition duration-300 flex flex-col justify-end p-5">
+                    <div className="translate-y-0 opacity-100 [@media(any-hover:hover)]:translate-y-4 [@media(any-hover:hover)]:opacity-0 [@media(any-hover:hover)]:group-hover:translate-y-0 [@media(any-hover:hover)]:group-hover:opacity-100 transition duration-300">
                       <p className="font-sans text-xs text-cream/80 mb-1">{img.eventType} · {img.venue} · {img.year}</p>
                       {img.catalogueHref && (
                         <a href={img.catalogueHref} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors">
@@ -148,13 +145,13 @@ export default function PortfolioClient() {
                     </div>
                   </div>
                   {/* Gold border ring on hover */}
-                  <div className="absolute inset-0 rounded-2xl ring-0 group-hover:ring-2 group-hover:ring-gold/60 transition-all duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 rounded-2xl ring-0 group-hover:ring-2 group-hover:ring-gold/60 transition duration-300 pointer-events-none" />
                 </motion.div>
               ))}
             </AnimatePresence>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </Section>
 
       {/* Lightbox */}
       <AnimatePresence>
@@ -199,17 +196,17 @@ export default function PortfolioClient() {
       </AnimatePresence>
 
       {/* Closing */}
-      <section className="section-py" style={{ background: "var(--gradient-navy-band)" }}>
+      <Section tone="stage" className="overflow-hidden" style={{ background: "var(--gradient-navy-band)" }}>
         <div className="container-site flex flex-col items-center text-center gap-6">
-          <RevealOnScroll className="flex flex-col items-center gap-5">
+          <Reveal className="flex flex-col items-center gap-5">
             <h2 className="font-display text-h2 font-bold text-cream">{portfolioCTA.headline}</h2>
             <div className="flex flex-wrap justify-center gap-4">
               <Button href={portfolioCTA.ctaHref} variant="primary" size="lg">{portfolioCTA.ctaLabel}</Button>
               <Button href={portfolioCTA.instagramHref} variant="outline" size="lg" external>{portfolioCTA.instagramLabel}</Button>
             </div>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

@@ -6,7 +6,8 @@ import { getPageMetadata } from "@/lib/metadata";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { Reveal } from "@/components/motion/Reveal";
+import { Section } from "@/components/layout/Section";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = getPageMetadata("services", "/services");
@@ -26,7 +27,7 @@ export default function ServicesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-36 pb-24 bg-navy-deep relative overflow-hidden">
+      <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{
@@ -35,45 +36,41 @@ export default function ServicesPage() {
           }}
         />
         <div className="container-site relative z-10">
-          <RevealOnScroll className="flex flex-col gap-5 max-w-3xl">
+          <Reveal className="flex flex-col gap-5 max-w-3xl">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-gold/50" />
-              <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
+              <span className="font-sans text-eyebrow uppercase text-gold-light">
                 What We Do
               </span>
             </div>
-            <h1
-              className="font-display font-bold text-cream leading-[1.03]"
-              style={{ fontSize: "clamp(2.75rem, 7vw, 6rem)" }}
-            >
+            <h1 className="font-display font-bold text-hero text-cream leading-[1.03]">
               One team.{" "}
               <span className="text-gold-light">Every layer</span>{" "}
               of your event.
             </h1>
             <div className="w-16 h-[2px] bg-gradient-to-r from-gold to-gold-light rounded-full" />
-            <p className="font-sans text-lg text-cream/70 max-w-2xl">
+            <p className="font-sans text-body text-cream/70 max-w-2xl">
               Book one service or all of them. Either way, it comes from our
               warehouse and is installed by our crew.
             </p>
-          </RevealOnScroll>
+          </Reveal>
         </div>
-      </section>
+      </Section>
 
       {/* Service blocks — alternating layout with ghost number */}
       {services.map((service, i) => (
-        <section
+        <Section
           key={service.title}
+          tone={i % 2 === 0 ? "base" : "panel"}
           id={service.title.toLowerCase().replace(/[^a-z]/g, "-")}
           className={cn(
             "relative overflow-hidden",
             // Create intentional negative space: huge bottom padding on mobile, huge top padding on desktop
-            "pt-20 pb-40 md:pt-24 md:pb-48 lg:pt-48 lg:pb-32",
-            i % 2 === 0 ? "bg-bg-base" : "bg-bg-panel"
+            "pt-20 pb-40 md:pt-24 md:pb-48 lg:pt-48 lg:pb-32"
           )}
         >
           {/* Ghost service number — strictly placed in the empty padding zones */}
-          <RevealOnScroll
-            direction="up"
+          <Reveal
             delay={0}
             className={cn(
               "absolute z-0 pointer-events-none select-none text-navy-deep/10",
@@ -90,12 +87,11 @@ export default function ServicesPage() {
             >
               {String(i + 1).padStart(2, "0")}
             </span>
-          </RevealOnScroll>
+          </Reveal>
 
           <div className="container-site grid lg:grid-cols-2 gap-12 items-center relative z-10">
             {/* Image */}
-            <RevealOnScroll
-              direction={i % 2 === 0 ? "left" : "right"}
+            <Reveal
               className={cn(
                 "relative h-72 lg:h-[420px] rounded-3xl overflow-hidden shadow-card-hover card-gold-border",
                 i % 2 !== 0 && "lg:order-last"
@@ -108,11 +104,10 @@ export default function ServicesPage() {
                 className="object-cover transition-transform duration-700 hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            </RevealOnScroll>
+            </Reveal>
 
             {/* Content */}
-            <RevealOnScroll
-              direction={i % 2 === 0 ? "right" : "left"}
+            <Reveal
               delay={0.12}
               className="flex flex-col gap-5"
             >
@@ -142,13 +137,13 @@ export default function ServicesPage() {
               >
                 {service.ctaLabel}
               </Button>
-            </RevealOnScroll>
+            </Reveal>
           </div>
-        </section>
+        </Section>
       ))}
 
       {/* Events we produce */}
-      <section className="section-py bg-navy-deep relative overflow-hidden">
+      <Section tone="stage" className="relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "var(--gradient-radial-glow)" }}
@@ -166,7 +161,7 @@ export default function ServicesPage() {
             {eventsWeProduceTags.map((tag) => (
               <span
                 key={tag}
-                className="font-sans text-sm text-cream/80 bg-white/8 border border-white/15 px-5 py-2.5 rounded-full hover:bg-gold/15 hover:border-gold/30 hover:text-cream transition-all duration-200"
+                className="font-sans text-sm text-cream/80 bg-white/8 border border-white/15 px-5 py-2.5 rounded-full hover:bg-gold/15 hover:border-gold/30 hover:text-cream transition duration-200"
               >
                 {tag}
               </span>
@@ -178,7 +173,7 @@ export default function ServicesPage() {
             </Button>
           </div>
         </div>
-      </section>
+      </Section>
     </>
   );
 }

@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { timeline } from "@/lib/content";
+import { Section } from "@/components/layout/Section";
 
 export function Evolution() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -15,8 +16,8 @@ export function Evolution() {
   const nodeInterval = lineDrawDuration / Math.max(1, timeline.length - 1);
 
   return (
-    <section className="section-py bg-bg-base overflow-hidden" aria-label="Evolution Timeline" ref={containerRef}>
-      <div className="container-site mb-16">
+    <Section tone="base" aria-label="Evolution Timeline">
+      <div className="container-site mb-16" ref={containerRef}>
         
         {/* Custom Staggered Header for Evolution */}
         <div className="flex flex-col gap-4">
@@ -27,13 +28,12 @@ export function Evolution() {
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <span className="h-px w-8 bg-gold-dark/40" />
-            <span className="font-sans text-[0.7rem] font-semibold tracking-[0.22em] uppercase text-gold-dark">
+            <span className="font-sans text-eyebrow uppercase text-gold-dark">
               EVOLUTION
             </span>
           </motion.div>
           <motion.h2
-            className="font-display font-bold text-navy-deep"
-            style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)", lineHeight: "1.1" }}
+            className="font-display font-bold text-h2 text-navy-deep leading-[1.1]"
             initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             animate={isInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: prefersReducedMotion ? 0 : 0.1, ease: "easeOut" }}
@@ -97,9 +97,9 @@ export function Evolution() {
 
                 {/* Year in gold */}
                 <motion.span 
-                  className="font-display text-lg font-bold text-gold-dark block mb-1 origin-left"
-                  initial={prefersReducedMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0.4, y: 12, scale: 1 }}
-                  animate={isInView || prefersReducedMotion ? { opacity: 1, y: 0, scale: [1, 1.05, 1] } : { opacity: 0.4, y: 12, scale: 1 }}
+                  className="font-display text-h4 font-bold text-gold-dark block mb-1 origin-left"
+                  initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0.4, y: 12 }}
+                  animate={isInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0.4, y: 12 }}
                   transition={{ duration: 0.5, delay: prefersReducedMotion ? 0 : nodeDelay + 0.15, ease: "easeOut" }}
                 >
                   {entry.year}
@@ -107,7 +107,7 @@ export function Evolution() {
                 
                 {/* Description */}
                 <motion.p 
-                  className="font-sans text-text-slate leading-relaxed max-w-xl"
+                  className="font-sans text-body text-text-slate leading-relaxed max-w-xl"
                   initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
                   animate={isInView || prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
                   transition={{ duration: 0.6, delay: prefersReducedMotion ? 0 : nodeDelay + 0.3, ease: "easeOut" }}
@@ -119,6 +119,6 @@ export function Evolution() {
           })}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

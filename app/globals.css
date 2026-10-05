@@ -29,8 +29,40 @@
   --color-gold: #C9A227;
   --color-gold-dark: #8F6D1B;
   --color-gold-light: #E4C368;
-  --color-gold-outline: #B8923A;
   --color-gold-border: #B8923A;
+  
+  /* Additional Phase 1 Colors */
+  --color-gold-text: #7A5B14;
+  --color-error: #A3261F;
+  --color-error-bg: #FBEDEB;
+  --color-success: #2F6B3F;
+  --color-success-bg: #EAF3EC;
+
+  /* Typography */
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-cormorant: var(--font-cormorant-src), Georgia, serif;
+
+  --text-hero: clamp(3.25rem, 7vw, 6.5rem);
+  --text-hero--line-height: 1.03;
+  --text-hero-xl: clamp(4rem, 9vw, 8.5rem);
+  --text-hero-xl--line-height: 1;
+  --text-h1: clamp(2.5rem, 5vw, 5rem);
+  --text-h1--line-height: 1.1;
+  --text-h2: clamp(2rem, 4vw, 3.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-h3--line-height: 1.2;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.6;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.2em;
+  --text-eyebrow--font-weight: 600;
+
+  /* Shadows and Radii */
+  --shadow-card: 0 4px 24px rgb(15 38 71 / 0.08);
+  --radius-control: 2px;
 }
 
 /* ─── Brand CSS custom properties ─── */
@@ -168,16 +200,7 @@ body {
   }
 }
 
-/* ─── Gold shimmer button utility ─── */
-.btn-shimmer {
-  background-image: var(--gradient-gold-shimmer);
-  background-size: 200% 200%;
-  transition: background-position 0.4s ease, box-shadow 0.2s ease;
-}
-.btn-shimmer:hover {
-  background-position: right center;
-  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.35);
-}
+
 
 /* ─── Ken Burns hero ─── */
 .ken-burns {
@@ -283,4 +306,75 @@ h1, h2, h3 {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #c9a227;
+}
+
+/* ─── Premium hover duration utilities ─── */
+.duration-400 {
+  transition-duration: 400ms;
+}
+
+/* ─── Section-to-section transition dividers ─── */
+.section-divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.3) 50%, transparent);
+}
+.section-divider-navy {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(15, 38, 71, 0.12) 50%, transparent);
+}
+
+/* ─── Image clip-reveal base (for CSS-only fallback) ─── */
+.clip-reveal {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.clip-reveal[data-state="hidden"] {
+  clip-path: inset(0 0 100% 0);
+}
+
+/* ─── Full-bleed image section utility ─── */
+.image-section-full {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ─── Cinematic text-shadow for overlaid headlines ─── */
+.text-shadow-cinematic {
+  text-shadow: 0 2px 20px rgba(15, 38, 71, 0.6), 0 1px 4px rgba(15, 38, 71, 0.8);
+}
+
+/* ─── Gold underline draw left→right ─── */
+.underline-draw {
+  position: relative;
+  text-decoration: none;
+}
+.underline-draw::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.underline-draw:hover::after {
+  transform: scaleX(1);
+}
+
+/* ─── Number strip tabular numerals ─── */
+.stat-number {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ─── Smooth image crop for editorial grids ─── */
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
