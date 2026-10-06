@@ -10,7 +10,7 @@ import {
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import { LightsUp } from "@/components/motion/LightsUp";
+import { ClipReveal } from "@/components/motion/ClipReveal";
 import { Section } from "@/components/layout/Section";
 import { VaultInventory } from "@/components/vault/VaultInventory";
 import { getPageMetadata } from "@/lib/metadata";
@@ -63,8 +63,8 @@ export default function VaultPage() {
       {/* Warehouse */}
       <Section tone="panel">
         <div className="container-site grid lg:grid-cols-2 gap-12 items-center">
-          <div className="relative h-80 lg:h-[640px] rounded-xl overflow-hidden shadow-2xl">
-            <LightsUp trigger="view">
+          <div className="relative h-80 lg:h-[640px] rounded-xl overflow-hidden shadow-2xl bg-navy-deep">
+            <ClipReveal direction="left" className="w-full h-full">
               <Image
                 src={warehouseSection.image}
                 alt={warehouseSection.imageAlt}
@@ -72,7 +72,7 @@ export default function VaultPage() {
                 className="object-cover transition-transform duration-1000 hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            </LightsUp>
+            </ClipReveal>
           </div>
           <Reveal delay={0.1} className="flex flex-col gap-6">
             <div className="flex items-center gap-4">

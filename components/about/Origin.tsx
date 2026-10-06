@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { aboutStory, founder, values } from "@/lib/content";
 import { Reveal } from "@/components/motion/Reveal";
+import { ClipReveal } from "@/components/motion/ClipReveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Section } from "@/components/layout/Section";
 import { staggerDelay } from "@/lib/motion";
@@ -34,14 +35,16 @@ export function Origin() {
           {/* Right: Founder photo */}
           <Reveal delay={0.15}>
             <div className="flex flex-col gap-6 lg:sticky lg:top-28">
-              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-gold/15">
-                <Image
-                  src={founder.image}
-                  alt={`${founder.name}, ${founder.title} — Hamsalekha`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                />
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-gold/15 bg-navy-deep">
+                <ClipReveal direction="up" delay={0.2} className="w-full h-full">
+                  <Image
+                    src={founder.image}
+                    alt={`${founder.name}, ${founder.title} — Hamsalekha`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
+                </ClipReveal>
                 {/* Subtle bottom caption overlay */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-navy-deep/90 to-transparent px-8 py-10">
                   <p className="font-display text-2xl font-bold text-cream tracking-wide">{founder.name}</p>

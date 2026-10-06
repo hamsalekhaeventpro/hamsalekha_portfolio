@@ -3,8 +3,7 @@ import Image from "next/image";
 import { signatureSets, customSetCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import { LightsUp } from "@/components/motion/LightsUp";
-import { DayNightCrossfade } from "@/components/motion/DayNightCrossfade";
+import { ClipReveal } from "@/components/motion/ClipReveal";
 import { Section } from "@/components/layout/Section";
 
 import { getPageMetadata } from "@/lib/metadata";
@@ -62,19 +61,23 @@ export default function SignatureSetsPage() {
 
             <div className="relative container-site grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* Image */}
-              <Reveal
+              <div
                 className={`relative h-[480px] lg:h-[720px] rounded-xl overflow-hidden shadow-2xl ${
                   i % 2 !== 0 ? "lg:order-last" : ""
                 }`}
               >
-                {i === 0 ? (
-                  <DayNightCrossfade
-                    dayImage={set.image} // TODO: Replace with day image
-                    nightImage={set.image}
-                    alt={set.imageAlt}
-                  />
+                {isDark ? (
+                  <ClipReveal direction="left" delay={0.2} className="w-full h-full">
+                    <Image
+                      src={set.image}
+                      alt={set.imageAlt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </ClipReveal>
                 ) : (
-                  <LightsUp trigger="view">
+                  <ClipReveal direction="right" delay={0.1} className="w-full h-full">
                     <Image
                       src={set.image}
                       alt={set.imageAlt}
@@ -82,122 +85,138 @@ export default function SignatureSetsPage() {
                       className="object-cover transition-transform duration-700 hover:scale-[1.04]"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
-                  </LightsUp>
+                  </ClipReveal>
                 )}
-              </Reveal>
+              </div>
 
               {/* Content */}
-              <Reveal
-                delay={0.12}
-                className="flex flex-col gap-6"
-              >
-                <div className="flex items-center gap-4">
-                  <span className="h-px w-8 bg-gold/50" />
-                  <span
-                    className={`font-sans text-eyebrow uppercase ${
-                      isDark ? "text-gold-light" : "text-gold-dark"
-                    }`}
-                  >
-                    {set.eyebrow}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h2
-                  className={`font-display font-bold text-h2 leading-[1.04] ${
-                    isDark ? "text-cream" : "text-navy-deep"
-                  }`}
-                >
-                  {set.title}
-                </h2>
-
-                {set.launched && (
-                  <span
-                    className={`inline-flex px-4 py-1.5 rounded-full border border-gold/40 bg-gold/10 font-sans text-eyebrow uppercase ${
-                      isDark ? "text-gold-light" : "text-gold-dark"
-                    }`}
-                  >
-                    {set.launched}
-                  </span>
-                )}
-
-                {/* Gold hairline */}
-                <div className="w-12 h-[2px] bg-gradient-to-r from-gold to-gold-light rounded-full" />
-
-                {/* Headline / Sub-heading */}
-                <h3
-                  className={`font-display text-h4 font-bold ${
-                    isDark ? "text-cream/90" : "text-navy-deep"
-                  }`}
-                >
-                  {set.headline}
-                </h3>
-
-                {/* Body */}
-                {set.body.split("\n\n").map((para, j) => (
-                  <p
-                    key={j}
-                    className={`font-sans leading-relaxed ${
-                      isDark ? "text-cream/70" : "text-text-slate"
-                    }`}
-                  >
-                    {para}
-                  </p>
-                ))}
-
-                {/* Best for chips */}
-                {set.bestFor && (
-                  <div className="flex flex-col gap-3">
-                    <p
+              <div className="flex flex-col gap-5">
+                <Reveal delay={0.2}>
+                  <div className="flex items-center gap-4">
+                    <span className="h-px w-8 bg-gold/50" />
+                    <span
                       className={`font-sans text-eyebrow uppercase ${
                         isDark ? "text-gold-light" : "text-gold-dark"
                       }`}
                     >
-                      Best for
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {set.bestFor.map((item) => (
-                        <span
-                          key={item}
-                          className={`font-sans text-xs px-3 py-1.5 rounded-full border ${
-                            isDark
-                              ? "text-cream/80 bg-white/10 border-white/15"
-                              : "text-navy-deep bg-tile-taupe border-gold/20"
-                          }`}
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
+                      {set.eyebrow}
+                    </span>
                   </div>
+                </Reveal>
+
+                {/* Title */}
+                <Reveal delay={0.3}>
+                  <h2
+                    className={`font-display font-bold text-h2 leading-[1.04] ${
+                      isDark ? "text-cream" : "text-navy-deep"
+                    }`}
+                  >
+                    {set.title}
+                  </h2>
+                </Reveal>
+
+                {set.launched && (
+                  <Reveal delay={0.35}>
+                    <span
+                      className={`inline-flex px-4 py-1.5 rounded-full border border-gold/40 bg-gold/10 font-sans text-eyebrow uppercase ${
+                        isDark ? "text-gold-light" : "text-gold-dark"
+                      } self-start`}
+                    >
+                      {set.launched}
+                    </span>
+                  </Reveal>
                 )}
 
-                {/* Bullets */}
-                {set.bullets && (
-                  <ul className="flex flex-col gap-2.5">
-                    {set.bullets.map((b) => (
-                      <li
-                        key={b}
-                        className={`flex items-start gap-3 font-sans text-sm ${
-                          isDark ? "text-cream/80" : "text-text-slate"
+                {/* Gold hairline */}
+                <Reveal delay={0.4}>
+                  <div className="w-12 h-[2px] bg-gradient-to-r from-gold to-gold-light rounded-full my-2" />
+                </Reveal>
+
+                {/* Headline / Sub-heading */}
+                <Reveal delay={0.45}>
+                  <h3
+                    className={`font-display text-h4 font-bold ${
+                      isDark ? "text-cream/90" : "text-navy-deep"
+                    }`}
+                  >
+                    {set.headline}
+                  </h3>
+                </Reveal>
+
+                {/* Body */}
+                <Reveal delay={0.5}>
+                  <div className="flex flex-col gap-4">
+                    {set.body.split("\n\n").map((para, j) => (
+                      <p
+                        key={j}
+                        className={`font-sans leading-relaxed ${
+                          isDark ? "text-cream/70" : "text-text-slate"
                         }`}
                       >
-                        <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0 shadow-[0_0_6px_rgba(201,162,39,0.6)]" />
-                        {b}
-                      </li>
+                        {para}
+                      </p>
                     ))}
-                  </ul>
-                )}
+                  </div>
+                </Reveal>
 
-                <Button
-                  href={set.ctaHref}
-                  variant={isDark ? "primary" : "outline"}
-                  size="md"
-                  className="self-start mt-2"
-                >
-                  {set.ctaLabel}
-                </Button>
-              </Reveal>
+                {/* Best for chips & Bullets stagger block */}
+                <Reveal delay={0.6}>
+                  <div className="flex flex-col gap-6 mt-2">
+                    {set.bestFor && (
+                      <div className="flex flex-col gap-3">
+                        <p
+                          className={`font-sans text-eyebrow uppercase ${
+                            isDark ? "text-gold-light" : "text-gold-dark"
+                          }`}
+                        >
+                          Best for
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {set.bestFor.map((item) => (
+                            <span
+                              key={item}
+                              className={`font-sans text-xs px-3 py-1.5 rounded-full border ${
+                                isDark
+                                  ? "text-cream/80 bg-white/10 border-white/15"
+                                  : "text-navy-deep bg-tile-taupe border-gold/20"
+                              }`}
+                            >
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {set.bullets && (
+                      <ul className="flex flex-col gap-2.5">
+                        {set.bullets.map((b) => (
+                          <li
+                            key={b}
+                            className={`flex items-start gap-3 font-sans text-sm ${
+                              isDark ? "text-cream/80" : "text-text-slate"
+                            }`}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 shrink-0 shadow-[0_0_6px_rgba(201,162,39,0.6)]" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </Reveal>
+
+                <Reveal delay={0.7}>
+                  <Button
+                    href={set.ctaHref}
+                    variant={isDark ? "primary" : "outline"}
+                    size="md"
+                    className="self-start mt-4"
+                  >
+                    {set.ctaLabel}
+                  </Button>
+                </Reveal>
+              </div>
             </div>
           </Section>
         );

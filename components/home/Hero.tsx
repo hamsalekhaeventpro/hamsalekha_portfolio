@@ -3,11 +3,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { homeHero } from "@/lib/content";
-import { Button } from "@/components/ui/Button";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown, ArrowRight } from "lucide-react";
 
 const EASE_EXPO = [0.16, 1, 0.3, 1] as const;
-const EASE_OUT  = [0.0, 0.0, 0.3, 1] as const;
 
 export function Hero() {
   const rm = useReducedMotion();
@@ -29,13 +27,13 @@ export function Hero() {
       className="relative min-h-svh flex items-end md:items-center overflow-hidden bg-navy-deep"
       aria-label="Hero"
     >
-      {/* Background image — settle from 1.08 to 1.00 */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Background image — clip reveal */}
+      <div className="absolute inset-0 z-0 overflow-hidden bg-navy-deep">
         <motion.div
           className="absolute inset-0"
-          initial={{ scale: rm ? 1 : 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 5.5, ease: EASE_OUT }}
+          initial={rm ? {} : { clipPath: "inset(15% 0% 15% 0%)", scale: 1.05 }}
+          animate={rm ? {} : { clipPath: "inset(0% 0% 0% 0%)", scale: 1 }}
+          transition={{ duration: 1.8, ease: EASE_EXPO }}
         >
           <Image
             src={homeHero.image}
@@ -51,9 +49,9 @@ export function Hero() {
         {/* Lights-up: black → transparent */}
         <motion.div
           className="absolute inset-0 bg-navy-deep"
-          initial={{ opacity: rm ? 0 : 0.85 }}
+          initial={{ opacity: rm ? 0 : 0.95 }}
           animate={{ opacity: 0 }}
-          transition={{ duration: 1.4, ease: "easeOut" }}
+          transition={{ duration: 1.4, delay: 0.2, ease: "easeOut" }}
         />
 
         {/* Persistent cinematic gradient — always present */}
@@ -114,7 +112,7 @@ export function Hero() {
           </h1>
 
           {/* Divider + subline */}
-          <motion.div variants={sublineV} initial="initial" animate="animate" className="flex flex-col gap-3">
+          <motion.div variants={sublineV} initial="initial" animate="animate" className="flex flex-col gap-4">
             <span className="h-px w-12 bg-gold/60" />
             <p className="font-sans text-base md:text-lg text-cream/80 leading-relaxed max-w-2xl">
               {homeHero.subline}
@@ -126,21 +124,31 @@ export function Hero() {
             variants={ctaV}
             initial="initial"
             animate="animate"
-            className="flex flex-wrap gap-4 pt-1"
+            className="flex flex-wrap items-center gap-8 pt-4"
           >
-            <Button href={homeHero.ctaHref} variant="primary" size="lg" id="hero-cta">
+            {/* Primary CTA */}
+            <a
+              href={homeHero.ctaHref}
+              className="group relative flex items-center justify-center gap-3 bg-cream text-navy-deep px-9 py-4 rounded-full font-sans text-xs font-bold tracking-[0.15em] uppercase transition-colors duration-400 hover:bg-gold-light"
+            >
               {homeHero.cta}
-            </Button>
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-400 ease-out group-hover:translate-x-1"
+              />
+            </a>
+            
+            {/* Secondary CTA */}
             <a
               href={homeHero.catalogueHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-cream/40 text-cream/90 font-sans font-semibold text-base hover:border-cream/70 hover:text-cream transition-colors duration-300"
+              className="group flex items-center gap-2 text-cream/80 hover:text-gold-light transition-colors duration-400 font-sans text-xs font-bold tracking-[0.15em] uppercase"
             >
               {homeHero.catalogueLabel.replace("↗", "").trim()}
               <ArrowUpRight
                 size={16}
-                className="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="transition-transform duration-400 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </a>
           </motion.div>

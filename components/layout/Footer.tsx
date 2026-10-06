@@ -118,17 +118,17 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/8">
         <div className="container-site py-5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="font-sans text-xs text-cream/30 text-center md:text-left">
+          <p className="font-sans text-xs text-cream/50 text-center md:text-left">
             © 2026 Hamsalekha Event Production Pvt. Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
-            <Link href="/privacy" className="font-sans text-xs text-cream/30 hover:text-cream/60 transition-colors">
+            <Link href="/privacy" className="font-sans text-xs text-cream/50 hover:text-cream/90 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="font-sans text-xs text-cream/30 hover:text-cream/60 transition-colors">
+            <Link href="/terms" className="font-sans text-xs text-cream/50 hover:text-cream/90 transition-colors">
               Terms of Use
             </Link>
-            <span className="font-sans text-xs text-cream/25">
+            <span className="font-sans text-xs text-cream/40">
               Designed by Mejorars
             </span>
           </div>

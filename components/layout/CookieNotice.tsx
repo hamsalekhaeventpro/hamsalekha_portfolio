@@ -40,8 +40,8 @@ export function CookieNotice() {
           <div className="flex-1">
             <p className="font-sans text-sm text-cream/85 leading-relaxed">
               {microcopy.cookieNotice}{" "}
-              <a href="/privacy" className="text-gold-light hover:underline underline-offset-2">
-                Learn more
+              <a href="/privacy" className="text-gold-light underline underline-offset-2 hover:text-gold transition-colors" aria-label="Read our Privacy Policy">
+                Read our Privacy Policy
               </a>
             </p>
           </div>

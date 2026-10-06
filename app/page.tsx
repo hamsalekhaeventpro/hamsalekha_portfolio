@@ -20,27 +20,34 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* Navy → dark, no divider — NumberStrip is on navy */}
       <NumberStrip />
+      
       {/* Divider: navy → cream */}
       <div className="section-divider-navy" />
       <HomeIntro />
-      {/* Divider: cream → cream */}
-      <div className="section-divider-navy" />
+      
+      {/* HomeIntro (cream) → WhatWeDo (navy) — hard edge */}
       <WhatWeDo />
-      {/* WhatWeDo cream → SignatureFeature navy — hard edge is intentional */}
+      
+      {/* WhatWeDo (navy) → SignatureFeature (navy) — continuous */}
       <SignatureFeature />
+      
       {/* SignatureFeature navy → StoryTeaser panel */}
       <div className="section-divider-gold" />
       <StoryTeaser />
-      {/* StoryTeaser → BehindTheBuild full-bleed image */}
+      
+      {/* StoryTeaser (panel) → BehindTheBuild (navy) */}
       <BehindTheBuild />
-      {/* BehindTheBuild image → WhoWeWorkWith panel */}
-      <div className="section-divider-gold" />
+      
+      {/* BehindTheBuild (navy) → WhoWeWorkWith (panel) — hard edge */}
       <WhoWeWorkWith />
+      
       <RecognitionStrip />
-      <div className="section-divider-navy" />
+      
+      {/* RecognitionStrip (panel) → PortfolioPreview (panel) */}
       <PortfolioPreview />
+      
+      {/* PortfolioPreview (panel) → ClosingCTA (navy) */}
       <div className="section-divider-gold" />
       <ClosingCTA />
     </>

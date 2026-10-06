@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { homeIntro } from "@/lib/content";
-import { Button } from "@/components/ui/Button";
 import { ease, duration } from "@/lib/motion";
 
 const EXPO = ease.expo;
@@ -122,9 +123,13 @@ export function HomeIntro() {
 
             {/* CTA */}
             <motion.div variants={ctaV} initial="initial" animate={animate}>
-              <Button href="/about" variant="outline" size="md" className="self-start mt-2">
-                OUR STORY →
-              </Button>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 mt-4 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors group/link uppercase tracking-wider"
+              >
+                Our story
+                <ArrowRight size={18} className="transition-transform group-hover/link:translate-x-1" />
+              </Link>
             </motion.div>
           </div>
 

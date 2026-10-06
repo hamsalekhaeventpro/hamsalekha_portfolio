@@ -124,28 +124,28 @@ export default function PortfolioClient() {
             <AnimatePresence mode="popLayout">
               {filtered.map((img, idx) => (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  initial={{ opacity: 0, clipPath: "inset(10% 0% 10% 0%)" }}
+                  animate={{ opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
+                  exit={{ opacity: 0, clipPath: "inset(10% 0% 10% 0%)" }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: idx * 0.08 }}
                   key={img.id}
                   className={cn("group relative overflow-hidden rounded-2xl cursor-pointer break-inside-avoid", img.span === "tall" ? "aspect-[2/3]" : "aspect-[4/3]")}
                   onClick={() => openLightbox(idx)}
                 >
-                  <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
+                  <Image src={img.src} alt={img.alt} fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" />
                   {/* Hover overlay — visible by default on touch devices, hover-only on devices with pointer capability */}
-                  <div className="absolute inset-0 bg-navy-deep/50 [@media(any-hover:hover)]:bg-navy-deep/0 [@media(any-hover:hover)]:group-hover:bg-navy-deep/50 transition duration-300 flex flex-col justify-end p-5">
-                    <div className="translate-y-0 opacity-100 [@media(any-hover:hover)]:translate-y-4 [@media(any-hover:hover)]:opacity-0 [@media(any-hover:hover)]:group-hover:translate-y-0 [@media(any-hover:hover)]:group-hover:opacity-100 transition duration-300">
-                      <p className="font-sans text-xs text-cream/80 mb-1">{img.eventType} · {img.venue} · {img.year}</p>
+                  <div className="absolute inset-0 bg-navy-deep/50 [@media(any-hover:hover)]:bg-navy-deep/0 [@media(any-hover:hover)]:group-hover:bg-navy-deep/50 transition duration-500 ease-out flex flex-col justify-end p-5">
+                    <div className="translate-y-0 opacity-100 [@media(any-hover:hover)]:translate-y-4 [@media(any-hover:hover)]:opacity-0 [@media(any-hover:hover)]:group-hover:translate-y-0 [@media(any-hover:hover)]:group-hover:opacity-100 transition duration-500 ease-out">
+                      <p className="font-sans text-xs font-semibold text-cream/90 mb-1 drop-shadow-md">{img.eventType} · {img.venue} · {img.year}</p>
                       {img.catalogueHref && (
-                        <a href={img.catalogueHref} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors">
-                          Shop this setup <ExternalLink size={12} />
+                        <a href={img.catalogueHref} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors">
+                          Shop this setup <ExternalLink size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
                         </a>
                       )}
                     </div>
                   </div>
                   {/* Gold border ring on hover */}
-                  <div className="absolute inset-0 rounded-2xl ring-0 group-hover:ring-2 group-hover:ring-gold/60 transition duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 rounded-2xl ring-0 group-hover:ring-2 group-hover:ring-gold/60 transition duration-500 ease-out pointer-events-none" />
                 </motion.div>
               ))}
             </AnimatePresence>

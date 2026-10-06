@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { howWeWorkHero, processSteps, howWeWorkCTA } from "@/lib/content";
+import { howWeWorkHero, howWeWorkCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { ProcessTimeline } from "@/components/how-we-work/ProcessTimeline";
 
 import { getPageMetadata } from "@/lib/metadata";
 
@@ -41,80 +42,7 @@ export default function HowWeWorkPage() {
         </div>
       </section>
 
-      {/* Stage labels strip — dashed connector per Figma */}
-      <section className="bg-bg-panel border-y border-gold/15 py-10">
-        <div className="container-site">
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-0">
-            {processSteps.map((step, i) => (
-              <div
-                key={step.number}
-                className="flex flex-col md:flex-row items-center flex-1 min-w-0"
-              >
-                <div className="flex flex-col items-center text-center px-4 flex-1">
-                  <span className="font-display text-3xl font-bold text-gold leading-none">
-                    {step.number}
-                  </span>
-                  <span className="font-sans text-[0.7rem] tracking-[0.15em] text-text-slate mt-2 uppercase font-semibold whitespace-nowrap">
-                    {step.stage}
-                  </span>
-                </div>
-                {i < processSteps.length - 1 && (
-                  <>
-                    {/* Desktop dashed connector */}
-                    <div
-                      className="h-px flex-1 hidden md:block"
-                      style={{
-                        backgroundImage:
-                          "repeating-linear-gradient(90deg, #C9A227 0px, #C9A227 6px, transparent 6px, transparent 16px)",
-                      }}
-                    />
-                    {/* Mobile vertical connector */}
-                    <div
-                      className="w-px h-6 block md:hidden"
-                      style={{ background: "rgba(201, 162, 39, 0.3)" }}
-                    />
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process steps — large editorial layout */}
-      <section className="section-py bg-bg-base">
-        <div className="container-site max-w-4xl flex flex-col gap-0">
-          {processSteps.map((step, i) => (
-            <RevealOnScroll
-              key={step.number}
-              delay={i * 0.08}
-              className="relative flex gap-10 pb-16 last:pb-0"
-            >
-              {/* Vertical connector line */}
-              {i < processSteps.length - 1 && (
-                <div className="absolute left-[27px] top-16 bottom-0 w-px bg-gold/20" />
-              )}
-              {/* Circle with number */}
-              <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-gold/50 bg-gold/8 flex items-center justify-center z-10 hover:border-gold hover:shadow-gold-glow transition duration-300">
-                <span className="font-display text-xl font-bold text-gold-dark">
-                  {step.number}
-                </span>
-              </div>
-              {/* Content */}
-              <div className="flex flex-col gap-3 pt-3">
-                <h2 className="font-display text-2xl font-bold text-navy-deep">
-                  {step.stage}
-                </h2>
-                {/* Gold rule */}
-                <div className="w-8 h-[2px] bg-gold/40 rounded-full" />
-                <p className="font-sans text-body text-text-slate leading-relaxed max-w-xl">
-                  {step.body}
-                </p>
-              </div>
-            </RevealOnScroll>
-          ))}
-        </div>
-      </section>
+      <ProcessTimeline />
 
       {/* Closing CTA */}
       <section className="section-py bg-navy-deep relative overflow-hidden">

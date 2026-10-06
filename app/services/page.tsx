@@ -23,6 +23,8 @@ function GoldCheck() {
   );
 }
 
+import { ClipReveal } from "@/components/motion/ClipReveal";
+
 export default function ServicesPage() {
   return (
     <>
@@ -65,18 +67,15 @@ export default function ServicesPage() {
           id={service.title.toLowerCase().replace(/[^a-z]/g, "-")}
           className={cn(
             "relative overflow-hidden",
-            // Create intentional negative space: huge bottom padding on mobile, huge top padding on desktop
             "pt-20 pb-40 md:pt-24 md:pb-48 lg:pt-48 lg:pb-32"
           )}
         >
-          {/* Ghost service number — strictly placed in the empty padding zones */}
+          {/* Ghost service number */}
           <Reveal
             delay={0}
             className={cn(
               "absolute z-0 pointer-events-none select-none text-navy-deep/10",
-              // Mobile/Tablet: Sit strictly in the bottom pb-40/pb-48 padding space, below the content
               "bottom-4 right-4 md:bottom-8 md:right-8",
-              // Desktop: Sit strictly in the top pt-48 padding space, directly above the text block
               "lg:top-8 lg:bottom-auto",
               i % 2 === 0 ? "lg:right-[10%] lg:left-auto" : "lg:left-[10%] lg:right-auto"
             )}
@@ -90,54 +89,62 @@ export default function ServicesPage() {
           </Reveal>
 
           <div className="container-site grid lg:grid-cols-2 gap-12 items-center relative z-10">
-            {/* Image */}
-            <Reveal
+            {/* Image with ClipReveal */}
+            <div
               className={cn(
-                "relative h-72 lg:h-[420px] rounded-3xl overflow-hidden shadow-card-hover card-gold-border",
+                "relative h-72 lg:h-[420px] rounded-3xl overflow-hidden shadow-card-hover card-gold-border group",
                 i % 2 !== 0 && "lg:order-last"
               )}
             >
-              <Image
-                src={service.image}
-                alt={service.imageAlt}
-                fill
-                className="object-cover transition-transform duration-700 hover:scale-[1.03]"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </Reveal>
+              <ClipReveal direction={i % 2 === 0 ? "left" : "right"} delay={0.1} className="w-full h-full">
+                <Image
+                  src={service.image}
+                  alt={service.imageAlt}
+                  fill
+                  className="object-cover transition-transform duration-700 md:group-hover:scale-[1.03]"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </ClipReveal>
+            </div>
 
-            {/* Content */}
-            <Reveal
-              delay={0.12}
-              className="flex flex-col gap-5"
-            >
-              <Badge label={service.eyebrow} variant="gold" className="self-start" />
-              <h2 className="font-display text-h2 font-bold text-navy-deep">
-                {service.title}
-              </h2>
-              <div className="w-10 h-[2px] bg-gold rounded-full" />
-              <p className="font-sans text-body text-text-slate leading-relaxed">
-                {service.description}
-              </p>
-              {/* Gold checkmark bullets */}
-              <ul className="flex flex-col gap-3 mt-1">
-                {service.bullets.map((bullet) => (
-                  <li key={bullet} className="flex items-start gap-3 font-sans text-sm text-text-slate">
-                    <GoldCheck />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-              <Button
-                href={service.ctaHref}
-                variant="primary"
-                size="md"
-                className="self-start mt-3"
-                external={service.ctaHref.startsWith("http")}
-              >
-                {service.ctaLabel}
-              </Button>
-            </Reveal>
+            {/* Content with Staggered Reveal */}
+            <div className="flex flex-col gap-5">
+              <Reveal delay={0.2}>
+                <Badge label={service.eyebrow} variant="gold" className="self-start" />
+              </Reveal>
+              <Reveal delay={0.3}>
+                <h2 className="font-display text-h2 font-bold text-navy-deep">
+                  {service.title}
+                </h2>
+              </Reveal>
+              <Reveal delay={0.4}>
+                <div className="w-10 h-[2px] bg-gold rounded-full" />
+              </Reveal>
+              <Reveal delay={0.5}>
+                <p className="font-sans text-body text-text-slate leading-relaxed">
+                  {service.description}
+                </p>
+                <ul className="flex flex-col gap-3 mt-4">
+                  {service.bullets.map((bullet) => (
+                    <li key={bullet} className="flex items-start gap-3 font-sans text-sm text-text-slate">
+                      <GoldCheck />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+              <Reveal delay={0.6}>
+                <Button
+                  href={service.ctaHref}
+                  variant="primary"
+                  size="md"
+                  className="self-start mt-3 md:group-hover:[&_svg]:translate-x-1"
+                  external={service.ctaHref.startsWith("http")}
+                >
+                  {service.ctaLabel}
+                </Button>
+              </Reveal>
+            </div>
           </div>
         </Section>
       ))}

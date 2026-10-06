@@ -70,12 +70,25 @@ function ContactFormInner() {
   const inputClass = "w-full font-sans text-base text-text-navy bg-white border border-[#E7E1D0] rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-royal/40 focus:border-blue-royal transition placeholder:text-text-slate/50";
   const errorClass = "font-sans text-xs text-red-500 mt-1";
 
+  const containerVars = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+    },
+  };
+
+  const itemVars = {
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+  };
+
   return (
     <>
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" />
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+      <motion.form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" variants={containerVars} initial="hidden" animate="visible">
         {/* Grid: name + phone */}
-        <div className="grid sm:grid-cols-2 gap-5">
+        <motion.div variants={itemVars} className="grid sm:grid-cols-2 gap-5">
           <div>
             <label htmlFor="name" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Your name <span className="text-gold-dark">*</span></label>
             <input id="name" {...register("name")} placeholder="Full name" className={inputClass} />
@@ -86,17 +99,17 @@ function ContactFormInner() {
             <input id="phone" {...register("phone")} type="tel" placeholder="+91" className={inputClass} />
             {errors.phone && <p className={errorClass}>{errors.phone.message}</p>}
           </div>
-        </div>
+        </motion.div>
 
         {/* Email */}
-        <div>
+        <motion.div variants={itemVars}>
           <label htmlFor="email" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Email <span className="text-text-slate/50 font-normal">(optional)</span></label>
           <input id="email" {...register("email")} type="email" placeholder="you@example.com" className={inputClass} />
           {errors.email && <p className={errorClass}>{errors.email.message}</p>}
-        </div>
+        </motion.div>
 
         {/* Client type + Event type */}
-        <div className="grid sm:grid-cols-2 gap-5">
+        <motion.div variants={itemVars} className="grid sm:grid-cols-2 gap-5">
           <div>
             <label htmlFor="clientType" className="font-sans text-sm font-medium text-text-navy block mb-1.5">I am a… <span className="text-gold-dark">*</span></label>
             <select id="clientType" {...register("clientType")} className={cn(inputClass, "appearance-none cursor-pointer")}>
@@ -113,10 +126,10 @@ function ContactFormInner() {
             </select>
             {errors.eventType && <p className={errorClass}>{errors.eventType.message}</p>}
           </div>
-        </div>
+        </motion.div>
 
         {/* Date + Venue */}
-        <div className="grid sm:grid-cols-2 gap-5">
+        <motion.div variants={itemVars} className="grid sm:grid-cols-2 gap-5">
           <div>
             <label htmlFor="eventDate" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Event date <span className="text-gold-dark">*</span></label>
             <input id="eventDate" {...register("eventDate")} type="date" className={inputClass} />
@@ -127,20 +140,20 @@ function ContactFormInner() {
             <input id="venue" {...register("venue")} placeholder="Venue name, city" className={inputClass} />
             {errors.venue && <p className={errorClass}>{errors.venue.message}</p>}
           </div>
-        </div>
+        </motion.div>
 
         {/* Guest count */}
-        <div>
+        <motion.div variants={itemVars}>
           <label htmlFor="guestCount" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Guest count <span className="text-gold-dark">*</span></label>
           <select id="guestCount" {...register("guestCount")} className={cn(inputClass, "appearance-none cursor-pointer")}>
             <option value="">Select…</option>
             {["Under 200", "200–500", "500–1,000", "1,000+"].map((o) => <option key={o}>{o}</option>)}
           </select>
           {errors.guestCount && <p className={errorClass}>{errors.guestCount.message}</p>}
-        </div>
+        </motion.div>
 
         {/* Services multi-select */}
-        <div>
+        <motion.div variants={itemVars}>
           <label className="font-sans text-sm font-medium text-text-navy block mb-2.5">Services needed <span className="text-gold-dark">*</span></label>
           <div className="flex flex-wrap gap-2">
             {["Lighting", "Gensets", "Truss & Structures", "Furniture", "Decor & Props", "Signature Set", "Full Production"].map((service) => (
@@ -160,13 +173,13 @@ function ContactFormInner() {
             ))}
           </div>
           {errors.services && <p className={errorClass}>{errors.services.message}</p>}
-        </div>
+        </motion.div>
 
         {/* Message */}
-        <div>
+        <motion.div variants={itemVars}>
           <label htmlFor="message" className="font-sans text-sm font-medium text-text-navy block mb-1.5">Tell us more</label>
           <textarea id="message" {...register("message")} rows={4} placeholder="Theme, references, anything we should know" className={cn(inputClass, "resize-none")} />
-        </div>
+        </motion.div>
 
         {/* Honeypot */}
         <div className="absolute opacity-0 -z-10 select-none pointer-events-none" aria-hidden="true">
@@ -175,17 +188,17 @@ function ContactFormInner() {
         </div>
 
         {/* Turnstile */}
-        <div className="pt-2">
+        <motion.div variants={itemVars} className="pt-2">
           <div className="cf-turnstile" data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"}></div>
           {errors.turnstileToken && <p className={errorClass}>{errors.turnstileToken.message}</p>}
-        </div>
+        </motion.div>
 
         {/* Submit */}
-        <div className="pt-2">
+        <motion.div variants={itemVars} className="pt-2">
           <Button type="submit" variant="primary" size="lg" loading={submitState === "loading"} className="w-full sm:w-auto" id="submit-enquiry">
             Send Enquiry
           </Button>
-        </div>
+        </motion.div>
 
         {/* Success / error messages */}
         <AnimatePresence>
@@ -202,7 +215,7 @@ function ContactFormInner() {
             </motion.div>
           )}
         </AnimatePresence>
-      </form>
+      </motion.form>
     </>
   );
 }
