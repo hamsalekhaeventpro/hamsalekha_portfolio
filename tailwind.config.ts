@@ -60,7 +60,7 @@ const config: Config = {
       },
       backgroundImage: {
         "hero-overlay":
-          "linear-gradient(135deg, rgba(15, 38, 71, 0.96) 0%, rgba(15, 38, 71, 0.88) 50%, rgba(15, 38, 71, 0.55) 100%)",
+          "linear-gradient(135deg, rgba(15, 38, 71, 0.95) 0%, rgba(26, 32, 44, 0.75) 50%, rgba(201, 162, 39, 0.15) 100%)",
         "gold-shimmer":
           "linear-gradient(90deg,#8F6D1B,#C9A227,#E4C368,#C9A227)",
         "navy-band":

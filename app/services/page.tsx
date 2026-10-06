@@ -24,6 +24,7 @@ function GoldCheck() {
 }
 
 import { ClipReveal } from "@/components/motion/ClipReveal";
+import { ServiceMotion } from "@/components/services/ServiceMotion";
 
 export default function ServicesPage() {
   return (
@@ -96,15 +97,17 @@ export default function ServicesPage() {
                 i % 2 !== 0 && "lg:order-last"
               )}
             >
-              <ClipReveal direction={i % 2 === 0 ? "left" : "right"} delay={0.1} className="w-full h-full">
-                <Image
-                  src={service.image}
-                  alt={service.imageAlt}
-                  fill
-                  className="object-cover transition-transform duration-700 md:group-hover:scale-[1.03]"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
-              </ClipReveal>
+              <div className="w-full h-full relative group">
+                <ServiceMotion title={service.title} i={i}>
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    className="object-cover transition-transform duration-[2s] md:group-hover:scale-[1.03]"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </ServiceMotion>
+              </div>
             </div>
 
             {/* Content with Staggered Reveal */}

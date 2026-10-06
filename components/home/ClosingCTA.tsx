@@ -23,8 +23,13 @@ export function ClosingCTA() {
   const proofV   = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.4, delay: 1.1, ease: EXPO } } };
 
   return (
-    <Section tone="stage" aria-label="Get in touch">
-      <div ref={ref} className="relative container-site flex flex-col items-center text-center gap-0">
+    <Section tone="stage" aria-label="Get in touch" className="relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{ background: "radial-gradient(circle at 50% 30%, rgba(201,162,39,0.15), transparent 70%)" }}
+      />
+      <div ref={ref} className="relative container-site flex flex-col items-center text-center gap-0 z-10">
 
         {/* Eyebrow */}
         <motion.div

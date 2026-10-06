@@ -67,7 +67,7 @@
 
 /* ─── Brand CSS custom properties ─── */
 :root {
-  --gradient-hero-overlay: linear-gradient(135deg, rgba(15, 38, 71, 0.96) 0%, rgba(15, 38, 71, 0.88) 50%, rgba(15, 38, 71, 0.55) 100%);
+  --gradient-hero-overlay: linear-gradient(135deg, rgba(15, 38, 71, 0.95) 0%, rgba(26, 32, 44, 0.75) 50%, rgba(201, 162, 39, 0.15) 100%);
   --gradient-gold-shimmer: linear-gradient(90deg, #8f6d1b, #c9a227, #e4c368, #c9a227);
   --gradient-navy-band: linear-gradient(135deg, #0f2647, #1b3a6b 60%, #2e5c9e);
   --gradient-radial-glow: radial-gradient(circle at 50% 30%, rgba(201, 162, 39, 0.10), transparent 70%);

@@ -5,7 +5,6 @@ import { ArrowRight } from "lucide-react";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/motion/Reveal";
-import { ClipReveal } from "@/components/motion/ClipReveal";
 import { services } from "@/lib/content";
 import Image from "next/image";
 
@@ -28,56 +27,52 @@ export function WhatWeDo() {
           </Link>
         </div>
 
-        <div className="flex flex-col gap-20 md:gap-32 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-4">
           {services.map((s, i) => (
-            <div key={s.title} className={`flex flex-col lg:flex-row gap-8 lg:gap-20 items-center ${i % 2 !== 0 ? "lg:flex-row-reverse" : ""}`}>
-              {/* Image with clip reveal */}
-              <div className="relative w-full lg:w-[55%] shrink-0">
-                <Reveal delay={0.2} y={0} className="absolute -top-10 -left-6 lg:-top-16 lg:-left-12 font-display text-[10rem] lg:text-[14rem] leading-none font-bold text-navy-deep/[0.06] select-none z-0 pointer-events-none">
-                  0{i + 1}
-                </Reveal>
-                <div className="relative z-10 w-full aspect-[4/3] rounded-2xl overflow-hidden bg-panel-warm shadow-xl">
-                  <ClipReveal direction={i % 2 === 0 ? "left" : "right"} delay={0.1} className="w-full h-full">
-                    <Image
-                      src={s.image}
-                      alt={s.imageAlt}
-                      fill
-                      className="object-cover transition-transform duration-700 hover:scale-[1.03]"
-                      sizes="(max-width: 1024px) 100vw, 55vw"
-                    />
-                  </ClipReveal>
-                </div>
+            <Reveal
+              key={s.title}
+              delay={0.1 + i * 0.1}
+              className="group flex flex-col bg-white border border-gold/10 rounded-2xl overflow-hidden hover:border-gold/30 hover:shadow-lg transition-all duration-400"
+            >
+              {/* Image Header */}
+              <div className="relative w-full h-48 sm:h-56 overflow-hidden">
+                <Image
+                  src={s.image}
+                  alt={s.imageAlt}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {/* Subtle gradient overlay to separate image from card */}
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/20 to-transparent pointer-events-none" />
               </div>
               
-              {/* Text Content */}
-              <div className="flex flex-col gap-5 w-full lg:w-[45%]">
-                <Reveal delay={0.3}>
-                  <div className="flex items-center gap-4">
-                    <span className="h-px w-8 bg-gold-dark/50" />
-                    <span className="font-sans text-eyebrow text-gold-dark uppercase tracking-[0.2em]">{s.eyebrow}</span>
-                  </div>
-                </Reveal>
-                <Reveal delay={0.4}>
-                  <h3 className="font-display text-4xl lg:text-5xl font-bold text-navy-deep leading-tight">
+              {/* Card Body */}
+              <div className="flex flex-col flex-grow p-6 lg:p-8 gap-4">
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="font-display text-2xl lg:text-3xl font-bold text-navy-deep">
                     {s.title}
                   </h3>
-                </Reveal>
-                <Reveal delay={0.5}>
-                  <p className="font-sans text-lg text-text-slate leading-relaxed">
-                    {s.description}
-                  </p>
-                </Reveal>
-                <Reveal delay={0.6}>
+                  <span className="font-sans text-[0.65rem] font-bold text-gold-dark tracking-widest uppercase">
+                    0{i + 1}
+                  </span>
+                </div>
+                
+                <p className="font-sans text-text-slate leading-relaxed flex-grow">
+                  {s.description}
+                </p>
+                
+                <div className="pt-4 mt-2 border-t border-gold/10">
                   <Link
                     href={s.ctaHref}
-                    className="inline-flex items-center gap-2 mt-2 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors group/link tracking-wider uppercase"
+                    className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-dark group-hover:text-gold transition-colors tracking-wider uppercase"
                   >
                     {s.ctaLabel}
-                    <ArrowRight size={16} className="transition-transform group-hover/link:translate-x-1" />
+                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                   </Link>
-                </Reveal>
+                </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

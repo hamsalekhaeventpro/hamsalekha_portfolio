@@ -17,9 +17,9 @@ export function NumberStrip() {
   const animateState = rm ? "visible" : (inView ? "visible" : "hidden");
 
   return (
-    <Section tone="base" aria-label="Scale statistics" className="border-y border-gold/10">
+    <Section tone="stage" aria-label="Scale statistics">
       <div className="container-site" ref={ref}>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-12 lg:gap-y-0 lg:divide-x lg:divide-gold/20">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-12 lg:gap-y-0 lg:divide-x lg:divide-gold/15">
           {homeStats.map((stat, i) => {
             const delayBase = i * 0.15;
             
@@ -36,7 +36,7 @@ export function NumberStrip() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={animateState === "visible" ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.6, delay: delayBase, ease: EXPO }}
-                  className="font-display text-[clamp(1.8rem,2.7vw,3rem)] font-medium text-gold-dark leading-none tabular-nums whitespace-nowrap tracking-tight"
+                  className="font-display text-[clamp(1.8rem,2.7vw,3rem)] font-medium text-gold leading-none tabular-nums whitespace-nowrap tracking-tight"
                 >
                   <CountUp
                     to={stat.value}
@@ -50,7 +50,7 @@ export function NumberStrip() {
                   initial={{ scaleX: 0, opacity: 0 }}
                   animate={animateState === "visible" ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
                   transition={{ duration: 0.6, delay: delayBase + 0.3, ease: EXPO }}
-                  className="w-10 h-[1px] bg-gold/50 rounded-full origin-center" 
+                  className="w-10 h-[1px] bg-gold/40 rounded-full origin-center" 
                 />
                 
                 {/* Label — follows subtly */}
@@ -58,7 +58,7 @@ export function NumberStrip() {
                   initial={{ opacity: 0, y: 5 }}
                   animate={animateState === "visible" ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
                   transition={{ duration: 0.5, delay: delayBase + 0.45, ease: EXPO }}
-                  className="font-sans text-[0.65rem] md:text-[0.7rem] text-text-slate font-medium tracking-[0.2em] uppercase whitespace-pre-line mt-1"
+                  className="font-sans text-[0.65rem] md:text-[0.7rem] text-cream/70 font-medium tracking-[0.2em] uppercase whitespace-pre-line mt-1"
                 >
                   {stat.label}
                 </motion.p>

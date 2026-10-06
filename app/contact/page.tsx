@@ -63,31 +63,31 @@ export default function ContactPage() {
 
           {/* Contact details sidebar */}
           <div className="flex flex-col gap-6">
-            <Reveal delay={0.1} className="bg-panel-warm rounded-3xl p-8 flex flex-col gap-6 border border-gold/20">
+            <Reveal delay={0.1} className="bg-navy-deep rounded-3xl p-8 flex flex-col gap-6 border border-gold/15">
               {/* Gold rule header */}
               <div className="border-b border-gold/20 pb-4">
-                <h3 className="font-display text-h4 font-bold text-navy-deep">Reach us</h3>
+                <h3 className="font-display text-h4 font-bold text-cream">Reach us</h3>
               </div>
-              <a href={`tel:${contactDetails.phoneRaw}`} className="flex items-center gap-3 text-text-slate hover:text-gold-dark transition-colors group">
-                <Phone size={16} className="text-gold-dark shrink-0" />
+              <a href={`tel:${contactDetails.phoneRaw}`} className="flex items-center gap-3 text-cream/80 hover:text-gold-light transition-colors group">
+                <Phone size={16} className="text-gold shrink-0" />
                 <div>
-                  <p className="font-sans text-sm font-semibold text-gold-dark group-hover:text-gold transition-colors">{contactDetails.phone}</p>
-                  <p className="font-sans text-xs text-text-slate/60">Call or WhatsApp</p>
+                  <p className="font-sans text-sm font-semibold text-gold-light group-hover:text-gold transition-colors">{contactDetails.phone}</p>
+                  <p className="font-sans text-xs text-cream/40">Call or WhatsApp</p>
                 </div>
               </a>
-              <div className="flex items-start gap-3 text-text-slate">
-                <MapPin size={16} className="text-gold-dark shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 text-cream/80">
+                <MapPin size={16} className="text-gold shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-sans text-sm font-medium text-navy-deep">{contactDetails.location}</p>
-                  <p className="font-sans text-xs text-text-slate/60">{contactDetails.locationNote}</p>
+                  <p className="font-sans text-sm font-medium">{contactDetails.location}</p>
+                  <p className="font-sans text-xs text-cream/50">{contactDetails.locationNote}</p>
                 </div>
               </div>
-              <a href={contactDetails.instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-text-slate hover:text-gold-dark transition-colors">
-                <InstagramIcon size={16} className="text-gold-dark shrink-0" />
-                <p className="font-sans text-sm font-medium text-navy-deep">{contactDetails.instagram}</p>
+              <a href={contactDetails.instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-cream/80 hover:text-gold-light transition-colors">
+                <InstagramIcon size={16} className="text-gold shrink-0" />
+                <p className="font-sans text-sm font-medium">{contactDetails.instagram}</p>
               </a>
               <div className="border-t border-gold/15 pt-4">
-                <p className="font-sans text-xs text-text-slate/60">{contactDetails.eventSupport}</p>
+                <p className="font-sans text-xs text-cream/40">{contactDetails.eventSupport}</p>
               </div>
             </Reveal>
 

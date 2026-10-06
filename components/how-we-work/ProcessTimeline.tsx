@@ -15,7 +15,7 @@ export function ProcessTimeline() {
   return (
     <div ref={containerRef} className="flex flex-col">
       {/* Desktop horizontal process strip */}
-      <section className="bg-bg-panel border-y border-gold/15 py-10 hidden md:block">
+      <section className="bg-panel border-y border-gold/15 py-10 hidden md:block">
         <div className="container-site">
           <div className="flex flex-row items-center">
             {processSteps.map((step, i) => {
@@ -54,7 +54,7 @@ export function ProcessTimeline() {
       </section>
 
       {/* Vertical editorial layout */}
-      <section className="section-py bg-bg-base">
+      <section className="section-py bg-base">
         <div className="container-site max-w-4xl flex flex-col gap-0 relative">
           <div className="absolute left-[27px] top-[40px] bottom-16 w-px bg-gold/10 hidden md:block" />
           <motion.div
@@ -78,7 +78,7 @@ export function ProcessTimeline() {
               <div key={step.number} className="relative flex gap-10 pb-16 last:pb-0">
                 {/* Node */}
                 <motion.div
-                  className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-gold/50 bg-bg-base flex items-center justify-center z-10 transition duration-300"
+                  className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-gold/50 bg-base flex items-center justify-center z-10 transition duration-300"
                   initial={{ borderColor: "rgba(201,162,39,0.3)" }}
                   animate={isInView || rm ? { borderColor: "rgba(201,162,39,1)" } : {}}
                   transition={{ duration: 0.4, delay }}

@@ -4,6 +4,7 @@ import { signatureSets, customSetCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { ClipReveal } from "@/components/motion/ClipReveal";
+import { MoonGateReveal } from "@/components/motion/MoonGateReveal";
 import { Section } from "@/components/layout/Section";
 
 import { getPageMetadata } from "@/lib/metadata";
@@ -62,9 +63,9 @@ export default function SignatureSetsPage() {
             <div className="relative container-site grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* Image */}
               <div
-                className={`relative h-[480px] lg:h-[720px] rounded-xl overflow-hidden shadow-2xl ${
+                className={`relative h-[480px] lg:h-[720px] overflow-hidden shadow-2xl ${
                   i % 2 !== 0 ? "lg:order-last" : ""
-                }`}
+                } ${set.title === "MoonGate" ? "rounded-full aspect-square lg:h-auto w-full max-w-[600px] mx-auto border border-gold/20" : "rounded-xl"}`}
               >
                 {isDark ? (
                   <ClipReveal direction="left" delay={0.2} className="w-full h-full">
@@ -76,6 +77,8 @@ export default function SignatureSetsPage() {
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </ClipReveal>
+                ) : set.title === "MoonGate" ? (
+                  <MoonGateReveal image={set.image} imageAlt={set.imageAlt} />
                 ) : (
                   <ClipReveal direction="right" delay={0.1} className="w-full h-full">
                     <Image

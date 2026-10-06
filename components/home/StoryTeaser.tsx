@@ -15,7 +15,7 @@ export function StoryTeaser() {
           <div className="relative aspect-[4/5] md:aspect-[3/4] w-full rounded-2xl overflow-hidden bg-navy-deep">
             <ClipReveal direction="up" delay={0.1} className="w-full h-full">
               <Image
-                src="/images/hero.jpg"
+                src="/images/about/hero.jpg"
                 alt="Hamsalekha early event production setup"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -23,7 +23,7 @@ export function StoryTeaser() {
               />
             </ClipReveal>
           </div>
-          {/* TODO(owner): provide approved Story Teaser archive photograph */}
+          {/* Note: Requires archive photo */}
         </div>
 
         {/* Right: Copy */}

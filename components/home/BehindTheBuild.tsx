@@ -85,19 +85,25 @@ export function BehindTheBuild() {
           Load-ins before sunrise. Truss raised and checked. Gensets running before the first guest arrives. Our crew owns the backstage, so planners and families can stay out front.
         </motion.p>
 
-        {/* Proof line — as a single visual unit */}
+        {/* Proof line — staggered items */}
         <motion.div
-          variants={proofV}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 1.05 } }
+          }}
           initial="hidden"
           animate={animate}
-          className="flex items-center gap-4 md:gap-6 mb-8"
+          className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mb-8"
         >
           {PROOF.map((item, i) => (
             <div key={item} className="flex items-center gap-4 md:gap-6">
               {i > 0 && <span className="w-px h-4 bg-gold/40" />}
-              <span className="font-sans text-sm tracking-[0.18em] uppercase text-gold-light font-semibold">
+              <motion.span 
+                variants={{ hidden: { opacity: 0, y: 5 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EXPO } } }}
+                className="font-sans text-sm tracking-[0.18em] uppercase text-gold-light font-semibold"
+              >
                 {item}
-              </span>
+              </motion.span>
             </div>
           ))}
         </motion.div>
