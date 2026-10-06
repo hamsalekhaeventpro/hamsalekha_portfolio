@@ -23,10 +23,10 @@ export default function VaultPage() {
       {/* Hero */}
       <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
-          className="absolute inset-0 pointer-events-none opacity-50"
+          className="absolute inset-0 pointer-events-none opacity-30"
           style={{
             background:
-              "radial-gradient(ellipse at 30% 50%, rgba(92,138,201,0.15), transparent 65%)",
+              "radial-gradient(ellipse at 30% 50%, rgba(201,162,39,0.10), transparent 65%)",
           }}
         />
         <div className="container-site relative z-10">

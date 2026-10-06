@@ -16,10 +16,10 @@ export default function SignatureSetsPage() {
       {/* Hero */}
       <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
-          className="absolute inset-0 pointer-events-none opacity-60"
+          className="absolute inset-0 pointer-events-none opacity-30"
           style={{
             background:
-              "radial-gradient(ellipse at 25% 50%, rgba(92,138,201,0.14), transparent 60%)",
+              "radial-gradient(ellipse at 25% 50%, rgba(201,162,39,0.10), transparent 60%)",
           }}
         />
         <div className="container-site relative z-10">
@@ -226,8 +226,8 @@ export default function SignatureSetsPage() {
       <Section tone="stage" className="relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         <div
-          className="absolute inset-0 pointer-events-none opacity-50"
-          style={{ background: "var(--gradient-radial-glow)" }}
+          className="absolute inset-0 pointer-events-none opacity-30"
+          style={{ background: "radial-gradient(circle at 50% 30%, rgba(201,162,39,0.10), transparent 70%)" }}
         />
         <div className="container-site relative z-10 flex flex-col items-center text-center gap-7 max-w-2xl mx-auto">
           <Reveal className="flex flex-col items-center gap-6">

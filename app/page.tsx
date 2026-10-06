@@ -22,24 +22,25 @@ export default function HomePage() {
       <Hero />
       <NumberStrip />
       
-      {/* Divider: navy → cream */}
-      <div className="section-divider-navy" />
+      {/* NumberStrip (ivory) → HomeIntro (ivory) */}
+      <div className="section-divider-gold" />
       <HomeIntro />
       
-      {/* HomeIntro (cream) → WhatWeDo (navy) — hard edge */}
+      {/* HomeIntro (ivory) → WhatWeDo (ivory) */}
+      <div className="section-divider-gold" />
       <WhatWeDo />
       
-      {/* WhatWeDo (navy) → SignatureFeature (navy) — continuous */}
+      {/* WhatWeDo (ivory) → SignatureFeature (navy) — cinematic edge */}
       <SignatureFeature />
       
       {/* SignatureFeature navy → StoryTeaser panel */}
       <div className="section-divider-gold" />
       <StoryTeaser />
       
-      {/* StoryTeaser (panel) → BehindTheBuild (navy) */}
+      {/* StoryTeaser (panel) → BehindTheBuild (image-led dark) */}
       <BehindTheBuild />
       
-      {/* BehindTheBuild (navy) → WhoWeWorkWith (panel) — hard edge */}
+      {/* BehindTheBuild (dark) → WhoWeWorkWith (panel) */}
       <WhoWeWorkWith />
       
       <RecognitionStrip />

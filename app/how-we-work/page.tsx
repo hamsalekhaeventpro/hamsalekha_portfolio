@@ -14,10 +14,10 @@ export default function HowWeWorkPage() {
       {/* Hero — Figma work.svg style */}
       <section className="pt-36 pb-24 bg-navy-deep relative overflow-hidden">
         <div
-          className="absolute inset-0 pointer-events-none opacity-50"
+          className="absolute inset-0 pointer-events-none opacity-30"
           style={{
             background:
-              "radial-gradient(ellipse at 20% 50%, rgba(92,138,201,0.15), transparent 65%)",
+              "radial-gradient(ellipse at 20% 50%, rgba(201,162,39,0.12), transparent 65%)",
           }}
         />
         <div className="container-site relative z-10">
@@ -48,8 +48,8 @@ export default function HowWeWorkPage() {
       <section className="section-py bg-navy-deep relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         <div
-          className="absolute inset-0 pointer-events-none opacity-50"
-          style={{ background: "var(--gradient-radial-glow)" }}
+          className="absolute inset-0 pointer-events-none opacity-30"
+          style={{ background: "radial-gradient(circle at 50% 30%, rgba(201,162,39,0.10), transparent 70%)" }}
         />
         <div className="container-site relative z-10 flex flex-col items-center text-center gap-8 max-w-2xl mx-auto">
           <RevealOnScroll className="flex flex-col items-center gap-6">

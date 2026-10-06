@@ -60,13 +60,13 @@ const config: Config = {
       },
       backgroundImage: {
         "hero-overlay":
-          "linear-gradient(135deg, rgba(15, 38, 71, 0.94) 0%, rgba(27, 58, 107, 0.82) 50%, rgba(46, 92, 158, 0.55) 100%)",
+          "linear-gradient(135deg, rgba(15, 38, 71, 0.96) 0%, rgba(15, 38, 71, 0.88) 50%, rgba(15, 38, 71, 0.55) 100%)",
         "gold-shimmer":
           "linear-gradient(90deg,#8F6D1B,#C9A227,#E4C368,#C9A227)",
         "navy-band":
           "linear-gradient(135deg,#0F2647,#1B3A6B 60%,#2E5C9E)",
         "radial-glow":
-          "radial-gradient(circle at 50% 30%,rgba(92,138,201,0.18),transparent 70%)",
+          "radial-gradient(circle at 50% 30%,rgba(201,162,39,0.10),transparent 70%)",
         "panel-gradient":
           "linear-gradient(180deg,#FAF8F3 0%,#E7E1D0 100%)",
         "gold-to-cream":

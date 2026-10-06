@@ -41,7 +41,7 @@ export default function PortfolioClient() {
           className="absolute inset-0 pointer-events-none opacity-50"
           style={{
             background:
-              "radial-gradient(ellipse at 20% 50%, rgba(92,138,201,0.15), transparent 65%)",
+              "radial-gradient(ellipse at 20% 50%, rgba(201,162,39,0.12), transparent 65%)",
           }}
         />
         <div className="container-site relative z-10">

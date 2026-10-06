@@ -31,10 +31,10 @@ export default function ServicesPage() {
       {/* Hero */}
       <Section tone="stage" className="pt-36 pb-24 overflow-hidden">
         <div
-          className="absolute inset-0 pointer-events-none opacity-50"
+          className="absolute inset-0 pointer-events-none opacity-30"
           style={{
             background:
-              "radial-gradient(ellipse at 20% 50%, rgba(92,138,201,0.15), transparent 65%)",
+              "radial-gradient(ellipse at 20% 50%, rgba(201,162,39,0.12), transparent 65%)",
           }}
         />
         <div className="container-site relative z-10">
@@ -153,7 +153,7 @@ export default function ServicesPage() {
       <Section tone="stage" className="relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "var(--gradient-radial-glow)" }}
+          style={{ background: "radial-gradient(circle at 50% 30%, rgba(201,162,39,0.10), transparent 70%)" }}
         />
         {/* Gold top border */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
