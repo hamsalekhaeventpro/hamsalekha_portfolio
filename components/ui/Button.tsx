@@ -15,23 +15,62 @@ interface ButtonProps {
   id?: string;
 }
 
+/**
+ * Button system — Phase 1 spec:
+ *
+ * primary:  Gold background, deep navy text.
+ *           Hover: lighter gold. No pill shape. No glow.
+ *
+ * outline:  Editorial border. Gold border/text on dark,
+ *           navy border/text on light. Restrained hover.
+ *
+ * ghost:    Text-only. Transparent bg, subtle hover.
+ *
+ * Arrow/UpRight suffixes animate on hover (translate only, no scale/bounce).
+ */
+
 const base =
-  "group inline-flex items-center justify-center gap-2 font-sans font-semibold rounded-control duration-300 min-h-[44px] focus-visible:outline-2 focus-visible:outline-gold-dark focus-visible:outline-offset-3 disabled:opacity-50 disabled:cursor-not-allowed select-none tracking-wide";
+  "group inline-flex items-center justify-center gap-2 font-sans font-semibold rounded-[2px] min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold-dark disabled:opacity-50 disabled:cursor-not-allowed select-none tracking-wide";
 
 const variants = {
   primary:
-    "bg-gold text-navy-deep hover:bg-gold-light active:bg-gold-dark transition-colors",
+    "bg-gold text-navy-deep hover:bg-gold-light transition-colors duration-300",
   outline:
-    "border-2 border-gold-border text-gold-dark bg-transparent hover:bg-gold/8 hover:border-gold transition-colors",
+    "border border-gold-border text-gold-text bg-transparent hover:bg-gold/8 hover:border-gold transition-colors duration-300",
   ghost:
-    "text-navy-deep bg-transparent hover:bg-navy-deep/8 transition-colors",
+    "text-text-navy bg-transparent hover:bg-navy-deep/6 transition-colors duration-300",
 };
+
+/** Outline variant on dark (navy/stage) backgrounds */
+export const outlineDark =
+  "border border-gold/40 text-cream bg-transparent hover:bg-gold/10 hover:border-gold/70 transition-colors duration-300";
 
 const sizes = {
   sm: "px-5 py-2.5 text-sm",
-  md: "px-7 py-3.5 text-base",
+  md: "px-7 py-3.5 text-sm",
   lg: "px-9 py-4 text-base",
 };
+
+function ArrowContent({ children }: { children: React.ReactNode }) {
+  if (typeof children !== "string") return <>{children}</>;
+  if (children.endsWith("→")) {
+    return (
+      <>
+        {children.slice(0, -1).trim()}
+        <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+      </>
+    );
+  }
+  if (children.endsWith("↗")) {
+    return (
+      <>
+        {children.slice(0, -1).trim()}
+        <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+      </>
+    );
+  }
+  return <>{children}</>;
+}
 
 export function Button({
   variant = "primary",
@@ -57,19 +96,7 @@ export function Button({
         className={classes}
         id={id}
       >
-        {typeof children === "string" && children.endsWith("→") ? (
-          <>
-            {children.slice(0, -1).trim()}
-            <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
-          </>
-        ) : typeof children === "string" && children.endsWith("↗") ? (
-          <>
-            {children.slice(0, -1).trim()}
-            <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
-          </>
-        ) : (
-          children
-        )}
+        <ArrowContent>{children}</ArrowContent>
       </Link>
     );
   }
@@ -88,19 +115,7 @@ export function Button({
           Sending…
         </span>
       ) : (
-        typeof children === "string" && children.endsWith("→") ? (
-          <>
-            {children.slice(0, -1).trim()}
-            <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
-          </>
-        ) : typeof children === "string" && children.endsWith("↗") ? (
-          <>
-            {children.slice(0, -1).trim()}
-            <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
-          </>
-        ) : (
-          children
-        )
+        <ArrowContent>{children}</ArrowContent>
       )}
     </button>
   );

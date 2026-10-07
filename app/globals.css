@@ -6,90 +6,141 @@
    These @theme vars make bg-navy-deep, text-gold-dark, etc. work.
    ─────────────────────────────────────────────────────────────── */
 @theme {
-  /* Navy family */
-  --color-navy-deep: #0F2647;
-  --color-navy-mid: #16355C;
-  --color-navy: #1B3A6B;
-  --color-blue-royal: #2E5C9E;
-  --color-blue-royal-light: #5C8AC9;
+  /* ── Navy family — cinematic stage palette ── */
+  --color-navy-deep:        #0B1F3A;   /* primary: darkest, most cinematic */
+  --color-navy-mid:         #122744;   /* layered dark surfaces */
+  --color-navy:             #1A3459;   /* lighter navy layer */
+  --color-charcoal:         #1C2433;   /* warm dark neutral / dark-neutral sections */
 
-  /* Cream / warm backgrounds */
-  --color-cream: #FAF8F3;
-  --color-bg-base: #FAF8F3;
-  --color-bg-panel: #F3EEE0;
-  --color-panel-warm: #E7E1D0;
-  --color-tile-taupe: #E7E1D0;
-  --color-card-bg: #FFFFFF;
+  /* ── Warm Ivory — editorial counterbalance ── */
+  --color-cream:            #FAF8F3;   /* text on navy, light bg */
+  --color-bg-base:          #FAF8F3;   /* base page background */
+  --color-bg-panel:         #F3EEE4;   /* alternate light sections */
+  --color-panel-warm:       #E9E2D0;   /* tiles, dividers on light */
+  --color-soft-white:       #FEFCF8;   /* near-white breathing space */
+  --color-card-bg:          #FFFFFF;   /* cards, inputs */
 
-  /* Text */
-  --color-text-navy: #0F2647;
-  --color-text-slate: #5B6B80;
+  /* ── Text ── */
+  --color-text-navy:        #0B1F3A;   /* headings on light */
+  --color-text-slate:       #5A6878;   /* body text on light */
 
-  /* Gold family */
-  --color-gold: #C9A227;
-  --color-gold-dark: #8F6D1B;
-  --color-gold-light: #E4C368;
-  --color-gold-border: #B8923A;
-  
-  /* Additional Phase 1 Colors */
-  --color-gold-text: #7A5B14;
-  --color-error: #A3261F;
-  --color-error-bg: #FBEDEB;
-  --color-success: #2F6B3F;
-  --color-success-bg: #EAF3EC;
+  /* ── Gold family — premium accent ── */
+  --color-gold:             #D4AF37;   /* PRIMARY gold — lines, icons, borders, CTA */
+  --color-gold-dark:        #9A7B1E;   /* focus ring on light, hover on light */
+  --color-gold-light:       #E8CB6A;   /* hover/focus accent text on navy */
+  --color-gold-border:      #C09B30;   /* outline buttons, card borders */
+  --color-gold-text:        #7A5B14;   /* gold text on light backgrounds (AA) */
 
-  /* Typography */
-  --font-display: var(--font-playfair), Georgia, serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-cormorant: var(--font-cormorant-src), Georgia, serif;
+  /* ── Utility ── */
+  --color-error:            #A3261F;
+  --color-error-bg:         #FBEDEB;
+  --color-success:          #2F6B3F;
+  --color-success-bg:       #EAF3EC;
 
-  --text-hero: clamp(3.25rem, 7vw, 6.5rem);
+  /* ── Typography ── */
+  --font-display:    var(--font-playfair), Georgia, serif;
+  --font-sans:       var(--font-inter), system-ui, sans-serif;
+
+  /* ── Type scale ── */
+  --text-hero:      clamp(3.25rem, 7vw, 6.5rem);
   --text-hero--line-height: 1.03;
-  --text-hero-xl: clamp(4rem, 9vw, 8.5rem);
+  --text-hero-xl:   clamp(4rem, 9vw, 8.5rem);
   --text-hero-xl--line-height: 1;
-  --text-h1: clamp(2.5rem, 5vw, 5rem);
+  --text-h1:        clamp(2.5rem, 5vw, 5rem);
   --text-h1--line-height: 1.1;
-  --text-h2: clamp(2rem, 4vw, 3.5rem);
+  --text-h2:        clamp(2rem, 4vw, 3.5rem);
   --text-h2--line-height: 1.15;
-  --text-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-h3:        clamp(1.5rem, 2.5vw, 2.25rem);
   --text-h3--line-height: 1.2;
-  --text-body: 1.125rem;
+  --text-body:      1.125rem;
   --text-body--line-height: 1.6;
-  --text-eyebrow: 0.75rem;
+  --text-eyebrow:   0.75rem;
   --text-eyebrow--line-height: 1.2;
   --text-eyebrow--letter-spacing: 0.2em;
   --text-eyebrow--font-weight: 600;
 
-  /* Shadows and Radii */
-  --shadow-card: 0 4px 24px rgb(15 38 71 / 0.08);
+  /* ── Shadows / Radii ── */
+  --shadow-card:    0 4px 24px rgb(11 31 58 / 0.08);
   --radius-control: 2px;
+
+  /* ── Z-index scale ── */
+  --z-bg:               0;
+  --z-content:         10;
+  --z-raised:          20;
+  --z-floating:        40;
+  --z-cookie:          45;
+  --z-header:          50;
+  --z-drawer-backdrop: 60;
+  --z-drawer:          70;
+  --z-modal:           80;
 }
 
 /* ─── Brand CSS custom properties ─── */
 :root {
-  --gradient-hero-overlay: linear-gradient(135deg, rgba(15, 38, 71, 0.95) 0%, rgba(26, 32, 44, 0.75) 50%, rgba(201, 162, 39, 0.15) 100%);
-  --gradient-gold-shimmer: linear-gradient(90deg, #8f6d1b, #c9a227, #e4c368, #c9a227);
-  --gradient-navy-band: linear-gradient(135deg, #0f2647, #1b3a6b 60%, #2e5c9e);
-  --gradient-radial-glow: radial-gradient(circle at 50% 30%, rgba(201, 162, 39, 0.10), transparent 70%);
-  --gradient-panel: linear-gradient(180deg, #faf8f3 0%, #e7e1d0 100%);
-  --gradient-gold-to-cream: linear-gradient(135deg, #c9a227 0%, #e4c368 50%, #faf8f3 100%);
-  --border: rgba(15, 38, 71, 0.12);
-  --border-gold: rgba(184, 146, 58, 0.35);
-  --shadow-card: 0 4px 24px rgba(15, 38, 71, 0.08);
-  --shadow-card-hover: 0 8px 40px rgba(15, 38, 71, 0.14);
-  --shadow-gold-glow: 0 4px 32px rgba(201, 162, 39, 0.22);
-  --gold-border: #b8923a;
-  --cream: #faf8f3;
-  --navy-deep: #0f2647;
-  --navy-mid: #16355c;
-  --gold: #c9a227;
-  --gold-light: #e4c368;
+  /* Hero overlay — warm navy, NOT blue-electric */
+  --gradient-hero-overlay: linear-gradient(
+    135deg,
+    rgba(11, 31, 58, 0.96) 0%,
+    rgba(18, 28, 42, 0.72) 55%,
+    rgba(212, 175, 55, 0.10) 100%
+  );
+
+  /* Gold shimmer — for text/decorative use */
+  --gradient-gold-shimmer: linear-gradient(90deg, #9a7b1e, #d4af37, #e8cb6a, #d4af37);
+
+  /* Navy band — deep to warm dark, NO electric blue */
+  --gradient-navy-band: linear-gradient(135deg, #0b1f3a 0%, #1a3459 60%, #1c2433 100%);
+
+  /* Warm stage-light glow — gold/amber at very low opacity over navy */
+  --gradient-stage-glow: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(212, 175, 55, 0.08) 0%,
+    transparent 65%
+  );
+
+  /* Warm amber light — subtler glow for dark sections */
+  --gradient-amber-light: radial-gradient(
+    ellipse at 30% 20%,
+    rgba(212, 175, 55, 0.05) 0%,
+    transparent 60%
+  );
+
+  /* Panel gradient — ivory to warm panel */
+  --gradient-panel: linear-gradient(180deg, #faf8f3 0%, #e9e2d0 100%);
+
+  /* Gold to cream — editorial gradient */
+  --gradient-gold-to-cream: linear-gradient(135deg, #d4af37 0%, #e8cb6a 50%, #faf8f3 100%);
+
+  /* Border tokens */
+  --border:      rgba(11, 31, 58, 0.12);
+  --border-gold: rgba(192, 155, 48, 0.30);
+
+  /* Shadow tokens */
+  --shadow-card:       0 4px 24px rgba(11, 31, 58, 0.08);
+  --shadow-card-hover: 0 8px 40px rgba(11, 31, 58, 0.14);
+  --shadow-gold-glow:  0 4px 32px rgba(212, 175, 55, 0.18);
+
+  /* Convenience aliases */
+  --cream:      #faf8f3;
+  --navy-deep:  #0b1f3a;
+  --navy-mid:   #122744;
+  --gold:       #d4af37;
+  --gold-light: #e8cb6a;
+
+  /* Interaction timing system */
+  --ease-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-micro:  0.4s;
+  --duration-reveal: 0.8s;
+  --duration-hero:   1.2s;
+
+  /* Content-visibility for below-fold sections */
+  --intrinsic-size: auto 800px;
 }
 
 /* ─── Keyframes ─── */
 @keyframes kenBurns {
   from { transform: scale(1); }
-  to   { transform: scale(1.08); }
+  to   { transform: scale(1.06); }
 }
 @keyframes shimmer {
   0%, 100% { background-position: 0% 50%; }
@@ -100,7 +151,7 @@
   50%       { opacity: 1; }
 }
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes drawLine {
@@ -110,22 +161,6 @@
 @keyframes countUp {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-32px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(32px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes wipeIn {
-  from { clip-path: inset(100% 0 0 0); }
-  to   { clip-path: inset(0% 0 0 0); }
 }
 @keyframes underlineDraw {
   from { transform: scaleX(0); transform-origin: left; }
@@ -145,7 +180,7 @@ html[data-scroll-behavior="smooth"] {
 
 body {
   background-color: #faf8f3;
-  color: #0f2647;
+  color: #0b1f3a;
   font-family: var(--font-inter), system-ui, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
@@ -153,9 +188,14 @@ body {
 
 /* ─── Focus ring ─── */
 :focus-visible {
-  outline: 2px solid #8f6d1b;
+  outline: 2px solid #9a7b1e;
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Focus ring on dark backgrounds */
+[data-theme="dark"] :focus-visible {
+  outline-color: #e8cb6a;
 }
 
 /* ─── Reduced motion ─── */
@@ -168,24 +208,30 @@ body {
   }
 }
 
-/* ─── Utility classes ─── */
+/* ─── Container & spacing utilities ─── */
 .container-site {
   max-width: 80rem;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 @media (min-width: 768px) {
   .container-site {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
 }
 @media (min-width: 1024px) {
   .container-site {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+@media (min-width: 1280px) {
+  .container-site {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 }
 
@@ -200,7 +246,53 @@ body {
   }
 }
 
+/* ─── Section tone system — global dark/light rhythm ─── */
 
+/* DARK / STAGE — cinematic navy stage */
+.tone-stage {
+  background-color: #0b1f3a;
+  color: rgba(250, 248, 243, 0.75);
+  position: relative;
+}
+.tone-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-stage-glow);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* LIGHT / BASE — primary editorial ivory */
+.tone-base {
+  background-color: #faf8f3;
+  color: #5a6878;
+}
+
+/* LIGHT / PANEL — warm panel ivory */
+.tone-panel {
+  background-color: #f3eee4;
+  color: #5a6878;
+}
+
+/* CHARCOAL / DARK-NEUTRAL — warm dark neutral */
+.tone-charcoal {
+  background-color: #1c2433;
+  color: rgba(250, 248, 243, 0.70);
+}
+
+/* IMAGE-LED — handled inline via component */
+.tone-image {
+  background-color: #0b1f3a;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Content-visibility (below-fold optimization) ─── */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: var(--intrinsic-size);
+}
 
 /* ─── Ken Burns hero ─── */
 .ken-burns {
@@ -226,11 +318,11 @@ body {
   bottom: -2px;
   left: 0;
   right: 0;
-  height: 2px;
-  background: #c9a227;
+  height: 1px;
+  background: #d4af37;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s var(--ease-expo);
 }
 .nav-link-hover:hover::after,
 .nav-link-hover.active::after {
@@ -241,16 +333,15 @@ body {
 .gold-rule {
   display: inline-block;
   width: 3rem;
-  height: 2px;
-  background: #c9a227;
-  border-radius: 1px;
+  height: 1px;
+  background: #d4af37;
 }
-.gold-rule-lg {
+.gold-rule-short {
   display: inline-block;
-  width: 5rem;
-  height: 2px;
-  background: linear-gradient(90deg, #8f6d1b, #c9a227, #e4c368);
-  border-radius: 1px;
+  width: 2rem;
+  height: 1px;
+  background: #d4af37;
+  opacity: 0.6;
 }
 
 /* ─── Text balance for headlines ─── */
@@ -268,65 +359,30 @@ h1, h2, h3 {
   font-variant-numeric: tabular-nums;
 }
 
-/* ─── Float animation ─── */
-.float {
-  animation: float 4s ease-in-out infinite;
-}
-
 /* ─── Wipe-in animation ─── */
 .wipe-in {
-  animation: wipeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: wipeIn 0.9s var(--ease-expo) forwards;
 }
 
-/* ─── Gold border card utility ─── */
-.card-gold-border {
-  border: 1px solid rgba(184, 146, 58, 0.25);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-.card-gold-border:hover {
-  border-color: rgba(184, 146, 58, 0.5);
-  box-shadow: 0 4px 32px rgba(201, 162, 39, 0.15);
-}
-
-/* ─── Section with gold top accent bar ─── */
-.gold-top-bar {
-  border-top: 4px solid #c9a227;
-}
-
-/* ─── Scrollbar (webkit) ─── */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #f3eee0;
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #8f6d1b, #c9a227);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #c9a227;
-}
-
-/* ─── Premium hover duration utilities ─── */
-.duration-400 {
-  transition-duration: 400ms;
+@keyframes wipeIn {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0% 0 0 0); }
 }
 
 /* ─── Section-to-section transition dividers ─── */
 .section-divider-gold {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.3) 50%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.25) 50%, transparent);
 }
 .section-divider-navy {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(15, 38, 71, 0.12) 50%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(11, 31, 58, 0.10) 50%, transparent);
 }
 
-/* ─── Image clip-reveal base (for CSS-only fallback) ─── */
+/* ─── Image clip-reveal base ─── */
 .clip-reveal {
   clip-path: inset(0 0 0 0);
-  transition: clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: clip-path 0.8s var(--ease-expo);
 }
 .clip-reveal[data-state="hidden"] {
   clip-path: inset(0 0 100% 0);
@@ -341,10 +397,10 @@ h1, h2, h3 {
 
 /* ─── Cinematic text-shadow for overlaid headlines ─── */
 .text-shadow-cinematic {
-  text-shadow: 0 2px 20px rgba(15, 38, 71, 0.6), 0 1px 4px rgba(15, 38, 71, 0.8);
+  text-shadow: 0 2px 20px rgba(11, 31, 58, 0.6), 0 1px 4px rgba(11, 31, 58, 0.8);
 }
 
-/* ─── Gold underline draw left→right ─── */
+/* ─── Gold underline draw left→right (editorial links) ─── */
 .underline-draw {
   position: relative;
   text-decoration: none;
@@ -356,10 +412,10 @@ h1, h2, h3 {
   left: 0;
   right: 0;
   height: 1px;
-  background: currentColor;
+  background: #d4af37;
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s var(--ease-expo);
 }
 .underline-draw:hover::after {
   transform: scaleX(1);
@@ -378,3 +434,48 @@ h1, h2, h3 {
   object-fit: cover;
   object-position: center;
 }
+
+/* ─── Hover effects: desktop only ─── */
+@media (hover: hover) {
+  .hover-scale-image:hover img {
+    transform: scale(1.04);
+  }
+}
+
+/* ─── Scrollbar (webkit) ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f3eee4;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #9a7b1e, #d4af37);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* ─── Premium interaction timing ─── */
+.duration-400 {
+  transition-duration: 400ms;
+}
+
+/* ─── Soft stage background — warm gold light over deep navy ─── */
+.bg-stage-warm {
+  background-color: #0b1f3a;
+  background-image: var(--gradient-stage-glow);
+}
+
+/* ─── Card gold border utility ─── */
+.card-gold-border {
+  border: 1px solid rgba(192, 155, 48, 0.20);
+  transition: border-color 0.3s var(--ease-expo);
+}
+.card-gold-border:hover {
+  border-color: rgba(212, 175, 55, 0.40);
+}
+
+/* ─── No-JS safety ─── */
+/* (Also declared inline in root layout noscript tag) */

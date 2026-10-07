@@ -46,25 +46,29 @@ export function Hero() {
           />
         </motion.div>
 
-        {/* Lights-up: black → transparent */}
+        {/* LIGHTS-UP: navy → transparent */}
         <motion.div
           className="absolute inset-0 bg-navy-deep"
           initial={{ opacity: rm ? 0 : 0.95 }}
           animate={{ opacity: 0 }}
           transition={{ duration: 1.4, delay: 0.2, ease: "easeOut" }}
+          data-lightsup
+          aria-hidden="true"
         />
 
-        {/* Persistent cinematic gradient — always present */}
+        {/* Persistent cinematic gradient — warm navy, not electric blue */}
         <div
+          aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
           style={{ background: "var(--gradient-hero-overlay)" }}
         />
         {/* Bottom vignette for text readability */}
         <div
+          aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 110%, rgba(15,38,71,0.7), transparent 65%)",
+              "radial-gradient(ellipse at 50% 110%, rgba(11,31,58,0.65), transparent 65%)",
           }}
         />
       </div>
@@ -101,7 +105,7 @@ export function Hero() {
             <span className="block overflow-hidden mt-1" aria-hidden="true">
               <motion.span
                 style={{ display: "block" }}
-                className="text-gold-light"
+                className="font-display italic font-medium text-gold-light"
                 variants={line2V}
                 initial="initial"
                 animate="animate"
@@ -126,32 +130,33 @@ export function Hero() {
             animate="animate"
             className="flex flex-wrap items-center gap-8 pt-4"
           >
-            {/* Primary CTA */}
+            {/* Primary CTA — Gold bg, navy text, editorial shape */}
             <a
               href={homeHero.ctaHref}
-              className="group relative flex items-center justify-center gap-3 bg-cream text-navy-deep px-9 py-4 rounded-full font-sans text-xs font-bold tracking-[0.15em] uppercase transition-colors duration-400 hover:bg-gold-light"
+              className="group relative flex items-center justify-center gap-3 bg-gold text-navy-deep px-9 py-4 rounded-[2px] font-sans text-xs font-bold tracking-[0.15em] uppercase transition-colors duration-300 hover:bg-gold-light min-h-[44px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-dark"
             >
               {homeHero.cta}
               <ArrowRight
                 size={16}
-                className="transition-transform duration-400 ease-out group-hover:translate-x-1"
+                className="transition-transform duration-300 ease-out group-hover:translate-x-1"
               />
             </a>
-            
-            {/* Secondary CTA */}
+
+            {/* Secondary CTA — editorial text link */}
             <a
               href={homeHero.catalogueHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 text-cream/80 hover:text-gold-light transition-colors duration-400 font-sans text-xs font-bold tracking-[0.15em] uppercase"
+              className="group flex items-center gap-2 text-cream/75 hover:text-gold-light transition-colors duration-300 font-sans text-xs font-bold tracking-[0.15em] uppercase"
             >
               {homeHero.catalogueLabel.replace("↗", "").trim()}
               <ArrowUpRight
                 size={16}
-                className="transition-transform duration-400 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </a>
           </motion.div>
+
 
         </div>
       </div>

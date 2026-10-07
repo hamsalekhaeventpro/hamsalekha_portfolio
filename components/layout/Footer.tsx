@@ -23,7 +23,7 @@ function WhatsAppIcon({ size = 14, className = "" }: { size?: number; className?
 
 export function Footer() {
   return (
-    <footer className="bg-navy-deep text-cream">
+    <footer className="bg-navy-deep text-cream pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
       {/* Gold top border — Figma spec */}
       <div className="h-[2px] bg-gradient-to-r from-transparent via-gold to-transparent" />
 

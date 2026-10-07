@@ -19,8 +19,8 @@ export function PortfolioPreview() {
   const rm = useReducedMotion();
 
   return (
-    <Section tone="panel" aria-label="Portfolio Preview">
-      <div className="container-site flex flex-col gap-10">
+    <Section tone="base" aria-label="Portfolio Preview">
+      <div className="container-site flex flex-col gap-10 lg:gap-14">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <SectionHeading
             eyebrow="10 · PORTFOLIO PREVIEW"
@@ -80,8 +80,8 @@ export function PortfolioPreview() {
                 key={project.slug}
                 initial={rm ? {} : { opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.65, delay, ease: EXPO }}
-                className={`relative overflow-hidden rounded-xl bg-navy-deep ${gridClass} h-full min-h-[200px]`}
+                transition={{ duration: 0.8, delay, ease: EXPO }}
+                className={`relative overflow-hidden bg-navy-deep ${gridClass} h-full min-h-[200px]`}
               >
                 <Link href={`/portfolio/${project.slug}`} className="group block w-full h-full">
                   <Image

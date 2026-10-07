@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { fadeUp, viewportOnce } from "@/lib/motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { fadeUp, viewport } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
@@ -9,11 +9,21 @@ interface SectionHeadingProps {
   heading: string;
   subHeading?: string;
   align?: "left" | "center";
-  light?: boolean; // cream text on navy backgrounds
+  /** Use light=true when on navy/dark backgrounds */
+  light?: boolean;
   className?: string;
   as?: "h1" | "h2" | "h3";
 }
 
+/**
+ * SectionHeading — reusable heading block with eyebrow, heading, optional subheading.
+ *
+ * Eyebrow: short gold hairline + small-caps label
+ * Heading: Playfair Display, bold, text-balance
+ * SubHeading: Inter, body size, max-width 65ch
+ *
+ * Phase 1: uses viewport token for reveal timing, respects reduced-motion.
+ */
 export function SectionHeading({
   eyebrow,
   heading,
@@ -23,11 +33,13 @@ export function SectionHeading({
   className,
   as: Tag = "h2",
 }: SectionHeadingProps) {
+  const rm = useReducedMotion();
+
   return (
     <motion.div
-      initial="hidden"
+      initial={rm ? false : "hidden"}
       whileInView="visible"
-      viewport={viewportOnce}
+      viewport={viewport}
       variants={fadeUp}
       className={cn(
         "flex flex-col gap-4",
@@ -37,10 +49,12 @@ export function SectionHeading({
     >
       {eyebrow && (
         <div className={cn("flex items-center gap-4", align === "center" && "justify-center")}>
+          {/* Short gold hairline */}
           <span
+            aria-hidden="true"
             className={cn(
-              "h-px w-8",
-              light ? "bg-gold/40" : "bg-gold-dark/40"
+              "h-px w-8 shrink-0",
+              light ? "bg-gold/50" : "bg-gold/60"
             )}
           />
           <span
@@ -53,6 +67,7 @@ export function SectionHeading({
           </span>
         </div>
       )}
+
       <Tag
         className={cn(
           "font-display font-bold text-balance",
@@ -62,11 +77,12 @@ export function SectionHeading({
       >
         {heading}
       </Tag>
+
       {subHeading && (
         <p
           className={cn(
-            "font-sans text-base max-w-2xl leading-relaxed",
-            light ? "text-cream/75" : "text-text-slate"
+            "font-sans text-base max-w-[65ch] leading-relaxed",
+            light ? "text-cream/70" : "text-text-slate"
           )}
         >
           {subHeading}

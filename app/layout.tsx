@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, Cormorant_Garamond } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -12,14 +12,6 @@ import { seoMap, microcopy } from "@/lib/content";
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["italic"],
-  variable: "--font-cormorant-src",
   display: "swap",
 });
 
@@ -94,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${cormorant.variable} ${inter.variable}`} data-scroll-behavior="smooth">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`} data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -104,10 +96,8 @@ export default function RootLayout({
         />
         <noscript>
           <style>{`
-            [data-reveal] {
-              opacity: 1 !important;
-              transform: none !important;
-            }
+            [data-reveal] { opacity: 1 !important; transform: none !important; }
+            [data-lightsup] { opacity: 0 !important; }
           `}</style>
         </noscript>
       </head>

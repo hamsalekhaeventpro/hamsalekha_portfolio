@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { viewportOnce } from "@/lib/motion";
+import { viewport, duration, ease } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface RevealOnScrollProps {
   children: React.ReactNode;
@@ -10,6 +11,11 @@ interface RevealOnScrollProps {
   direction?: "up" | "left" | "right" | "none";
 }
 
+/**
+ * RevealOnScroll — FADE-UP scroll reveal primitive.
+ * Delegates to the same viewport token as Reveal.tsx.
+ * Kept for backward-compat; prefer <Reveal> for new components.
+ */
 export function RevealOnScroll({
   children,
   delay = 0,
@@ -20,29 +26,26 @@ export function RevealOnScroll({
 
   if (shouldReduceMotion) {
     return (
-      <div data-reveal className={className}>
+      <div data-reveal className={cn(className)}>
         {children}
       </div>
     );
   }
 
   const hidden =
-    direction === "up"
-      ? { opacity: 0, y: 16 }
-      : direction === "left"
-      ? { opacity: 0, x: -16 }
-      : direction === "right"
-      ? { opacity: 0, x: 16 }
-      : { opacity: 0 };
+    direction === "up"    ? { opacity: 0, y: 20 } :
+    direction === "left"  ? { opacity: 0, x: -20 } :
+    direction === "right" ? { opacity: 0, x: 20 } :
+                            { opacity: 0 };
 
   const visible = {
     opacity: 1,
     y: 0,
     x: 0,
     transition: {
-      duration: 0.65,
+      duration: duration.reveal,
       delay,
-      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+      ease: ease.expo as [number, number, number, number],
     },
   };
 
@@ -50,9 +53,9 @@ export function RevealOnScroll({
     <motion.div
       initial={hidden}
       whileInView={visible}
-      viewport={viewportOnce}
+      viewport={viewport}
       data-reveal
-      className={className}
+      className={cn(className)}
     >
       {children}
     </motion.div>

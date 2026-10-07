@@ -24,7 +24,6 @@ export function BehindTheBuild() {
   const eyebrowV = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5, delay: 0.5, ease: EXPO } } };
   const headingV = { hidden: { clipPath: "inset(0 0 100% 0)" }, visible: { clipPath: "inset(0 0 0% 0)", transition: { duration: 0.8, delay: 0.65, ease: EXPO } } };
   const bodyV    = { hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: duration.reveal, delay: 0.85, ease: EXPO } } };
-  const proofV   = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 1.05, ease: EXPO } } };
   const ctaV     = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.4, delay: 1.25, ease: EXPO } } };
 
   return (

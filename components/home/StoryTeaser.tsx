@@ -7,23 +7,22 @@ import { ClipReveal } from "@/components/motion/ClipReveal";
 
 export function StoryTeaser() {
   return (
-    <Section tone="panel" aria-label="Our Story">
-      <div className="container-site flex flex-col md:flex-row gap-12 lg:gap-24 items-center">
+    <Section tone="base" aria-label="Our Story">
+      <div className="container-site flex flex-col md:flex-row gap-16 lg:gap-24 items-center">
         
         {/* Left: Archive Image */}
         <div className="w-full md:w-1/2">
-          <div className="relative aspect-[4/5] md:aspect-[3/4] w-full rounded-2xl overflow-hidden bg-navy-deep">
+          <div className="relative aspect-[4/5] md:aspect-[3/4] w-full overflow-hidden bg-navy-deep group">
             <ClipReveal direction="up" delay={0.1} className="w-full h-full">
               <Image
                 src="/images/about/hero.jpg"
                 alt="Hamsalekha early event production setup"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover transition-transform duration-1000 hover:scale-105"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               />
             </ClipReveal>
           </div>
-          {/* Note: Requires archive photo */}
         </div>
 
         {/* Right: Copy */}

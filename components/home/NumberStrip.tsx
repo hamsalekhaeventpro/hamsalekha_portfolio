@@ -31,12 +31,12 @@ export function NumberStrip() {
                   i === 4 ? "col-span-2 md:col-span-1 md:col-start-2 lg:col-span-1 lg:col-start-auto" : ""
                 )}
               >
-                {/* Stat Value — Editorial serif, gold */}
+                {/* Stat Value — Editorial serif, warm cream */}
                 <motion.p 
                   initial={{ opacity: 0, y: 10 }}
                   animate={animateState === "visible" ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.6, delay: delayBase, ease: EXPO }}
-                  className="font-display text-[clamp(1.8rem,2.7vw,3rem)] font-medium text-gold leading-none tabular-nums whitespace-nowrap tracking-tight"
+                  className="font-display text-[clamp(1.8rem,2.7vw,3rem)] font-medium text-cream leading-none tabular-nums whitespace-nowrap tracking-tight"
                 >
                   <CountUp
                     to={stat.value}

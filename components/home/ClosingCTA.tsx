@@ -24,12 +24,15 @@ export function ClosingCTA() {
 
   return (
     <Section tone="stage" aria-label="Get in touch" className="relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+      <div aria-hidden="true" className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+      {/* Warm stage-light treatment — gold/amber at very low opacity */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-40"
-        style={{ background: "radial-gradient(circle at 50% 30%, rgba(201,162,39,0.15), transparent 70%)" }}
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "var(--gradient-stage-glow)" }}
       />
       <div ref={ref} className="relative container-site flex flex-col items-center text-center gap-0 z-10">
+
 
         {/* Eyebrow */}
         <motion.div
@@ -87,7 +90,13 @@ export function ClosingCTA() {
           <Button href={homeClosingCTA.ctaHref} variant="primary" size="lg" id="closing-cta">
             {homeClosingCTA.cta}
           </Button>
-          <Button href={homeClosingCTA.secondaryHref} variant="outline" size="lg" external>
+          <Button
+            href={homeClosingCTA.secondaryHref}
+            variant="outline"
+            size="lg"
+            external
+            className="border-gold/40 text-cream hover:bg-gold/10 hover:border-gold/70"
+          >
             {homeClosingCTA.secondaryLabel}
           </Button>
         </motion.div>
