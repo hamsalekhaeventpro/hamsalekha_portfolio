@@ -53,7 +53,7 @@ export default function ContactPage() {
 
       {/* 2. WARM IVORY CONTACT + ENQUIRY */}
       <Section tone="base" className="py-24 lg:py-32">
-        <div className="container-site grid lg:grid-cols-12 gap-16 lg:gap-24">
+        <div className="container-site grid lg:grid-cols-12 gap-12 lg:gap-8 xl:gap-12">
           
           {/* LEFT: Contact Details */}
           <div className="lg:col-span-5 flex flex-col gap-12">
@@ -109,7 +109,7 @@ export default function ContactPage() {
             <Reveal delay={0.2}>
               <div className="mt-4 flex flex-col gap-4">
                 <p className="font-sans text-text-slate leading-relaxed border-l-2 border-gold-dark pl-4">
-                  WhatsApp us and we&apos;ll get back to you quickly with next steps.
+                  {contactDetails.eventSupport}
                 </p>
                 <a
                   href={`https://wa.me/${microcopy.whatsappNumber}?text=${encodeURIComponent(microcopy.whatsappMessage)}`}

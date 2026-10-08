@@ -34,7 +34,7 @@ export const microcopy = {
   notFoundCta: "Back to Home →",
   cookieNotice: "We use essential cookies to run this site.",
   phone: "+91 99725 44316",
-  phoneRaw: "919972544316",
+  phoneRaw: "+919972544316",
   instagram: "@hamsalekha.event.production",
   instagramUrl: "https://www.instagram.com/hamsalekha.event.production",
   address: "Kothanur, Bengaluru",
@@ -172,7 +172,7 @@ export const services: ServiceCard[] = [
       "Lighting for convention centres, festivals, roads and outdoor events",
     ],
     ctaLabel: "Explore lighting →",
-    ctaHref: "/contact",
+      ctaHref: "/services#lighting",
     image: "/images/services/lighting.jpg",
     imageAlt:
       "Professional event lighting with festoon canopy and chandeliers at an Indian wedding reception staged by Hamsalekha",
@@ -188,7 +188,7 @@ export const services: ServiceCard[] = [
       "On-site technicians from setup to strike",
     ],
     ctaLabel: "Explore power →",
-    ctaHref: "/contact",
+      ctaHref: "/services#power",
     image: "/images/services/power.jpg",
     imageAlt:
       "Industrial silent generator set providing power for a large-scale event by Hamsalekha Event Production",
@@ -204,7 +204,7 @@ export const services: ServiceCard[] = [
       "LED wall and backdrop framing; rigging for lighting, sound and decor",
     ],
     ctaLabel: "Explore structures →",
-    ctaHref: "/contact",
+      ctaHref: "/services#truss",
     image: "/images/services/truss.jpg",
     imageAlt:
       "Aluminium truss grid structure being rigged for a large event venue by Hamsalekha crew",
@@ -252,7 +252,7 @@ export const services: ServiceCard[] = [
       "On-site crew throughout the event",
     ],
     ctaLabel: "Explore production →",
-    ctaHref: "/contact",
+      ctaHref: "/services#production",
     image: "/images/services/production.jpg",
     imageAlt:
       "Hamsalekha production crew setting up a large corporate event venue with stage lighting and LED screens",
@@ -271,6 +271,131 @@ export const eventsWeProduceTags = [
   "Exhibitions",
   "Festivals & cultural events",
   "Birthdays & anniversaries",
+];
+
+export const whereWeWork = {
+  eyebrow: "COVERAGE",
+  headline: "Where We Work",
+  body: "Based in Kothanur, Bengaluru, and delivering events across the city and beyond.",
+  ctaLabel: "Plan Your Event",
+  ctaHref: "/contact",
+};
+
+export const servicesPageList = [
+  {
+    id: "lighting",
+    number: "01",
+    eyebrow: "SINCE 2006",
+    title: "Lighting",
+    headline: "Light that sets the mood.",
+    description: "Architectural, ambient and stage lighting designed for the venue and the camera.",
+    bullets: [
+      "Architectural and ambient lighting, uplighting and festoons",
+      "Chandeliers and decorative fixtures",
+      "Stage, concert and conference lighting",
+      "Lighting for convention centres, festivals, roads and outdoor events",
+    ],
+    ctaLabel: "Plan your lighting →",
+    ctaHref: "/contact?service=lighting",
+    image: "/images/services/lighting.jpg",
+    imageAlt:
+      "Professional event lighting with festoon canopy and chandeliers at an Indian wedding reception staged by Hamsalekha",
+  },
+  {
+    id: "power",
+    number: "02",
+    eyebrow: "SINCE 2007",
+    title: "Gensets & Power",
+    headline: "Power that never blinks.",
+    description: "40–125 KVA gensets with our own operators, so the celebration never goes dark.",
+    bullets: [
+      "Silent gensets from 40 to 125 KVA",
+      "Power distribution and cabling",
+      "Fuel planning and backup for the full event",
+      "On-site technicians from setup to strike",
+    ],
+    ctaLabel: "Plan your power →",
+    ctaHref: "/contact?service=power",
+    image: "/images/services/power.jpg",
+    imageAlt:
+      "Industrial silent generator set providing power for a large-scale event by Hamsalekha Event Production",
+  },
+  {
+    id: "truss",
+    number: "03",
+    eyebrow: "SINCE 2010",
+    title: "Truss & Structures",
+    headline: "Structures engineered to hold the moment.",
+    description: "Bombay truss, pagodas, stages and ramps, engineered up to 1,00,000 sq ft.",
+    bullets: [
+      "Bombay truss and aluminium truss grids",
+      "Pagoda tents and hangar structures",
+      "Stages, ramps, risers and catwalks",
+      "LED wall and backdrop framing; rigging for lighting, sound and decor",
+    ],
+    ctaLabel: "Talk to our structures team →",
+    ctaHref: "/contact?service=truss",
+    image: "/images/services/truss.jpg",
+    imageAlt:
+      "Aluminium truss grid structure being rigged for a large event venue by Hamsalekha crew",
+  },
+  {
+    id: "furniture",
+    number: "04",
+    eyebrow: "SINCE 2013",
+    title: "Premium Furniture",
+    headline: "A seat for every occasion.",
+    description: "Imported and designer chairs, sofas, lounges and tables for every theme. 10,000+ chairs across 34 designs, 1,100+ sofa units across 61 designs, with imported collections since 2020.",
+    bullets: [
+      "Imported and designer chairs, sofas, lounges and ottomans",
+      "Stage and couple seating, thrones and mandap furniture",
+      "Dining, banquet, cocktail and conference tables",
+      "Bars, counters, consoles and display furniture",
+    ],
+    ctaLabel: "Browse the full catalogue ↗",
+    ctaHref: microcopy.catalogueUrl,
+    image: "/images/services/furniture.jpg",
+    imageAlt:
+      "Imported lounge seating with gold and navy velvet sofas arranged for a premium cocktail event by Hamsalekha",
+  },
+  {
+    id: "decor",
+    number: "05",
+    eyebrow: "TWENTY YEARS OF DETAIL",
+    title: "Decor & Props",
+    headline: "The details guests remember.",
+    description: "Mandap props, entrance gates, traditional brass and themed installations. Signature sets, including The Glass House and MoonGate.",
+    bullets: [
+      "Mandap and stage props, arches and entrance gates",
+      "Brass, deepas, urulis and traditional decor",
+      "Photo zones and lounge styling",
+      "Signature sets, including The Glass House and MoonGate",
+    ],
+    ctaLabel: "See Signature Sets →",
+    ctaHref: "/signature-sets",
+    image: "/images/services/decor.jpg",
+    imageAlt:
+      "Ornate mandap with traditional brass deepas and floral decorations at a South Indian wedding staged by Hamsalekha",
+  },
+  {
+    id: "production",
+    number: "06",
+    eyebrow: "END TO END",
+    title: "Full Event Production",
+    headline: "Hand us the brief. We'll hand you the event.",
+    description: "One accountable team from site recce to final strike.",
+    bullets: [
+      "Site recce and technical layouts",
+      "One production lead from brief to strike",
+      "Coordination with your planner, caterer and sound team",
+      "On-site crew throughout the event",
+    ],
+    ctaLabel: "Request a Proposal",
+    ctaHref: "/contact?service=production",
+    image: "/images/services/production.jpg",
+    imageAlt:
+      "Hamsalekha production crew setting up a large corporate event venue with stage lighting and LED screens",
+  },
 ];
 
 // ─── Signature Sets ───────────────────────────────────────────
@@ -457,8 +582,42 @@ export const aboutStory = [
   "Ramesh V started Hamsalekha from his home in 2006 with lighting equipment and a small, loyal team. The name came first — a word that carried weight, a name that felt like a promise. Within the year, we had a proper office and a warehouse in Kothanur.",
   "The early years moved quickly. Gensets came in 2007 so we could offer lighting and power together. By 2008 and 2009 we were in convention centres and at large-scale events across Bengaluru, including the grounds at Eden Gardens, Palace Grounds.",
   "Truss and structures followed in 2010. Furniture launched in 2013 as clients began asking for more. In 2017, the next generation of the family joined — bringing new thinking to a business that had already been built on getting it right.",
-  "2020 brought a pause. What could have been the most difficult chapter in our history became a turning point. We used the time to think harder about quality and presentation, and opened the door to premium and imported furniture.",
+  "In 2020 events stopped. What could have been the most difficult chapter in our history became a turning point. Hamsalekha used the pause to study what premium events would demand next. We used the time to think harder about quality and presentation, and opened the door to premium and imported furniture.",
   "From 2022 onwards, Hamsalekha kept raising the bar across furniture, truss, lighting, gensets and props. In 2026, as we celebrate twenty years, we unveiled The Glass House — South India's first-of-its-kind glass theme set, and a sign of where Hamsalekha is going next.",
+];
+
+export const aboutChapters = [
+  {
+    number: "01",
+    tag: "2006",
+    title: "It Began at Home",
+    body: "Ramesh V started Hamsalekha from his home in 2006 with lighting equipment and a small, loyal team. The name came first — a word that carried weight, a name that felt like a promise. Within the year, we had a proper office and a warehouse in Kothanur.",
+  },
+  {
+    number: "02",
+    tag: "2007 — 2009",
+    title: "Lighting Became Lighting and Power",
+    body: "The early years moved quickly. Gensets came in 2007 so we could offer lighting and power together. By 2008 and 2009 we were in convention centres and at large-scale events across Bengaluru, including the grounds at Eden Gardens, Palace Grounds.",
+  },
+  {
+    number: "03",
+    tag: "2010 — 2017",
+    title: "Structures, Then Furniture",
+    body: "Truss and structures followed in 2010. Furniture launched in 2013 as clients began asking for more. In 2017, the next generation of the family joined — bringing new thinking to a business that had already been built on getting it right.",
+  },
+  {
+    number: "04",
+    tag: "2020",
+    title: "The Pause That Became a Turning Point",
+    body: "In 2020 events stopped. What could have been the most difficult chapter in our history became a turning point. Hamsalekha used the pause to study what premium events would demand next. We used the time to think harder about quality and presentation, and opened the door to premium and imported furniture.",
+    highlight: true,
+  },
+  {
+    number: "05",
+    tag: "2022 — 2026",
+    title: "Raising the Bar",
+    body: "From 2022 onwards, Hamsalekha kept raising the bar across furniture, truss, lighting, gensets and props. In 2026, as we celebrate twenty years, we unveiled The Glass House — South India's first-of-its-kind glass theme set, and a sign of where Hamsalekha is going next.",
+  },
 ];
 
 export const timeline: TimelineEntry[] = [
@@ -895,3 +1054,4 @@ export const seoMap: Record<string, PageMeta> = {
     ogImage: "/images/og/home.jpg",
   },
 };
+

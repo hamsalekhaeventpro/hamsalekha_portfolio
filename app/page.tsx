@@ -5,7 +5,6 @@ import { NumberStrip } from "@/components/home/NumberStrip";
 import { HomeIntro } from "@/components/home/HomeIntro";
 import { WhatWeDo } from "@/components/home/WhatWeDo";
 import { SignatureFeature } from "@/components/home/SignatureFeature";
-import { StoryTeaser } from "@/components/home/StoryTeaser";
 import { BehindTheBuild } from "@/components/home/BehindTheBuild";
 import { WhoWeWorkWith } from "@/components/home/WhoWeWorkWith";
 import { RecognitionStrip } from "@/components/home/RecognitionStrip";
@@ -33,11 +32,7 @@ export default function HomePage() {
       {/* WhatWeDo (ivory) → SignatureFeature (navy) — cinematic edge */}
       <SignatureFeature />
       
-      {/* SignatureFeature navy → StoryTeaser panel */}
-      <div className="section-divider-gold" />
-      <StoryTeaser />
-      
-      {/* StoryTeaser (panel) → BehindTheBuild (image-led dark) */}
+      {/* SignatureFeature (navy) -> BehindTheBuild (dark) */}
       <BehindTheBuild />
       
       {/* BehindTheBuild (dark) → WhoWeWorkWith (panel) */}

@@ -23,7 +23,7 @@ export function PortfolioPreview() {
       <div className="container-site flex flex-col gap-10 lg:gap-14">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <SectionHeading
-            eyebrow="10 · PORTFOLIO PREVIEW"
+            eyebrow="PORTFOLIO PREVIEW"
             heading="Recent stages."
             subHeading="Weddings, celebrations and corporate events, built by Hamsalekha."
           />
@@ -75,6 +75,16 @@ export function PortfolioPreview() {
                 sizes = "50vw";
             }
 
+            const metaParts = [];
+            if (project.category === "signature-set") metaParts.push("Signature Set");
+            else metaParts.push(project.category.charAt(0).toUpperCase() + project.category.slice(1));
+            
+            if (project.production?.venue) metaParts.push(project.production.venue);
+            else if (project.venue) metaParts.push(project.venue);
+            
+            if (project.year) metaParts.push(project.year);
+            const metaText = metaParts.join(" · ");
+
             return (
               <motion.div
                 key={project.slug}
@@ -83,7 +93,7 @@ export function PortfolioPreview() {
                 transition={{ duration: 0.8, delay, ease: EXPO }}
                 className={`relative overflow-hidden bg-navy-deep ${gridClass} h-full min-h-[200px]`}
               >
-                <Link href={`/portfolio/${project.slug}`} className="group block w-full h-full">
+                <Link href="/portfolio" className="group block w-full h-full">
                   <Image
                     src={project.images[0].src}
                     alt={project.images[0].alt}
@@ -96,7 +106,7 @@ export function PortfolioPreview() {
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-5 md:p-6">
                     <div className="translate-y-3 group-hover:translate-y-0 transition-transform duration-400 ease-out">
                       <p className="font-sans text-xs tracking-[0.14em] uppercase text-gold-light font-semibold mb-1">
-                        {project.category}
+                        {metaText}
                       </p>
                       <h3 className="font-display text-lg md:text-xl font-bold text-cream leading-tight drop-shadow-md">
                         {project.title}

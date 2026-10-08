@@ -122,12 +122,6 @@ export function Footer() {
             © 2026 Hamsalekha Event Production Pvt. Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
-            <Link href="/privacy" className="font-sans text-xs text-cream/50 hover:text-cream/90 transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="font-sans text-xs text-cream/50 hover:text-cream/90 transition-colors">
-              Terms of Use
-            </Link>
             <span className="font-sans text-xs text-cream/40">
               Designed by Mejorars
             </span>

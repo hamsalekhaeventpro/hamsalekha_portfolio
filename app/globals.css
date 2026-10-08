@@ -183,7 +183,7 @@ body {
   color: #0b1f3a;
   font-family: var(--font-inter), system-ui, sans-serif;
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* ─── Focus ring ─── */
@@ -475,6 +475,26 @@ h1, h2, h3 {
 }
 .card-gold-border:hover {
   border-color: rgba(212, 175, 55, 0.40);
+}
+
+/* ─── Mobile Signature Sets (Desktop-Mirror Scroll Choreography) ─── */
+@media (max-width: 1023px) {
+  .gh-stage {
+    position: sticky;
+    top: 72px;
+    z-index: 0;
+  }
+  .mg-stage {
+    position: relative;
+    z-index: 10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gh-stage {
+    position: static !important;
+    top: auto !important;
+  }
 }
 
 /* ─── No-JS safety ─── */

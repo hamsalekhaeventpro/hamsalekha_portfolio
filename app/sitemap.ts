@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 
+import { SITE_URL } from "@/lib/config";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://hamsalekha.com";
+  const base = SITE_URL;
   const routes = [
     "",
     "/about",

@@ -21,8 +21,10 @@ const inter = Inter({
   display: "swap",
 });
 
+import { SITE_URL } from "@/lib/config";
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: seoMap.home.title,
     template: "%s | Hamsalekha Event Production",
@@ -59,8 +61,8 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Hamsalekha Event Production",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app",
-    logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app"}/images/hero.jpg`,
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/hero.jpg`,
     sameAs: [microcopy.instagramUrl],
     foundingDate: "2006",
   },
@@ -76,7 +78,7 @@ const jsonLd = [
       addressRegion: "Karnataka",
       addressCountry: "IN",
     },
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://hamsalekha-event-production.netlify.app",
+    url: SITE_URL,
   }
 ];
 

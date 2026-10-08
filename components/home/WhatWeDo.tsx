@@ -4,13 +4,13 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/motion/Reveal";
-import { ClipReveal } from "@/components/motion/ClipReveal";
 import { services } from "@/lib/content";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { ease, duration } from "@/lib/motion";
+import { ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import { ServiceTicker } from "./ServiceTicker";
+import { TrussMotionAccent } from "./TrussMotionAccent";
 
 const EXPO = ease.expo;
 
@@ -23,7 +23,7 @@ function ServiceMotionAccent({ index }: { index: number }) {
   if (index === 0) {
     return (
       <motion.div
-        className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent w-full h-[200%] origin-bottom-left"
+        className="absolute inset-0 bg-gradient-to-tr from-transparent via-gold-light/20 to-transparent w-full h-[200%] origin-bottom-left"
         initial={{ rotate: 15, x: "-100%" }}
         whileInView={{ x: "100%" }}
         viewport={{ once: true, margin: "0px 0px -10% 0px" }}
@@ -39,25 +39,18 @@ function ServiceMotionAccent({ index }: { index: number }) {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: [0, 0.4, 0] }}
         viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        transition={{ duration: 2, ease: "easeInOut", delay: 0.5 }}
+        transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
       />
     );
   }
   // 2: Truss (structural line draw)
   if (index === 2) {
-    return (
-      <div className="absolute inset-0 pointer-events-none p-4 opacity-50">
-        <motion.div
-          className="w-full h-full border border-white/20"
-          initial={{ clipPath: "inset(0 100% 100% 0)" }}
-          whileInView={{ clipPath: "inset(0 0% 0% 0)" }}
-          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-          transition={{ duration: 1.2, ease: EXPO, delay: 0.3 }}
-        />
-      </div>
-    );
+    return <TrussMotionAccent />;
   }
-  // 5: Full Event Production (sequential choreography/pulse)
+  
+  // 3 & 4: Furniture & Decor will just use the elegant image clip reveal built into the card itself
+  
+  // 5: Full Event Production
   if (index === 5) {
     return (
       <motion.div
@@ -70,98 +63,170 @@ function ServiceMotionAccent({ index }: { index: number }) {
     );
   }
 
-  // 3 & 4 (Furniture & Decor) rely on the ClipReveal wrapper alone.
   return null;
 }
 
 export function WhatWeDo() {
+  const rm = useReducedMotion();
+  
   return (
-    <Section tone="base" aria-label="Services chapters">
-      <div className="container-site flex flex-col gap-16 lg:gap-24">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+    <Section tone="base" aria-label="Services" className="overflow-hidden">
+      <div className="container-site flex flex-col gap-10">
+        
+        {/* Intro */}
+        <div className="flex flex-col gap-8">
           <SectionHeading
             eyebrow="SERVICES"
             heading="The pillars of production."
             subHeading="Book one service or combine them for complete event execution."
             className="max-w-xl"
           />
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors duration-300 shrink-0 group uppercase tracking-wider underline-draw"
-          >
-            View all services
-            <ArrowRight size={16} className="transition-transform duration-300 ease-out group-hover:translate-x-1" />
-          </Link>
+          <ServiceTicker />
         </div>
 
-        {/* Services Alternating List */}
-        <div className="flex flex-col gap-20 lg:gap-32 mt-4">
+        {/* Desktop Bento Grid */}
+        <div className="hidden lg:grid grid-cols-12 gap-4 auto-rows-[minmax(340px,auto)]">
           {services.map((s, i) => {
-            const isEven = i % 2 === 0;
+            let colSpan = "col-span-12";
+            let rowSpan = "row-span-1";
+            let sizes = "50vw";
+            let isLarge = false;
+
+            if (i === 5) { // Full Event Production
+              colSpan = "col-span-12 lg:col-start-7 lg:col-span-6";
+              rowSpan = "row-span-1 lg:row-start-1 lg:row-span-2";
+              sizes = "50vw";
+              isLarge = true;
+            } else if (i === 2) { // Truss & Structures
+              colSpan = "col-span-12 lg:col-start-1 lg:col-span-12";
+              rowSpan = "row-span-1 lg:row-start-3 lg:row-span-1";
+              sizes = "100vw";
+              isLarge = true; 
+            } else if (i === 0) { // Lighting
+              colSpan = "col-span-12 lg:col-start-1 lg:col-span-3";
+              rowSpan = "row-span-1 lg:row-start-1 lg:row-span-1";
+              sizes = "25vw";
+            } else if (i === 1) { // Power
+              colSpan = "col-span-12 lg:col-start-4 lg:col-span-3";
+              rowSpan = "row-span-1 lg:row-start-1 lg:row-span-1";
+              sizes = "25vw";
+            } else if (i === 3) { // Furniture
+              colSpan = "col-span-12 lg:col-start-1 lg:col-span-3";
+              rowSpan = "row-span-1 lg:row-start-2 lg:row-span-1";
+              sizes = "25vw";
+            } else if (i === 4) { // Decor
+              colSpan = "col-span-12 lg:col-start-4 lg:col-span-3";
+              rowSpan = "row-span-1 lg:row-start-2 lg:row-span-1";
+              sizes = "25vw";
+            }
+
+            // Remove hardcoded arrow from content if present, so we can use the animated icon
+            const cleanCtaLabel = s.ctaLabel.replace(/→|\u2192/g, '').trim();
 
             return (
-              <div
+              <motion.div
                 key={s.title}
+                initial={{ opacity: 0, y: rm ? 0 : 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+                transition={{ duration: 0.8, delay: rm ? 0 : i * 0.1, ease: EXPO }}
                 className={cn(
-                  "flex flex-col lg:items-center gap-8 lg:gap-16",
-                  isEven ? "lg:flex-row" : "lg:flex-row-reverse"
+                  "group relative overflow-hidden bg-navy-deep rounded-sm border border-white/5",
+                  "hover:border-gold/30 transition-colors duration-500",
+                  colSpan, rowSpan,
+                  isLarge && i === 2 ? "flex flex-row items-center" : "flex flex-col"
                 )}
               >
-                {/* Image Side */}
-                <div className="w-full lg:w-1/2 relative group">
-                  <ClipReveal direction={isEven ? "right" : "left"} dur={duration.hero}>
-                    <div className="relative w-full aspect-[4/3] overflow-hidden">
-                      <Image
-                        src={s.image}
-                        alt={s.imageAlt}
-                        fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                      />
-                      <ServiceMotionAccent index={i} />
-                    </div>
-                  </ClipReveal>
+                {/* Image Container */}
+                <div className={cn("relative overflow-hidden", 
+                  isLarge && i === 2 ? "w-1/2 h-full" : "w-full flex-1",
+                  isLarge && i === 5 ? "h-2/3" : ""
+                )}>
+                  <Image
+                    src={s.image}
+                    alt={s.imageAlt}
+                    fill
+                    sizes={sizes}
+                    className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute inset-0 bg-navy-deep/20 pointer-events-none" />
+                  <ServiceMotionAccent index={i} />
                 </div>
-
-                {/* Content Side */}
-                <div className="w-full lg:w-1/2 flex flex-col gap-6 lg:px-8">
-                  <Reveal delay={0.2}>
-                    <span
-                      aria-hidden="true"
-                      className="font-sans text-[0.65rem] font-bold text-gold-border tracking-[0.25em] uppercase"
-                    >
+                
+                {/* Content Container */}
+                <div className={cn("flex flex-col justify-between p-6 lg:p-8", 
+                  isLarge && i === 2 ? "w-1/2 h-full" : "shrink-0 bg-navy-deep/95"
+                )}>
+                  <div>
+                    <span className="font-sans text-[0.65rem] font-bold text-gold-border tracking-[0.25em] uppercase mb-3 block">
                       0{i + 1}
                     </span>
-                  </Reveal>
-                  
-                  <Reveal delay={0.3}>
-                    <h3 className="font-display text-3xl lg:text-4xl font-bold text-navy-deep leading-tight">
+                    <h3 className={cn("font-display font-bold text-cream leading-tight mb-4", 
+                      isLarge ? "text-3xl lg:text-4xl" : "text-xl lg:text-2xl"
+                    )}>
                       {s.title}
                     </h3>
-                  </Reveal>
-
-                  <Reveal delay={0.4}>
-                    <p className="font-sans text-lg text-text-slate leading-relaxed max-w-md">
-                      {s.description}
-                    </p>
-                  </Reveal>
-
-                  <Reveal delay={0.5}>
-                    <div aria-hidden="true" className="w-12 h-[1px] bg-gold/40 my-2" />
-                    <Link
-                      href={s.ctaHref}
-                      className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-dark hover:text-gold transition-colors duration-300 tracking-wider uppercase group/btn"
-                    >
-                      {s.ctaLabel}
-                      <ArrowRight size={15} className="transition-transform duration-300 ease-out group-hover/btn:translate-x-1" />
-                    </Link>
-                  </Reveal>
+                    {(isLarge || i === 2) && (
+                      <p className="font-sans text-sm md:text-base text-cream/70 leading-relaxed mb-6 max-w-sm">
+                        {s.description}
+                      </p>
+                    )}
+                  </div>
+                  
+                  <Link
+                    href={s.ctaHref}
+                    className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light hover:text-gold transition-colors duration-300 tracking-wider uppercase mt-4"
+                  >
+                    {cleanCtaLabel}
+                    <ArrowRight size={15} className="transition-transform duration-300 ease-out group-hover:translate-x-1" />
+                  </Link>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
+
+        {/* Mobile Swipe Carousel */}
+        <div className="lg:hidden w-full relative">
+          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-8" style={{ scrollbarWidth: "none", touchAction: "pan-x pan-y" }}>
+            {services.map((s, i) => {
+              const cleanCtaLabel = s.ctaLabel.replace(/→|\u2192/g, '').trim();
+              return (
+                <div key={s.title} className="w-[80vw] shrink-0 snap-center first:ml-4 last:mr-4 flex flex-col bg-navy-deep border border-white/5 rounded-sm overflow-hidden">
+                  <div className="relative w-full aspect-[4/3]">
+                    <Image src={s.image} alt={s.imageAlt} fill sizes="80vw" className="object-cover" />
+                    <div className="absolute inset-0 bg-navy-deep/20" />
+                  </div>
+                  <div className="flex flex-col p-6 flex-1 justify-between">
+                    <div>
+                      <span className="font-sans text-[0.65rem] font-bold text-gold-border tracking-[0.25em] uppercase mb-2 block">
+                        0{i + 1}
+                      </span>
+                      <h3 className="font-display text-2xl font-bold text-cream leading-tight mb-3">
+                        {s.title}
+                      </h3>
+                      <p className="font-sans text-sm text-cream/70 leading-relaxed mb-6">
+                        {s.description}
+                      </p>
+                    </div>
+                    <Link
+                      href={s.ctaHref}
+                      className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light tracking-wider uppercase"
+                    >
+                      {cleanCtaLabel}
+                      <ArrowRight size={15} />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Progress Indicator Fake/Decorative */}
+          <div className="w-[80vw] mx-auto h-[2px] bg-white/10 mt-2 rounded-full overflow-hidden">
+            <div className="h-full bg-gold-light w-1/4 rounded-full" />
+          </div>
+        </div>
+
       </div>
     </Section>
   );
