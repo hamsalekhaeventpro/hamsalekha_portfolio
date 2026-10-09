@@ -58,7 +58,12 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     if (index === 0) {
       return (
         <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
-          <div className="w-full h-full absolute inset-0 md:animate-wipe-in-right">
+          <motion.div data-reveal
+            initial={rm ? {} : { clipPath: "inset(0 100% 0 0)" }}
+            animate={animateState === "visible" ? { clipPath: "inset(0 0% 0 0)" } : {}}
+            transition={{ duration: duration.hero, ease: EXPO }}
+            className="w-full h-full absolute inset-0"
+          >
             <Image
               src={service.image}
               alt={service.imageAlt}
@@ -68,15 +73,24 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
               priority={true}
               quality={60}
             />
-            <div className="hidden md:block absolute inset-0 w-[150%] bg-gradient-to-r from-transparent via-gold/15 to-transparent origin-bottom-left -skew-x-12 pointer-events-none animate-[sweep_1.5s_linear_0.6s_forwards]" />
-          </div>
+            {!rm && (
+              <motion.div
+                className="absolute inset-0 w-[150%] bg-gradient-to-r from-transparent via-gold/15 to-transparent origin-bottom-left -skew-x-12 pointer-events-none"
+                initial={{ x: "-100%" }}
+                animate={animateState === "visible" ? { x: "100%" } : { x: "-100%" }}
+                transition={{ duration: 1.5, delay: 0.6, ease: "linear" }}
+              />
+            )}
+          </motion.div>
         </div>
       );
     }
+    
+    // 1: Power - subtle energy pulse
     if (index === 1) {
       return (
         <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
-          <motion.div
+          <motion.div data-reveal
             initial={rm ? {} : { opacity: 0, scale: 0.98 }}
             animate={animateState === "visible" ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: duration.hero, ease: EXPO }}
@@ -107,7 +121,7 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     if (index === 2) {
       return (
         <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
-          <motion.div
+          <motion.div data-reveal
             initial={rm ? {} : { clipPath: "inset(0 0 100% 0)" }}
             animate={animateState === "visible" ? { clipPath: "inset(0 0 0% 0)" } : {}}
             transition={{ duration: duration.hero, ease: EXPO }}
@@ -131,7 +145,7 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     const clipDirection = imageLeft ? "inset(0 100% 0 0)" : "inset(0 0 0 100%)";
     return (
       <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
-        <motion.div
+        <motion.div data-reveal
           initial={rm ? {} : { clipPath: clipDirection }}
           animate={animateState === "visible" ? { clipPath: "inset(0 0 0 0)" } : {}}
           transition={{ duration: duration.hero, ease: EXPO }}
@@ -144,11 +158,11 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             sizes="(max-width: 1024px) 100vw, 50vw"
               priority={false}
-          />
+            />
         </motion.div>
-        </div>
-      );
-    };
+      </div>
+    );
+  };
 
   return (
     <Section 
@@ -174,7 +188,7 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
               visible: { transition: { staggerChildren: 0.15, delayChildren: index === 5 ? 0.3 : 0.1 } }
             }}
           >
-            <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}>
+            <motion.div data-reveal variants={{ hidden: rm ? {} : { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}>
               <div className="flex items-center gap-4">
                 <span className="font-mono text-xs font-bold tracking-widest text-gold-dark">{service.number}</span>
                 <span className="h-px w-8 bg-gold/50" />
@@ -184,7 +198,7 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
               </div>
             </motion.div>
             
-            <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}>
+            <motion.div data-reveal variants={{ hidden: rm ? {} : { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}>
               <h2 className={`font-display text-4xl md:text-5xl font-bold ${isDark ? "text-cream" : "text-navy-deep"} mb-2`}>
                 {service.title}
               </h2>
@@ -193,19 +207,19 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
               </p>
             </motion.div>
 
-            <motion.div variants={{ hidden: { opacity: 0, scaleX: 0 }, visible: { opacity: 1, scaleX: 1, transition: { duration: 0.8, ease: EXPO } } }} style={{ transformOrigin: "left" }}>
+            <motion.div data-reveal variants={{ hidden: rm ? {} : { opacity: 0, scaleX: 0 }, visible: { opacity: 1, scaleX: 1, transition: { duration: 0.8, ease: EXPO } } }} style={{ transformOrigin: "left" }}>
               <div className="w-12 h-[1px] bg-gold/40 my-1" />
             </motion.div>
 
-            <motion.p 
-              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}
+            <motion.p data-reveal 
+              variants={{ hidden: rm ? {} : { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}
               className={`font-sans text-lg leading-relaxed ${isDark ? "text-cream/70" : "text-text-slate"}`}
             >
               {service.description}
             </motion.p>
 
-            <motion.ul 
-              variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}
+            <motion.ul data-reveal 
+              variants={{ hidden: rm ? {} : { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}
               className="flex flex-col gap-3 mt-2"
             >
               {service.bullets.map((bullet: string) => (
@@ -216,7 +230,7 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
               ))}
             </motion.ul>
 
-            <motion.div variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}>
+            <motion.div data-reveal variants={{ hidden: rm ? {} : { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EXPO } } }}>
               <Button
                 href={service.ctaHref}
                 variant={isDark ? "primary" : "outline"}
@@ -245,7 +259,7 @@ export function ServicesClient() {
           style={{ background: "var(--gradient-stage-glow)" }}
         />
         <div className="container-site relative z-10 flex flex-col items-center text-center gap-6">
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          <Reveal delay={0.1}>
             <div className="flex items-center gap-4">
               <span className="h-px w-8 bg-gold/50" />
               <span className="font-sans text-[0.65rem] uppercase font-bold tracking-[0.2em] text-gold-light">
@@ -253,22 +267,22 @@ export function ServicesClient() {
               </span>
               <span className="h-px w-8 bg-gold/50" />
             </div>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          </Reveal>
+          <Reveal delay={0.2}>
             <h1 className="font-display font-bold text-5xl md:text-7xl text-cream leading-tight">
               One team.<br />
               <span className="font-display italic text-gold-light">Every layer</span> of your event.
             </h1>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+          </Reveal>
+          <Reveal delay={0.3}>
             <div className="w-12 h-[1px] bg-gold/40 mx-auto" />
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
+          </Reveal>
+          <Reveal delay={0.4}>
             <p className="font-sans text-lg text-cream/70 max-w-2xl mx-auto">
               Book one service or all of them. Either way, it comes from our
               warehouse and is installed by our crew.
             </p>
-          </div>
+          </Reveal>
         </div>
       </Section>
 
@@ -280,7 +294,7 @@ export function ServicesClient() {
       {/* 3. EVENTS WE PRODUCE */}
       <Section tone="base" className="relative overflow-hidden py-24 lg:py-32 border-t border-navy-deep/10">
         <div className="container-site relative z-10 flex flex-col items-center text-center gap-10">
-          <div className="opacity-0 animate-fade-in-up">
+          <Reveal>
             <div className="flex items-center gap-4">
               <span className="h-px w-8 bg-gold-dark/40" />
               <span className="font-sans text-[0.65rem] uppercase font-bold tracking-[0.2em] text-gold-dark">
@@ -288,13 +302,13 @@ export function ServicesClient() {
               </span>
               <span className="h-px w-8 bg-gold-dark/40" />
             </div>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          </Reveal>
+          <Reveal delay={0.1}>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-navy-deep">
               From intimate pujas to city-scale festivals.
             </h2>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          </Reveal>
+          <Reveal delay={0.2}>
             <div className="flex flex-wrap gap-3 justify-center max-w-4xl mt-2">
               {eventsWeProduceTags.map((tag) => (
                 <span
@@ -305,7 +319,7 @@ export function ServicesClient() {
                 </span>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </Section>
 
@@ -317,7 +331,7 @@ export function ServicesClient() {
           style={{ background: "radial-gradient(circle at 50% 30%, rgba(201,162,39,0.10), transparent 70%)" }}
         />
         <div className="container-site relative z-10 flex flex-col items-center text-center gap-8 max-w-2xl mx-auto">
-          <div className="opacity-0 animate-fade-in-up">
+          <Reveal>
             <div className="flex items-center gap-4">
               <span className="h-px w-8 bg-gold/50" />
               <span className="font-sans text-[0.65rem] uppercase font-bold tracking-[0.2em] text-gold-light">
@@ -325,22 +339,22 @@ export function ServicesClient() {
               </span>
               <span className="h-px w-8 bg-gold/50" />
             </div>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
+          </Reveal>
+          <Reveal delay={0.1}>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-cream">
               {whereWeWork.headline}
             </h2>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          </Reveal>
+          <Reveal delay={0.2}>
             <p className="font-sans text-lg md:text-xl text-cream/75 leading-relaxed">
               {whereWeWork.body}
             </p>
-          </div>
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
+          </Reveal>
+          <Reveal delay={0.3}>
             <Button href={whereWeWork.ctaHref} variant="primary" size="lg" className="mt-4">
               {whereWeWork.ctaLabel}
             </Button>
-          </div>
+          </Reveal>
         </div>
       </Section>
     </>

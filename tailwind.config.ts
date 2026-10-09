@@ -29,7 +29,7 @@ const config: Config = {
 
         // ── Gold family — premium accent ──
         gold:          "#D4AF37",
-        "gold-dark":   "#7A5B14",
+        "gold-dark":   "#9A7B1E",
         "gold-light":  "#E8CB6A",
         "gold-border": "#C09B30",
         "gold-text":   "#7A5B14",
