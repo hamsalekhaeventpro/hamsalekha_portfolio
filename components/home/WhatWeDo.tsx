@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Section } from "@/components/layout/Section";
@@ -68,6 +69,7 @@ function ServiceMotionAccent({ index }: { index: number }) {
 
 export function WhatWeDo() {
   const rm = useReducedMotion();
+  const [scrollProgress, setScrollProgress] = useState(0);
   
   return (
     <Section tone="base" aria-label="Services" className="overflow-hidden">
@@ -188,13 +190,27 @@ export function WhatWeDo() {
 
         {/* Mobile Swipe Carousel */}
         <div className="lg:hidden w-full relative">
-          <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-8" style={{ scrollbarWidth: "none", touchAction: "pan-x pan-y" }}>
+          <div
+            className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-8"
+            style={{ scrollbarWidth: "none", touchAction: "pan-x pan-y" }}
+            onScroll={(e) => {
+              const el = e.currentTarget;
+              const max = el.scrollWidth - el.clientWidth;
+              if (max > 0) {
+                setScrollProgress(el.scrollLeft / max);
+              }
+            }}
+          >
             {services.map((s, i) => {
               const cleanCtaLabel = s.ctaLabel.replace(/→|\u2192/g, '').trim();
               return (
-                <div key={s.title} className="w-[80vw] shrink-0 snap-center first:ml-4 last:mr-4 flex flex-col bg-navy-deep border border-white/5 rounded-sm overflow-hidden">
+                <Link
+                  key={s.title}
+                  href={s.ctaHref}
+                  className="w-[80vw] shrink-0 snap-center first:ml-4 last:mr-4 flex flex-col bg-navy-deep border border-white/5 rounded-sm overflow-hidden group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-gold"
+                >
                   <div className="relative w-full aspect-[4/3]">
-                    <Image src={s.image} alt={s.imageAlt} fill sizes="80vw" className="object-cover" />
+                    <Image src={s.image} alt={s.imageAlt} fill sizes="80vw" className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]" />
                     <div className="absolute inset-0 bg-navy-deep/20" />
                   </div>
                   <div className="flex flex-col p-6 flex-1 justify-between">
@@ -202,28 +218,31 @@ export function WhatWeDo() {
                       <span className="font-sans text-[0.65rem] font-bold text-gold-border tracking-[0.25em] uppercase mb-2 block">
                         0{i + 1}
                       </span>
-                      <h3 className="font-display text-2xl font-bold text-cream leading-tight mb-3">
+                      <h3 className="font-display text-2xl font-bold text-cream leading-tight mb-3 group-hover:text-gold-light transition-colors">
                         {s.title}
                       </h3>
                       <p className="font-sans text-sm text-cream/70 leading-relaxed mb-6">
                         {s.description}
                       </p>
                     </div>
-                    <Link
-                      href={s.ctaHref}
-                      className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light tracking-wider uppercase"
-                    >
+                    <span className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-gold-light tracking-wider uppercase">
                       {cleanCtaLabel}
-                      <ArrowRight size={15} />
-                    </Link>
+                      <ArrowRight size={15} className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
-          {/* Progress Indicator Fake/Decorative */}
-          <div className="w-[80vw] mx-auto h-[2px] bg-white/10 mt-2 rounded-full overflow-hidden">
-            <div className="h-full bg-gold-light w-1/4 rounded-full" />
+          {/* Progress Indicator */}
+          <div className="w-[80vw] mx-auto h-[2px] bg-white/10 mt-2 rounded-full overflow-hidden relative">
+            <div
+              className="h-full bg-gold-light rounded-full transition-transform duration-100 ease-out"
+              style={{
+                width: "25%",
+                transform: `translateX(${scrollProgress * 300}%)`,
+              }}
+            />
           </div>
         </div>
 

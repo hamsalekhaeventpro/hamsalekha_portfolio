@@ -14,8 +14,8 @@ export function CookieNotice() {
   useEffect(() => {
     const accepted = localStorage.getItem(STORAGE_KEY);
     if (!accepted) {
-      // Delay slightly so it doesn't pop immediately
-      const timer = setTimeout(() => setVisible(true), 1500);
+      // Delay so it doesn't interfere with initial page load and LCP
+      const timer = setTimeout(() => setVisible(true), 5000);
       return () => clearTimeout(timer);
     }
   }, []);

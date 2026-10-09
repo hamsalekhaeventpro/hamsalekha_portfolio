@@ -60,11 +60,13 @@ export interface GalleryImage {
   id: string;
   src: string;
   alt: string;
+  caption?: string;
   category: GalleryCategory;
   eventType: string;
   venue: string;
   year?: string;
   catalogueHref?: string;
+  enquireHref?: string;
   span?: "normal" | "tall"; // for masonry visual variation
 }
 

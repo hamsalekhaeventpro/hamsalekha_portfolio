@@ -12,8 +12,8 @@ import {
   protectionPoints, 
   vaultCTA 
 } from "@/lib/content";
-import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useInView, useReducedMotion, animate } from "framer-motion";
+import { useRef, useEffect } from "react";
 
 // ── 1. HERO ────────────────────────────────────────────────────────
 function VaultHeroSection() {
@@ -50,42 +50,54 @@ function VaultHeroSection() {
 
 // ── 2. INVENTORY AT A GLANCE ─────────────────────────────────────
 function AnimatedCounter({ value, text }: { value: string; text: string }) {
-  const [count, setCount] = useState(0);
-  const target = parseInt(value.replace(/[^0-9]/g, ""));
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(nodeRef, { once: true, margin: "0px 0px -10% 0px" });
+  const rm = useReducedMotion();
+  const target = parseInt(value.replace(/[^0-9]/g, ""), 10) || 0;
+  const hasPlus = value.includes("+");
+  const isRange = value.includes("-");
 
   useEffect(() => {
-    if (isInView && target > 0) {
-      const end = target;
-      const durationMs = 1500;
-      const frameRate = 1000 / 60;
-      const totalFrames = Math.round(durationMs / frameRate);
-      
-      let frame = 0;
-      const timer = setInterval(() => {
-        frame++;
-        const progress = frame / totalFrames;
-        const currentCount = Math.round(end * (1 - Math.pow(1 - progress, 3))); // easeOutCubic
-        setCount(currentCount);
+    const node = nodeRef.current;
+    if (!node || isRange || target === 0) return;
 
-        if (frame === totalFrames) {
-          clearInterval(timer);
-          setCount(end);
-        }
-      }, frameRate);
-
-      return () => clearInterval(timer);
+    if (rm) {
+      node.textContent = target.toLocaleString("en-IN");
+      return;
     }
-  }, [isInView, target]);
+
+    if (!isInView) {
+      node.textContent = "0";
+      return;
+    }
+
+    const controls = animate(0, target, {
+      duration: 1.5,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate(latest) {
+        if (node) {
+          node.textContent = Math.round(latest).toLocaleString("en-IN");
+        }
+      },
+    });
+
+    return () => controls.stop();
+  }, [isInView, target, rm, isRange]);
 
   return (
-    <div ref={ref} className="flex flex-col gap-1">
-      <span className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-navy-deep">
-        {target > 0 ? count.toLocaleString() : value}
-        {value.includes("+") && "+"}
+    <div className="flex flex-col gap-1">
+      <span className="sr-only">{value} {text}</span>
+      <span aria-hidden="true" className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-navy-deep">
+        {isRange ? (
+          value
+        ) : (
+          <>
+            <span ref={nodeRef}>{target.toLocaleString("en-IN")}</span>
+            {hasPlus && "+"}
+          </>
+        )}
       </span>
-      <span className="font-sans text-xs uppercase tracking-widest text-text-slate font-bold mt-1">
+      <span aria-hidden="true" className="font-sans text-xs uppercase tracking-widest text-text-slate font-bold mt-1">
         {text}
       </span>
     </div>

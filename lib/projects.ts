@@ -28,6 +28,7 @@ export const projects: Project[] = [
     title: "The Glass House",
     category: "signature-set",
     year: 2026,
+    // TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set
     summary: "South India's first-of-its-kind glass theme set, designed for receptions and launches.",
     story: [
       "The Glass House is a flagship signature set, providing a transparent, glowing venue that integrates with its surroundings while offering full weather protection and rigging points."

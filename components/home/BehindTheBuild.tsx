@@ -2,14 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Warehouse, Users, Zap } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { ease, duration } from "@/lib/motion";
 
 const EXPO = ease.expo;
 
-const PROOF = ["Own warehouse", "Own crew", "Own power"];
+const PROOF = [
+  { label: "Own warehouse", icon: Warehouse },
+  { label: "Own crew", icon: Users },
+  { label: "Own power", icon: Zap },
+];
 
 export function BehindTheBuild() {
   const ref = useRef<HTMLDivElement>(null);
@@ -92,19 +96,21 @@ export function BehindTheBuild() {
           }}
           initial="hidden"
           animate={animate}
-          className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mb-8"
+          className="flex flex-wrap justify-center items-center gap-3 sm:gap-4 mb-8"
         >
-          {PROOF.map((item, i) => (
-            <div key={item} className="flex items-center gap-4 md:gap-6">
-              {i > 0 && <span className="w-px h-4 bg-gold/40" />}
-              <motion.span 
+          {PROOF.map((item) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.label}
                 variants={{ hidden: { opacity: 0, y: 5 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EXPO } } }}
-                className="font-sans text-sm tracking-[0.18em] uppercase text-gold-light font-semibold"
+                className="inline-flex items-center gap-2 bg-navy-mid/80 border border-gold/30 px-4 py-2 rounded-full text-gold-light font-sans text-xs tracking-wider uppercase font-semibold backdrop-blur-xs"
               >
-                {item}
-              </motion.span>
-            </div>
-          ))}
+                <Icon size={14} className="text-gold" />
+                <span>{item.label}</span>
+              </motion.div>
+            );
+          })}
         </motion.div>
 
         <motion.div variants={ctaV} initial="hidden" animate={animate}>

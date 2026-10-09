@@ -134,9 +134,8 @@ function MobileSignatureSequence() {
                 src={glassHouse.image}
                 alt={glassHouse.imageAlt}
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 1200px"
                 className="object-cover"
-                priority
               />
               <div className="absolute inset-0 bg-navy-deep/15 pointer-events-none" />
             </div>
@@ -177,7 +176,7 @@ function MobileSignatureSequence() {
                   src={moongate.image}
                   alt={moongate.imageAlt || "MoonGate"}
                   fill
-                  sizes="60vw"
+                  sizes="170px"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(11,31,58,0.7)] rounded-full pointer-events-none" />

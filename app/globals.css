@@ -26,7 +26,7 @@
 
   /* ── Gold family — premium accent ── */
   --color-gold:             #D4AF37;   /* PRIMARY gold — lines, icons, borders, CTA */
-  --color-gold-dark:        #9A7B1E;   /* focus ring on light, hover on light */
+  --color-gold-dark:        #7A5B14;   /* focus ring on light, hover on light, dark gold on light */
   --color-gold-light:       #E8CB6A;   /* hover/focus accent text on navy */
   --color-gold-border:      #C09B30;   /* outline buttons, card borders */
   --color-gold-text:        #7A5B14;   /* gold text on light backgrounds (AA) */
@@ -499,3 +499,45 @@ h1, h2, h3 {
 
 /* ─── No-JS safety ─── */
 /* (Also declared inline in root layout noscript tag) */
+
+@keyframes heroBgReveal {
+  from { clip-path: inset(15% 0% 15% 0%); transform: scale(1.05); }
+  to { clip-path: inset(0% 0% 0% 0%); transform: scale(1); }
+}
+@keyframes lightsUpFade {
+  from { opacity: 0.95; }
+  to { opacity: 0; }
+}
+
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+
+@keyframes slideUp {
+  from { transform: translateY(12px); opacity: 1; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+
+@keyframes wipeInRight {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.animate-wipe-in-right {
+  animation: wipeInRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+.animate-sweep {
+  animation: sweep 1.5s linear 0.6s forwards;
+}
+

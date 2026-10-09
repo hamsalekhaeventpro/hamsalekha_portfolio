@@ -35,10 +35,12 @@ export const microcopy = {
   cookieNotice: "We use essential cookies to run this site.",
   phone: "+91 99725 44316",
   phoneRaw: "+919972544316",
+  email: "hamsalekhaeventproductionpriva@gmail.com",
   instagram: "@hamsalekha.event.production",
   instagramUrl: "https://www.instagram.com/hamsalekha.event.production",
   address: "Kothanur, Bengaluru",
-  addressNote: "warehouse visits by appointment",
+  addressNote: "Full address — to be provided",
+  hours: "Warehouse visits by appointment",
 } as const;
 
 // ─── Navigation ───────────────────────────────────────────────
@@ -70,6 +72,8 @@ export const footerColumns: FooterColumn[] = [
       { label: "How We Work", href: "/how-we-work" },
       { label: "The Vault", href: "/the-vault" },
       { label: "Careers", href: "/contact#careers" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
     ],
   },
   {
@@ -220,7 +224,7 @@ export const services: ServiceCard[] = [
       "Bars, counters, consoles and display furniture",
     ],
     ctaLabel: "Explore furniture →",
-    ctaHref: microcopy.catalogueUrl,
+    ctaHref: "/services#furniture",
     image: "/images/services/furniture.jpg",
     imageAlt:
       "Imported lounge seating with gold and navy velvet sofas arranged for a premium cocktail event by Hamsalekha",
@@ -236,7 +240,7 @@ export const services: ServiceCard[] = [
       "Signature sets, including The Glass House and MoonGate",
     ],
     ctaLabel: "Explore decor →",
-    ctaHref: "/signature-sets",
+    ctaHref: "/services#decor",
     image: "/images/services/decor.jpg",
     imageAlt:
       "Ornate mandap with traditional brass deepas and floral decorations at a South Indian wedding staged by Hamsalekha",
@@ -333,7 +337,7 @@ export const servicesPageList = [
       "Stages, ramps, risers and catwalks",
       "LED wall and backdrop framing; rigging for lighting, sound and decor",
     ],
-    ctaLabel: "Talk to our structures team →",
+    ctaLabel: "Plan your structures →",
     ctaHref: "/contact?service=truss",
     image: "/images/services/truss.jpg",
     imageAlt:
@@ -371,8 +375,8 @@ export const servicesPageList = [
       "Photo zones and lounge styling",
       "Signature sets, including The Glass House and MoonGate",
     ],
-    ctaLabel: "See Signature Sets →",
-    ctaHref: "/signature-sets",
+    ctaLabel: "Plan your decor →",
+    ctaHref: "/contact?service=decor",
     image: "/images/services/decor.jpg",
     imageAlt:
       "Ornate mandap with traditional brass deepas and floral decorations at a South Indian wedding staged by Hamsalekha",
@@ -390,7 +394,7 @@ export const servicesPageList = [
       "Coordination with your planner, caterer and sound team",
       "On-site crew throughout the event",
     ],
-    ctaLabel: "Request a Proposal",
+    ctaLabel: "Plan your full production →",
     ctaHref: "/contact?service=production",
     image: "/images/services/production.jpg",
     imageAlt:
@@ -402,6 +406,7 @@ export const servicesPageList = [
 
 export const signatureSets: SignatureSet[] = [
   {
+    // TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set
     eyebrow: "SOUTH INDIA'S FIRST-OF-ITS-KIND GLASS THEME SET",
     title: "The Glass House",
     headline: "A new canvas for extraordinary celebrations.",
@@ -583,6 +588,7 @@ export const aboutStory = [
   "The early years moved quickly. Gensets came in 2007 so we could offer lighting and power together. By 2008 and 2009 we were in convention centres and at large-scale events across Bengaluru, including the grounds at Eden Gardens, Palace Grounds.",
   "Truss and structures followed in 2010. Furniture launched in 2013 as clients began asking for more. In 2017, the next generation of the family joined — bringing new thinking to a business that had already been built on getting it right.",
   "In 2020 events stopped. What could have been the most difficult chapter in our history became a turning point. Hamsalekha used the pause to study what premium events would demand next. We used the time to think harder about quality and presentation, and opened the door to premium and imported furniture.",
+  // TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set
   "From 2022 onwards, Hamsalekha kept raising the bar across furniture, truss, lighting, gensets and props. In 2026, as we celebrate twenty years, we unveiled The Glass House — South India's first-of-its-kind glass theme set, and a sign of where Hamsalekha is going next.",
 ];
 
@@ -616,6 +622,7 @@ export const aboutChapters = [
     number: "05",
     tag: "2022 — 2026",
     title: "Raising the Bar",
+    // TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set
     body: "From 2022 onwards, Hamsalekha kept raising the bar across furniture, truss, lighting, gensets and props. In 2026, as we celebrate twenty years, we unveiled The Glass House — South India's first-of-its-kind glass theme set, and a sign of where Hamsalekha is going next.",
   },
 ];
@@ -630,7 +637,7 @@ export const timeline: TimelineEntry[] = [
   {
     year: "2008–09",
     description:
-      "Convention centres and event productions across Bengaluru; Eden Gardens at Palace Grounds",
+      "Convention centres and event productions across Bengaluru; Eden Gardens, Palace Grounds",
   },
   { year: "2010", description: "Truss and structures added" },
   { year: "2013", description: "Hamsalekha Furniture launched" },
@@ -645,6 +652,7 @@ export const timeline: TimelineEntry[] = [
   },
   {
     year: "2022",
+    // TODO: Needs source verification or named award/evidence for claim: 2022 recognition
     description:
       "Recognised for premium furniture and high-quality truss and structures",
   },
@@ -700,6 +708,7 @@ export const portfolioHero = {
 
 export const featuredStories: FeaturedStory[] = [
   {
+    // TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set
     tag: "2026 · SIGNATURE SET",
     subtitle: "The Glass House unveiled",
     title: "The Glass House",
@@ -738,85 +747,87 @@ export const galleryImages: GalleryImage[] = [
   {
     id: "g1",
     src: "/images/hero.jpg",
-    alt: "Grand wedding reception with truss lighting at a Bengaluru venue by Hamsalekha Event Production",
+    alt: "Grand wedding reception production with truss lighting and stage execution",
+    caption: "Truss Rigging & Stage Lighting",
     category: "weddings",
-    // TODO(owner): confirm what this photo shows.
-    eventType: "From our archive",
+    eventType: "Stage & Lighting",
     venue: "Bengaluru",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=g1",
     span: "tall",
   },
   {
     id: "g2",
     src: "/images/services/lighting.jpg",
-    alt: "Reception hall with festoon string lights and chandeliers staged by Hamsalekha",
+    alt: "Warm ambient and festoon lighting for reception halls",
+    caption: "Festoon Canopy & Ambient Lighting",
     category: "weddings",
-    // TODO(owner): confirm what this photo shows.
-    eventType: "From our archive",
+    eventType: "Lighting Production",
     venue: "Bengaluru",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=g2",
   },
   {
     id: "g3",
     src: "/images/signature-sets/glass-house.jpg",
-    alt: "The Glass House signature set glowing at night, Hamsalekha Event Production, 2026",
+    alt: "The Glass House signature set glowing at night",
+    caption: "The Glass House",
     category: "signature-sets",
     eventType: "Signature Set",
     venue: "Bengaluru",
     year: "2026",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=glass-house",
     span: "tall",
   },
   {
     id: "g4",
     src: "/images/signature-sets/moongate.jpg",
-    alt: "MoonGate circular arch at a wedding reception staged by Hamsalekha",
+    alt: "MoonGate circular arch set for entrance and photo backdrops",
+    caption: "MoonGate Circular Arch",
     category: "signature-sets",
     eventType: "Signature Set",
     venue: "Bengaluru",
     year: "2025",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=moongate",
   },
   {
     id: "g5",
     src: "/images/services/decor.jpg",
-    alt: "Traditional mandap with brass deepas and ornate arch, Hamsalekha Event Production",
+    alt: "Traditional brass elements and mandap decor styling",
+    caption: "Mandap Props & Brass Decor",
     category: "celebrations",
-    // TODO(owner): confirm what this photo shows.
-    eventType: "From our archive",
+    eventType: "Decor & Props",
     venue: "Bengaluru",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=g5",
     span: "tall",
   },
   {
     id: "g6",
     src: "/images/services/furniture.jpg",
-    alt: "Imported lounge seating at a cocktail reception by Hamsalekha",
+    alt: "Lounge seating and premium velvet furniture styling",
+    caption: "Premium Lounge & Seating",
     category: "weddings",
-    // TODO(owner): confirm what this photo shows.
-    eventType: "From our archive",
+    eventType: "Furniture Styling",
     venue: "Bengaluru",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=g6",
   },
   {
     id: "g7",
     src: "/images/services/production.jpg",
-    alt: "Event crew setting up LED stage and lighting rig for a corporate conference by Hamsalekha",
+    alt: "Technical staging, LED screen rigging, and corporate conference production",
+    caption: "Technical Staging & LED Setup",
     category: "corporate",
-    // TODO(owner): confirm what this photo shows.
-    eventType: "From our archive",
+    eventType: "Corporate Production",
     venue: "Bengaluru",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=g7",
   },
   {
     id: "g8",
     src: "/images/services/truss.jpg",
-    alt: "Aluminium truss grid rigged for a large event venue by Hamsalekha structures team",
+    alt: "Aluminium box truss grid assembly for indoor and outdoor venues",
+    caption: "Structural Trussing & Rigging",
     category: "corporate",
-    // TODO(owner): confirm what this photo shows.
-    eventType: "From our archive",
+    eventType: "Truss & Structures",
     venue: "Bengaluru",
-    catalogueHref: microcopy.catalogueUrl,
+    enquireHref: "/contact?ref=g8",
   },
 ];
 
@@ -840,8 +851,10 @@ export const contactHero = {
 export const contactDetails = {
   phone: microcopy.phone,
   phoneRaw: microcopy.phoneRaw,
+  email: microcopy.email,
   location: microcopy.address,
   locationNote: microcopy.addressNote,
+  hours: microcopy.hours,
   instagram: microcopy.instagram,
   instagramUrl: microcopy.instagramUrl,
   eventSupport: "Our site team stays with you from setup to strike",
@@ -1005,52 +1018,64 @@ export const careersSection = {
 
 export const seoMap: Record<string, PageMeta> = {
   home: {
-    title: "Hamsalekha Event Production — Bengaluru Since 2006",
+    title: "Hamsalekha Event Production | Event Production in Bengaluru",
     description:
-      "Event lighting, gensets, truss, premium furniture and props in Bengaluru. Twenty years of weddings, celebrations and corporate events.",
+      "Lighting, power, structures, premium furniture and props for weddings, celebrations and corporate events across Bengaluru. Built and struck by one accountable team since 2006.",
     ogImage: "/images/og/home.jpg",
   },
   about: {
-    title: "Our Story — 20 Years of Hamsalekha",
+    title: "About Hamsalekha | Hamsalekha Event Production",
     description:
-      "From lighting prepared at home in 2006 to a complete event production house — the Hamsalekha story, 2006 to 2026.",
+      "Twenty years of backstage craftsmanship in Bengaluru. How Ramesh V built Hamsalekha from lighting prepared at home in 2006 into a complete event production house.",
     ogImage: "/images/og/home.jpg",
   },
   services: {
-    title: "Event Lighting, Gensets, Truss & Furniture — Hamsalekha",
+    title: "Event Production Services | Hamsalekha Event Production",
     description:
-      "Lighting, 40–125 KVA gensets, Bombay truss, premium furniture and full event production for weddings and corporate events in Bengaluru.",
+      "Architectural lighting, silent 40–125 KVA gensets, Bombay trussing up to 1,00,000 sq ft, and imported furniture rentals for weddings and corporate galas in Bengaluru.",
     ogImage: "/images/og/home.jpg",
   },
   signatureSets: {
-    title: "The Glass House & MoonGate — Hamsalekha",
+    title: "Signature Sets | Hamsalekha Event Production",
+    // TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind Glass House
     description:
-      "South India's first-of-its-kind glass theme set and our MoonGate arch — signature sets for receptions, sangeets and launches.",
+      "Architectural set pieces designed and fabricated by Hamsalekha, featuring South India's first-of-its-kind Glass House and the circular MoonGate arch.",
     ogImage: "/images/og/home.jpg",
   },
   vault: {
-    title: "Inventory, Warehouse & Crew — Hamsalekha",
-    // TODO(owner): resolve mixed number format (1,00,000 vs 10,000+) and claim (100,000+ sq ft inventory vs trussing up to 1,00,000 sq ft)
+    title: "The Vault | Hamsalekha Event Production",
     description:
-      "10,000+ chairs, 1,100+ sofa units, trussing up to 1,00,000 sq ft and our own crew — the scale behind every Hamsalekha event.",
+      "Behind the build: our Kothanur warehouse, 10,000+ chairs, 1,100+ sofa units, in-house technical crew, and fleet logistics supporting events across Bengaluru.",
     ogImage: "/images/og/home.jpg",
   },
   howWeWork: {
-    title: "Our Event Production Process — Hamsalekha",
+    title: "Our Process | Hamsalekha Event Production",
     description:
-      "Brief, recce, proposal, build and strike — how Hamsalekha delivers events with one accountable team.",
+      "Our five-step event production workflow: brief, site recce, itemised proposal, precision setup, and overnight strike with zero venue damage.",
     ogImage: "/images/og/home.jpg",
   },
   portfolio: {
-    title: "Wedding & Corporate Events — Hamsalekha Portfolio",
+    title: "Portfolio | Hamsalekha Event Production",
     description:
-      "Weddings, receptions, launches and conferences staged by Hamsalekha across Bengaluru.",
+      "A curation of grand weddings, sangeet receptions, and corporate galas staged by Hamsalekha Event Production at premier Bengaluru venues.",
     ogImage: "/images/og/home.jpg",
   },
   contact: {
-    title: "Contact Hamsalekha — Plan Your Event",
+    title: "Contact Hamsalekha | Hamsalekha Event Production",
     description:
-      "Call or WhatsApp +91 99725 44316, or send your event details for an itemised proposal from our Bengaluru team.",
+      "Plan your wedding or corporate event in Bengaluru. Contact Ramesh V and the Hamsalekha team for site recces, inventory checks, and itemised proposals.",
+    ogImage: "/images/og/home.jpg",
+  },
+  privacy: {
+    title: "Privacy Policy | Hamsalekha Event Production",
+    description:
+      "Privacy policy and data handling guidelines for event enquiries and quotation requests submitted to Hamsalekha Event Production Pvt. Ltd., Bengaluru.",
+    ogImage: "/images/og/home.jpg",
+  },
+  terms: {
+    title: "Terms of Use | Hamsalekha Event Production",
+    description:
+      "Terms of use, quotation expectations, and booking guidelines for technical event production and rental services by Hamsalekha Event Production.",
     ogImage: "/images/og/home.jpg",
   },
 };

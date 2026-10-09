@@ -3,11 +3,12 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { FloatingContact } from "@/components/layout/FloatingContact";
+import dynamic from "next/dynamic";
+const FloatingContact = dynamic(() => import("@/components/layout/FloatingContact").then(mod => mod.FloatingContact));
+const CookieNotice = dynamic(() => import("@/components/layout/CookieNotice").then(mod => mod.CookieNotice));
 import { StickyMobileBar } from "@/components/layout/StickyMobileBar";
 import { LenisProvider } from "@/components/layout/LenisProvider";
-import { CookieNotice } from "@/components/layout/CookieNotice";
-import { seoMap, microcopy } from "@/lib/content";
+import { seoMap } from "@/lib/content";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -24,21 +25,14 @@ const inter = Inter({
 import { SITE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://hamsalekha-event-production.netlify.app"
+  ),
   title: {
     default: seoMap.home.title,
-    template: "%s | Hamsalekha Event Production",
+    template: "%s",
   },
   description: seoMap.home.description,
-  keywords: [
-    "event production company Bengaluru",
-    "event lighting Bangalore",
-    "genset rental for events Bangalore",
-    "truss and staging Bengaluru",
-    "wedding furniture rental Bangalore",
-    "luxury event furniture",
-    "glass house wedding set",
-  ],
   authors: [{ name: "Hamsalekha Event Production" }],
   openGraph: {
     type: "website",
@@ -46,41 +40,16 @@ export const metadata: Metadata = {
     siteName: "Hamsalekha Event Production",
     title: seoMap.home.title,
     description: seoMap.home.description,
-    images: [{ url: seoMap.home.ogImage, width: 1200, height: 630 }],
+    url: SITE_URL,
+    images: [{ url: `${SITE_URL}${seoMap.home.ogImage}`, width: 1200, height: 630, alt: seoMap.home.title }],
   },
   twitter: {
     card: "summary_large_image",
     title: seoMap.home.title,
     description: seoMap.home.description,
-    images: [seoMap.home.ogImage],
+    images: [`${SITE_URL}${seoMap.home.ogImage}`],
   },
 };
-
-const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Hamsalekha Event Production",
-    url: SITE_URL,
-    logo: `${SITE_URL}/images/hero.jpg`,
-    sameAs: [microcopy.instagramUrl],
-    foundingDate: "2006",
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Hamsalekha Event Production",
-    description: seoMap.home.description,
-    telephone: microcopy.phone,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Bengaluru",
-      addressRegion: "Karnataka",
-      addressCountry: "IN",
-    },
-    url: SITE_URL,
-  }
-];
 
 export default function RootLayout({
   children,
@@ -92,10 +61,6 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
         <noscript>
           <style>{`
             [data-reveal] { opacity: 1 !important; transform: none !important; }

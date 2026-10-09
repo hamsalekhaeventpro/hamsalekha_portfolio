@@ -29,32 +29,20 @@ export function Hero() {
     >
       {/* Background image — clip reveal */}
       <div className="absolute inset-0 z-0 overflow-hidden bg-navy-deep">
-        <motion.div
-          className="absolute inset-0"
-          initial={rm ? {} : { clipPath: "inset(15% 0% 15% 0%)", scale: 1.05 }}
-          animate={rm ? {} : { clipPath: "inset(0% 0% 0% 0%)", scale: 1 }}
-          transition={{ duration: 1.8, ease: EASE_EXPO }}
-        >
+        <div className="absolute inset-0" style={{ animation: "heroBgReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards" }}>
           <Image
             src={homeHero.image}
             alt={homeHero.imageAlt}
             fill
             priority
-            quality={95}
+            quality={60}
             sizes="100vw"
             className="object-cover"
           />
-        </motion.div>
+        </div>
 
         {/* LIGHTS-UP: navy → transparent */}
-        <motion.div
-          className="absolute inset-0 bg-navy-deep"
-          initial={{ opacity: rm ? 0 : 0.95 }}
-          animate={{ opacity: 0 }}
-          transition={{ duration: 1.4, delay: 0.2, ease: "easeOut" }}
-          data-lightsup
-          aria-hidden="true"
-        />
+        <div className="absolute inset-0 bg-navy-deep pointer-events-none" style={{ animation: "lightsUpFade 1.4s ease-out forwards" }} aria-hidden="true" />
 
         {/* Persistent cinematic gradient — warm navy, not electric blue */}
         <div
@@ -78,12 +66,12 @@ export function Hero() {
         <div className="max-w-[960px] flex flex-col gap-7">
 
           {/* Eyebrow */}
-          <motion.div variants={eyebrowV} initial="initial" animate="animate" className="flex items-center gap-4">
+          <div className="flex items-center gap-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
             <span className="h-px w-10 bg-gold/50 shrink-0" />
             <span className="font-sans text-[0.7rem] tracking-[0.25em] uppercase font-semibold text-gold-light">
               {homeHero.eyebrow}
             </span>
-          </motion.div>
+          </div>
 
           {/* Headline — clipped line-by-line reveal */}
           <h1
@@ -92,44 +80,26 @@ export function Hero() {
           >
             {/* Line 1 */}
             <span className="block overflow-hidden" aria-hidden="true">
-              <motion.span
-                style={{ display: "block" }}
-                variants={line1V}
-                initial="initial"
-                animate="animate"
-              >
-                {homeHero.line1}
-              </motion.span>
+              <span className="block animate-wipe-in" style={{ animationDelay: "0.4s", clipPath: "inset(100% 0 0 0)" }}> {homeHero.line1}
+              </span>
             </span>
             {/* Line 2 */}
             <span className="block overflow-hidden mt-1" aria-hidden="true">
-              <motion.span
-                style={{ display: "block" }}
-                className="font-display italic font-medium text-gold-light"
-                variants={line2V}
-                initial="initial"
-                animate="animate"
-              >
-                {homeHero.line2}
-              </motion.span>
+              <span className="block animate-wipe-in" style={{ animationDelay: "0.55s", clipPath: "inset(100% 0 0 0)" }}> {homeHero.line2}
+              </span>
             </span>
           </h1>
 
           {/* Divider + subline */}
-          <motion.div variants={sublineV} initial="initial" animate="animate" className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "0.7s" }}>
             <span className="h-px w-12 bg-gold/60" />
             <p className="font-sans text-base md:text-lg text-cream/80 leading-relaxed max-w-2xl">
               {homeHero.subline}
             </p>
-          </motion.div>
+            </div>
 
-          {/* CTAs */}
-          <motion.div
-            variants={ctaV}
-            initial="initial"
-            animate="animate"
-            className="flex flex-wrap items-center gap-8 pt-4"
-          >
+            {/* CTAs */}
+          <div className=" opacity-0 animate-fade-in-up" style={{ animationDelay: "0.85s" }}>
             {/* Primary CTA — Gold bg, navy text, editorial shape */}
             <a
               href={homeHero.ctaHref}
@@ -154,29 +124,18 @@ export function Hero() {
                 size={16}
                 className="transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
-            </a>
-          </motion.div>
+            </a></div>
 
 
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        variants={scrollV}
-        initial="initial"
-        animate="animate"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-      >
+      <div className=" opacity-0 animate-fade-in-up" style={{ animationDelay: "1.5s" }}>
         <span className="font-sans text-[9px] tracking-[0.25em] uppercase text-cream/40">Scroll</span>
-        <motion.div
-          animate={rm ? {} : { y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-8 h-8 rounded-full border border-cream/20 flex items-center justify-center"
-        >
+          <div className="w-8 h-8 rounded-full border border-cream/20 flex items-center justify-center animate-bounce">
           <ChevronDown size={14} className="text-cream/40" />
-        </motion.div>
-      </motion.div>
+        </div></div>
     </section>
   );
 }

@@ -40,13 +40,13 @@ export function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             <div>
-              <div className="relative w-48 h-20 shrink-0 overflow-hidden mb-2">
+              <div className="w-32 md:w-40 shrink-0 mb-4">
                 <Image
                   src="/images/hamsalekha-logo-v4.png"
                   alt="Hamsalekha Event Production"
-                  fill
-                  className="object-contain"
-                  sizes="192px"
+                  width={839}
+                  height={422}
+                  className="w-full h-auto object-contain"
                 />
               </div>
               {/* Gold rule under brand */}
@@ -56,10 +56,10 @@ export function Footer() {
               {footerTagline}
             </p>
             {/* Contact details */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <a
                 href={`tel:${microcopy.phoneRaw}`}
-                className="flex items-center gap-2.5 font-sans text-sm text-cream/80 hover:text-gold-light transition-colors group"
+                className="flex items-center gap-2.5 font-sans text-sm text-cream/80 hover:text-gold-light transition-colors group min-h-[44px]"
               >
                 <Phone size={14} className="text-gold group-hover:text-gold-light transition-colors" />
                 <span className="font-semibold text-gold-light group-hover:text-gold transition-colors">
@@ -70,7 +70,7 @@ export function Footer() {
                 href={`https://wa.me/${microcopy.whatsappNumber}?text=${encodeURIComponent(microcopy.whatsappMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 font-sans text-sm text-cream/80 hover:text-gold-light transition-colors group"
+                className="flex items-center gap-2.5 font-sans text-sm text-cream/80 hover:text-gold-light transition-colors group min-h-[44px]"
               >
                 <WhatsAppIcon size={14} className="text-[#25D366]" />
                 WhatsApp us
@@ -79,12 +79,12 @@ export function Footer() {
                 href={microcopy.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 font-sans text-sm text-cream/80 hover:text-gold-light transition-colors"
+                className="flex items-center gap-2.5 font-sans text-sm text-cream/80 hover:text-gold-light transition-colors min-h-[44px]"
               >
                 <InstagramIcon size={14} className="text-gold" />
                 {microcopy.instagram}
               </a>
-              <p className="font-sans text-sm text-cream/50">
+              <p className="font-sans text-sm text-cream/50 py-1">
                 📍 {microcopy.address}
               </p>
             </div>
@@ -96,14 +96,14 @@ export function Footer() {
               <h3 className="font-sans text-eyebrow uppercase text-gold-light border-b border-gold/15 pb-3">
                 {col.heading}
               </h3>
-              <ul className="flex flex-col gap-3">
+              <ul className="flex flex-col gap-1">
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
                       target={link.external ? "_blank" : undefined}
                       rel={link.external ? "noopener noreferrer" : undefined}
-                      className="font-sans text-sm text-cream/65 hover:text-cream transition-colors"
+                      className="font-sans text-sm text-cream/65 hover:text-cream transition-colors py-2 inline-flex items-center min-h-[44px]"
                     >
                       {link.label}
                     </Link>
@@ -118,11 +118,25 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/8">
         <div className="container-site py-5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="font-sans text-xs text-cream/50 text-center md:text-left">
+          <p className="font-sans text-xs text-cream/65 text-center md:text-left">
             © 2026 Hamsalekha Event Production Pvt. Ltd. All rights reserved.
           </p>
-          <div className="flex items-center gap-5">
-            <span className="font-sans text-xs text-cream/40">
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-5 gap-y-1">
+            <Link
+              href="/privacy"
+              className="font-sans text-xs text-cream/65 hover:text-gold-light transition-colors py-2 inline-flex items-center min-h-[44px]"
+            >
+              Privacy Policy
+            </Link>
+            <span className="text-cream/30 text-xs hidden sm:inline" aria-hidden="true">·</span>
+            <Link
+              href="/terms"
+              className="font-sans text-xs text-cream/65 hover:text-gold-light transition-colors py-2 inline-flex items-center min-h-[44px]"
+            >
+              Terms of Service
+            </Link>
+            <span className="text-cream/30 text-xs hidden sm:inline" aria-hidden="true">·</span>
+            <span className="font-sans text-xs text-cream/65 py-2 inline-flex items-center">
               Designed by Mejorars
             </span>
           </div>

@@ -8,7 +8,7 @@ export function ServiceTicker() {
   
   // Create enough items to fill and loop seamlessly
   const content = [...servicesList, ...servicesList, ...servicesList, ...servicesList].map((s, i) => (
-    <span key={i} className="flex items-center gap-6 md:gap-12 text-sm md:text-base font-sans tracking-[0.2em] uppercase text-navy-deep/40 whitespace-nowrap">
+    <span key={i} className="flex items-center gap-6 md:gap-12 text-sm md:text-base font-sans tracking-[0.2em] uppercase text-text-slate whitespace-nowrap">
       {s}
       <span className="text-gold-light/60 text-xs">✦</span>
     </span>
@@ -19,7 +19,7 @@ export function ServiceTicker() {
       <div className="w-full overflow-hidden flex items-center py-8 opacity-80" aria-hidden="true">
         <div className="flex gap-6 md:gap-12">
           {servicesList.map((s, i) => (
-            <span key={i} className="flex items-center gap-6 md:gap-12 text-sm md:text-base font-sans tracking-[0.2em] uppercase text-navy-deep/40 whitespace-nowrap">
+            <span key={i} className="flex items-center gap-6 md:gap-12 text-sm md:text-base font-sans tracking-[0.2em] uppercase text-text-slate whitespace-nowrap">
               {s}
               {i < servicesList.length - 1 && <span className="text-gold-light/60 text-xs">✦</span>}
             </span>

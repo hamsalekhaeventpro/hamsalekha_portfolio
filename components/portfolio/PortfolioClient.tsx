@@ -8,7 +8,6 @@ import { portfolioHero, featuredStories, galleryImages, portfolioCTA } from "@/l
 import type { GalleryCategory } from "@/types/content";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
-import { Reveal } from "@/components/motion/Reveal";
 import { EditorialPlaceholder } from "@/components/ui/EditorialPlaceholder";
 import { ease } from "@/lib/motion";
 
@@ -28,7 +27,7 @@ function PortfolioHeroSection() {
     <Section tone="stage" className="pt-40 pb-20 overflow-hidden relative">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,rgba(201,162,39,0.12),transparent_50%)]" />
       <div className="container-site relative z-10 flex flex-col items-center text-center gap-6 max-w-4xl mx-auto">
-        <Reveal delay={0.1}>
+        <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <div className="flex items-center gap-4">
             <span className="h-px w-8 bg-gold/50" />
             <span className="font-sans text-[0.65rem] uppercase font-bold tracking-[0.25em] text-gold-light">
@@ -36,20 +35,20 @@ function PortfolioHeroSection() {
             </span>
             <span className="h-px w-8 bg-gold/50" />
           </div>
-        </Reveal>
-        <Reveal delay={0.2}>
+        </div>
+        <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
           <h1 className="font-display font-bold text-5xl md:text-7xl text-cream leading-[1.05]">
             {portfolioHero.headline}
           </h1>
-        </Reveal>
-        <Reveal delay={0.3}>
+        </div>
+        <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
           <div className="w-16 h-[2px] bg-gradient-to-r from-gold-dark via-gold to-gold-light rounded-full mx-auto my-2" />
-        </Reveal>
-        <Reveal delay={0.4}>
+        </div>
+        <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
           <p className="font-sans text-lg md:text-xl text-cream/70 max-w-2xl mx-auto leading-relaxed">
             {portfolioHero.subline}
           </p>
-        </Reveal>
+        </div>
       </div>
     </Section>
   );
@@ -61,7 +60,7 @@ function FeaturedStoriesSection() {
     <Section tone="base" className="py-24 lg:py-32 overflow-hidden border-b border-navy-deep/10">
       <div className="container-site flex flex-col gap-24">
         
-        <Reveal>
+        <div className="opacity-0 animate-fade-in-up">
           <div className="flex items-center gap-4">
             <span className="h-px w-8 bg-gold-dark/40" />
             <span className="font-sans text-[0.65rem] uppercase font-bold tracking-[0.2em] text-gold-dark">
@@ -69,7 +68,7 @@ function FeaturedStoriesSection() {
             </span>
             <span className="h-px w-8 bg-gold-dark/40" />
           </div>
-        </Reveal>
+        </div>
 
         <div className="flex flex-col gap-24 lg:gap-32">
           {featuredStories.map((story, idx) => {
@@ -82,7 +81,7 @@ function FeaturedStoriesSection() {
               >
                 {/* Image Placeholder: Mobile first, desktop alternating */}
                 <div className={`lg:col-span-7 order-first ${isReversed ? "lg:order-last" : "lg:order-first"}`}>
-                  <Reveal delay={0.1}>
+                  <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
                     <EditorialPlaceholder
                       aspectRatio="aspect-[16/10]"
                       tone="light"
@@ -91,12 +90,12 @@ function FeaturedStoriesSection() {
                       subline={`${story.tag} · ${story.subtitle}`}
                       className="w-full shadow-md"
                     />
-                  </Reveal>
+                  </div>
                 </div>
 
                 {/* Narrative */}
                 <div className="lg:col-span-5 flex flex-col gap-5">
-                  <Reveal delay={0.1}>
+                  <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
                     <div className="flex items-center gap-3">
                       <span className="font-sans text-[0.65rem] uppercase tracking-widest font-bold text-gold-dark">
                         {story.tag}
@@ -106,25 +105,25 @@ function FeaturedStoriesSection() {
                         {story.subtitle}
                       </span>
                     </div>
-                  </Reveal>
+                  </div>
 
-                  <Reveal delay={0.2}>
+                  <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
                     <h2 className="font-display text-3xl lg:text-4xl font-bold text-navy-deep leading-tight">
                       {story.title}
                     </h2>
-                  </Reveal>
+                  </div>
 
-                  <Reveal delay={0.3}>
+                  <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
                     <div className="w-12 h-[1px] bg-gold-dark/40 my-1" />
-                  </Reveal>
+                  </div>
 
-                  <Reveal delay={0.4}>
+                  <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
                     <p className="font-sans text-base lg:text-lg text-text-slate leading-relaxed">
                       {story.body}
                     </p>
-                  </Reveal>
+                  </div>
 
-                  <Reveal delay={0.5}>
+                  <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.5s" }}>
                     <Link
                       href={story.ctaHref}
                       className="inline-flex items-center gap-3 font-sans text-xs uppercase tracking-widest font-bold text-gold-dark hover:text-navy-deep transition-colors mt-2 group"
@@ -132,7 +131,7 @@ function FeaturedStoriesSection() {
                       <span>{story.ctaLabel.replace(/→|\u2192/g, '').trim()}</span>
                       <ArrowRight size={14} className="transition-transform duration-300 ease-out group-hover:translate-x-1" />
                     </Link>
-                  </Reveal>
+                  </div>
                 </div>
               </article>
             );
@@ -354,15 +353,15 @@ function PortfolioCTASection() {
   return (
     <Section tone="stage" className="py-24 relative overflow-hidden text-center border-t border-gold/15">
       <div className="container-site relative z-10 flex flex-col items-center gap-6 max-w-2xl mx-auto">
-        <Reveal>
+        <div className="opacity-0 animate-fade-in-up">
           <h2 className="font-display font-bold text-4xl md:text-5xl text-cream">
             {portfolioCTA.headline}
           </h2>
-        </Reveal>
-        <Reveal delay={0.2}>
+        </div>
+        <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
           <div className="w-12 h-[1px] bg-gold/40 mx-auto" />
-        </Reveal>
-        <Reveal delay={0.3}>
+        </div>
+        <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
           <div className="flex flex-wrap justify-center gap-4 mt-4">
             <Button href={portfolioCTA.ctaHref} variant="primary" size="lg">
               {portfolioCTA.ctaLabel}
@@ -371,7 +370,7 @@ function PortfolioCTASection() {
               {portfolioCTA.instagramLabel}
             </Button>
           </div>
-        </Reveal>
+        </div>
       </div>
     </Section>
   );

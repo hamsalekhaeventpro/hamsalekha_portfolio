@@ -17,6 +17,7 @@ function GlassHouseSection() {
           {/* Large Architectural Image Placeholder */}
           <div className="w-full relative aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]">
             <Reveal delay={0.1}>
+              {/* TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set */}
               <EditorialPlaceholder
                 aspectRatio="aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]"
                 tone="dark"

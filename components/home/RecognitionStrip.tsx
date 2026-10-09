@@ -5,15 +5,24 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export function RecognitionStrip() {
   return (
-    <Section tone="base" aria-label="Recognition" className="border-y border-gold/10 !py-12">
-      <div className="container-site flex flex-col items-center justify-center text-center gap-4">
+    <Section tone="base" aria-label="Industry Partnerships" className="border-y border-gold/20 !py-8 bg-cream/40">
+      <div className="container-site flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center">
         <Reveal>
-          <span className="block w-12 h-px bg-gold/50 mx-auto" />
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-px bg-gold-dark/40" />
+            <span className="font-sans text-[0.65rem] font-bold uppercase tracking-[0.25em] text-gold-dark">
+              Trusted Partner
+            </span>
+            <span className="w-6 h-px bg-gold-dark/40" />
+          </div>
         </Reveal>
         <Reveal delay={0.1}>
-          <p className="font-sans text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-navy-deep/80">
-            Furniture Partner — Bengaluru Wedding Fraternity Meet Up 4.0
-          </p>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-navy-deep/[0.04] border border-gold/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+            <p className="font-sans text-xs sm:text-sm font-semibold tracking-[0.14em] uppercase text-navy-deep">
+              Furniture Partner, Bengaluru Wedding Fraternity Meet Up 4.0
+            </p>
+          </div>
         </Reveal>
       </div>
     </Section>

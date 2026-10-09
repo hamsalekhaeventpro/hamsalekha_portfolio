@@ -1,57 +1,34 @@
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Plus } from "lucide-react";
 
-export function FAQItem({ question, answer, idx }: { question: string; answer: string; idx: number }) {
-  const [open, setOpen] = useState(false);
-  const rm = useReducedMotion();
-
+export function FAQItem({
+  question,
+  answer,
+  idx,
+}: {
+  question: string;
+  answer: string;
+  idx: number;
+}) {
   return (
-    <div className="border-b border-cream/10">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        onKeyDown={(e) => {
-          if (e.key === "Escape" && open) {
-            setOpen(false);
-          }
-        }}
-        className="w-full flex items-center justify-between gap-4 py-6 md:py-8 text-left group"
-        aria-expanded={open}
-        aria-controls={`faq-answer-${idx}`}
-        id={`faq-${idx}`}
-      >
-        <span className="font-display text-xl md:text-2xl font-bold text-cream group-hover:text-gold-light transition-colors pr-4">{question}</span>
-        <motion.div 
-          animate={{ rotate: open ? 45 : 0 }} 
-          transition={rm ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }} 
-          className="shrink-0"
-        >
+    <details className="border-b border-cream/10 group" id={`faq-${idx}`}>
+      <summary className="w-full flex items-center justify-between gap-4 py-6 md:py-8 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden focus-visible:outline-2 focus-visible:outline-gold-light select-none">
+        <span className="font-display text-xl md:text-2xl font-bold text-cream group-hover:text-gold-light transition-colors pr-4">
+          {question}
+        </span>
+        <div className="shrink-0 transition-transform duration-300 ease-out group-open:rotate-45">
           <Plus size={24} className="text-gold-dark group-hover:text-gold-light transition-colors" />
-        </motion.div>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            id={`faq-answer-${idx}`}
-            initial={rm ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={rm ? { height: 0, opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="overflow-hidden"
-          >
-            <p className="font-sans text-lg text-cream/70 pb-8 pr-8 leading-relaxed max-w-2xl">{answer}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        </div>
+      </summary>
+      <div className="pb-8 pr-8 font-sans text-lg text-cream/70 leading-relaxed max-w-2xl">
+        <p>{answer}</p>
+      </div>
+    </details>
   );
 }
 
 export function FaqAccordion({ faqs }: { faqs: { question: string; answer: string }[] }) {
   return (
-    <div className="flex flex-col border-t border-cream/10 w-full">
+    <div className="flex flex-col border-t border-cream/10 w-full" id="faq-list">
       {faqs.map((faq, i) => (
         <FAQItem key={i} idx={i} question={faq.question} answer={faq.answer} />
       ))}

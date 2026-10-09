@@ -404,6 +404,7 @@ function RaisingTheBarSection() {
           <Reveal delay={0.15}>
             <div className="flex flex-col gap-4 text-text-slate text-base sm:text-lg lg:text-xl leading-relaxed">
               <p>
+                {/* TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set */}
                 From 2022 onwards, Hamsalekha kept raising the bar across furniture, truss, lighting, gensets and props. In 2026, as we celebrate twenty years, we unveiled The Glass House — South India&apos;s first-of-its-kind glass theme set, and a sign of where Hamsalekha is going next.
               </p>
             </div>
