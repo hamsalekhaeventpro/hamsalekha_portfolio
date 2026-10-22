@@ -120,7 +120,7 @@ export function CaseStudyClient({ project, nextProject }: CaseStudyClientProps) 
           {project.images?.[0] && (
             <Reveal delay={0.4}>
               <div 
-                className="relative overflow-hidden rounded-sm aspect-[16/10] sm:aspect-[21/9] w-full shadow-2xl border border-gold/15 bg-navy-deep mt-4 cursor-pointer group"
+                className="relative overflow-hidden rounded-sm aspect-[16/10] sm:aspect-[16/9] lg:aspect-[3/2] max-h-[72vh] w-full shadow-2xl border border-gold/15 bg-navy-deep mt-4 cursor-pointer group flex items-center justify-center"
                 onClick={() => openLightbox(0)}
               >
                 <Image
@@ -129,9 +129,9 @@ export function CaseStudyClient({ project, nextProject }: CaseStudyClientProps) 
                   fill
                   priority
                   sizes="100vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.01]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/40 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-4 right-4 bg-navy-deep/80 backdrop-blur-sm px-3 py-1.5 rounded-sm border border-gold/20 text-cream/80 font-sans text-xs tracking-wider uppercase">
                   Click to expand
                 </div>
@@ -248,7 +248,7 @@ export function CaseStudyClient({ project, nextProject }: CaseStudyClientProps) 
               {project.images.map((img, i) => (
                 <div
                   key={i}
-                  className="relative overflow-hidden rounded-sm aspect-[4/3] bg-navy-deep min-w-[80vw] sm:min-w-[60vw] md:min-w-0 snap-center shrink-0 md:shrink cursor-pointer group shadow-sm border border-navy-deep/10"
+                  className="relative overflow-hidden rounded-sm aspect-[4/3] bg-navy-deep min-w-[80vw] sm:min-w-[60vw] md:min-w-0 snap-center shrink-0 md:shrink cursor-pointer group shadow-sm border border-navy-deep/10 flex items-center justify-center"
                   onClick={() => openLightbox(i)}
                 >
                   <Image
@@ -256,7 +256,7 @@ export function CaseStudyClient({ project, nextProject }: CaseStudyClientProps) 
                     alt={img.alt}
                     fill
                     sizes="(max-width: 768px) 80vw, 33vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    className="object-contain transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                   />
                   <div className="absolute inset-0 bg-navy-deep/0 group-hover:bg-navy-deep/40 transition-colors duration-300 flex items-end p-4">
                     <span className="font-sans text-xs text-cream/90 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">

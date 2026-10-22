@@ -4,6 +4,7 @@ import { signatureSets, customSetCTA } from "@/lib/content";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { Section } from "@/components/layout/Section";
+import Image from "next/image";
 import { EditorialPlaceholder } from "@/components/ui/EditorialPlaceholder";
 
 // ── 1. THE GLASS HOUSE (PRIMARY VISUAL EXPERIENCE) ─────────────────
@@ -14,18 +15,30 @@ function GlassHouseSection() {
     <Section id="glass-house" tone="stage" className="overflow-hidden scroll-mt-20">
       <div className="container-site">
         <div className="flex flex-col gap-12 lg:gap-16">
-          {/* Large Architectural Image Placeholder */}
-          <div className="w-full relative aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]">
-            <Reveal delay={0.1}>
-              {/* TODO: Needs source verification or named award/evidence for claim: South India's first-of-its-kind glass theme set */}
-              <EditorialPlaceholder
-                aspectRatio="aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]"
-                tone="dark"
-                contextLabel="GLASS HOUSE"
-                caption="The Glass House · Signature Architecture"
-                subline="South India's first-of-its-kind glass theme set · 2026"
-                className="w-full shadow-2xl"
-              />
+          {/* Large Architectural Image */}
+          <div className="w-full relative aspect-[16/10] md:aspect-[3/2] max-h-[72vh] mx-auto">
+            <Reveal delay={0.1} className="w-full h-full">
+              {set.image ? (
+                <div className="relative w-full h-full shadow-2xl rounded-sm overflow-hidden bg-navy-deep flex items-center justify-center border border-gold/20">
+                  <Image
+                    src={set.image}
+                    alt={set.imageAlt || set.title}
+                    fill
+                    sizes="100vw"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              ) : (
+                <EditorialPlaceholder
+                  aspectRatio="aspect-[16/10] md:aspect-[3/2]"
+                  tone="dark"
+                  contextLabel="GLASS HOUSE"
+                  caption="The Glass House · Signature Architecture"
+                  subline="South India's first-of-its-kind glass theme set · 2026"
+                  className="w-full shadow-2xl"
+                />
+              )}
             </Reveal>
           </div>
 
@@ -186,19 +199,31 @@ function MoonGateSection() {
             </Reveal>
           </div>
 
-          {/* MoonGate Circular Architectural Placeholder (Mobile First) */}
+          {/* MoonGate Architectural Display (Full Set View) */}
           <div className="lg:col-span-6 flex justify-center lg:justify-end order-first lg:order-last w-full">
-            <div className="relative w-full max-w-[340px] sm:max-w-[420px] aspect-square p-2 sm:p-4">
-              <Reveal delay={0.1}>
-                <EditorialPlaceholder
-                  aspectRatio="aspect-square"
-                  tone="dark"
-                  circular={true}
-                  contextLabel="MOONGATE"
-                  caption="The MoonGate Signature Set"
-                  subline="Circular architectural arch with integrated illumination · 2025"
-                  className="w-full shadow-2xl"
-                />
+            <div className="relative w-full max-w-[480px] lg:max-w-[540px] aspect-[1.55/1] p-2 sm:p-3">
+              <Reveal delay={0.1} className="w-full h-full">
+                {set.image ? (
+                  <div className="relative w-full h-full rounded-sm overflow-hidden border border-gold/30 shadow-2xl bg-navy-deep flex items-center justify-center">
+                    <Image
+                      src={set.image}
+                      alt={set.imageAlt || set.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 540px"
+                      className="object-contain"
+                    />
+                  </div>
+                ) : (
+                  <EditorialPlaceholder
+                    aspectRatio="aspect-[1.55/1]"
+                    tone="dark"
+                    circular={false}
+                    contextLabel="MOONGATE"
+                    caption="The MoonGate Signature Set"
+                    subline="Circular architectural arch with integrated illumination · 2025"
+                    className="w-full shadow-2xl"
+                  />
+                )}
               </Reveal>
             </div>
           </div>

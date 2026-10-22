@@ -1,5 +1,7 @@
 "use client";
 
+import { asset } from "@/lib/assets";
+
 import Link from "next/link";
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
@@ -11,6 +13,7 @@ import {
   aboutPeople, 
   aboutCTA 
 } from "@/lib/content";
+import Image from "next/image";
 import { EditorialPlaceholder } from "@/components/ui/EditorialPlaceholder";
 
 // ─── 01. ABOUT HERO (DARK CINEMATIC) ──────────────────────────────
@@ -88,13 +91,25 @@ function ItBeganAtHomeSection() {
 
           {/* Mobile Image: Inserted here so photo + story form one storytelling unit on mobile */}
           <div className="block lg:hidden my-2">
-            <EditorialPlaceholder
-              aspectRatio="aspect-[4/3]"
-              tone="light"
-              contextLabel="ARCHIVAL PHOTOGRAPH"
-              caption="Warehouse & office established in Kothanur · 2006"
-              subline="Ramesh V · The First Facility"
-            />
+            {aboutHero.image ? (
+              <div className="relative overflow-hidden rounded-sm aspect-[1.12/1] sm:aspect-[4/3] w-full shadow-md border border-navy-deep/10 bg-navy-deep flex items-center justify-center">
+                <Image
+                  src={aboutHero.image}
+                  alt={aboutHero.imageAlt || "Warehouse & office established in Kothanur · 2006"}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <EditorialPlaceholder
+                aspectRatio="aspect-[1.12/1] sm:aspect-[4/3]"
+                tone="light"
+                contextLabel="ARCHIVAL PHOTOGRAPH"
+                caption="Warehouse & office established in Kothanur · 2006"
+                subline="Ramesh V · The First Facility"
+              />
+            )}
           </div>
 
           <Reveal delay={0.15}>
@@ -124,13 +139,25 @@ function ItBeganAtHomeSection() {
         {/* Desktop Image: Side-by-side on desktop */}
         <div className="hidden lg:block lg:col-span-5">
           <Reveal delay={0.1}>
-            <EditorialPlaceholder
-              aspectRatio="aspect-[4/3]"
-              tone="light"
-              contextLabel="ARCHIVAL PHOTOGRAPH"
-              caption="Warehouse & office established in Kothanur · 2006"
-              subline="Ramesh V · The First Facility"
-            />
+            {aboutHero.image ? (
+              <div className="relative overflow-hidden rounded-sm aspect-[1.12/1] w-full shadow-md border border-navy-deep/10 bg-navy-deep flex items-center justify-center">
+                <Image
+                  src={aboutHero.image}
+                  alt={aboutHero.imageAlt || "Warehouse & office established in Kothanur · 2006"}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <EditorialPlaceholder
+                aspectRatio="aspect-[1.12/1]"
+                tone="light"
+                contextLabel="ARCHIVAL PHOTOGRAPH"
+                caption="Warehouse & office established in Kothanur · 2006"
+                subline="Ramesh V · The First Facility"
+              />
+            )}
           </Reveal>
         </div>
 
@@ -392,13 +419,15 @@ function RaisingTheBarSection() {
 
           {/* Mobile Image: Positioned inline so Image + Heading + Body + CTA read as ONE complete storytelling unit */}
           <div className="block lg:hidden my-2">
-            <EditorialPlaceholder
-              aspectRatio="aspect-[4/3]"
-              tone="light"
-              contextLabel="GLASS HOUSE"
-              caption="The Glass House · 2026 Culmination"
-              subline="South India's first glass theme set"
-            />
+            <div className="relative overflow-hidden rounded-sm aspect-[3/2] w-full shadow-md border border-navy-deep/10 bg-navy-deep flex items-center justify-center">
+              <Image
+                src={asset("/images/signature-sets/glass-house.jpg")}
+                alt="The Glass House · 2026 Culmination"
+                fill
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-contain"
+              />
+            </div>
           </div>
 
           <Reveal delay={0.15}>
@@ -426,13 +455,15 @@ function RaisingTheBarSection() {
         {/* Desktop Image: Side-by-side on desktop */}
         <div className="hidden lg:block lg:col-span-5">
           <Reveal delay={0.1}>
-            <EditorialPlaceholder
-              aspectRatio="aspect-[4/3]"
-              tone="light"
-              contextLabel="GLASS HOUSE"
-              caption="The Glass House · 2026 Culmination"
-              subline="South India's first glass theme set"
-            />
+            <div className="relative overflow-hidden rounded-sm aspect-[3/2] w-full shadow-md border border-navy-deep/10 bg-navy-deep flex items-center justify-center">
+              <Image
+                src={asset("/images/signature-sets/glass-house.jpg")}
+                alt="The Glass House · 2026 Culmination"
+                fill
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-contain"
+              />
+            </div>
           </Reveal>
         </div>
 
@@ -441,16 +472,31 @@ function RaisingTheBarSection() {
   );
 }
 
-// ─── 07. FOUNDER PORTRAIT PLACEHOLDER (INTENTIONAL & PREMIUM) ──────
+// ─── 07. FOUNDER PORTRAIT (IMAGE WITH EDITORIAL FALLBACK) ──────
 function FounderPortraitPlaceholder() {
+  if (founder.image) {
+    return (
+      <div className="relative overflow-hidden rounded-sm aspect-[3/2] w-full max-w-[460px] mx-auto lg:max-w-none shadow-md border border-gold-dark/20 bg-base-warm flex items-center justify-center">
+        <Image
+          src={founder.image}
+          alt={founder.name}
+          fill
+          sizes="(max-width: 1024px) 100vw, 480px"
+          className="object-contain"
+          priority
+        />
+      </div>
+    );
+  }
+
   return (
     <EditorialPlaceholder
-      aspectRatio="aspect-[3/4]"
+      aspectRatio="aspect-[3/2]"
       tone="light"
       contextLabel="FOUNDER PORTRAIT"
       caption="Ramesh V"
       subline="Founder & Managing Director · Guiding since 2006"
-      className="max-w-[320px] sm:max-w-[360px] mx-auto lg:max-w-none"
+      className="max-w-[460px] mx-auto lg:max-w-none"
     />
   );
 }
@@ -591,16 +637,28 @@ function OurPeopleSection() {
           <div className="w-12 h-[1px] bg-gold/40" />
         </Reveal>
 
-        {/* Authentic Crew / Backstage Image Placeholder */}
+        {/* Authentic Crew / Backstage Image */}
         <Reveal delay={0.12} className="w-full">
-          <EditorialPlaceholder
-            aspectRatio="aspect-[16/10] sm:aspect-[21/9]"
-            tone="dark"
-            contextLabel="CREW / BACKSTAGE"
-            caption="Riggers, carpenters, and technicians behind every build"
-            subline="Authentic backstage crew photography"
-            className="w-full max-w-3xl mx-auto my-2"
-          />
+          {aboutPeople.image ? (
+            <div className="relative w-full max-w-4xl mx-auto my-2 aspect-[3/2] rounded-sm overflow-hidden shadow-sm bg-navy-deep flex items-center justify-center border border-gold/15">
+              <Image
+                src={aboutPeople.image}
+                alt={aboutPeople.imageAlt || "Riggers, carpenters, and technicians behind every build"}
+                fill
+                sizes="(max-width: 768px) 100vw, 900px"
+                className="object-contain"
+              />
+            </div>
+          ) : (
+            <EditorialPlaceholder
+              aspectRatio="aspect-[3/2]"
+              tone="dark"
+              contextLabel="CREW / BACKSTAGE"
+              caption="Riggers, carpenters, and technicians behind every build"
+              subline="Authentic backstage crew photography"
+              className="w-full max-w-4xl mx-auto my-2 shadow-sm"
+            />
+          )}
         </Reveal>
 
         <Reveal delay={0.15}>

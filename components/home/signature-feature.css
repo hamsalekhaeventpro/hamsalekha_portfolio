@@ -1,0 +1,835 @@
+/* ═══════════════════════════════════════════════════════════════
+   Signature Feature · Cinematic Scroll-Driven Styles
+   One CSS variable --p (0→1) per scene drives every effect.
+   Colors match project tokens from globals.css @theme block.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Scroll-reveal helper ──
+   Set --s (start threshold) inline on each element.
+   Produces t = clamp(0, (p - s) × 6, 1)
+   Drives opacity, translateY(36→0), blur(6→0).            */
+.ss-rv {
+  --t: clamp(0, calc((var(--p) - var(--s, 0.1)) * 6), 1);
+  opacity: var(--t);
+  transform: translateY(calc((1 - var(--t)) * 36px));
+  filter: blur(calc((1 - var(--t)) * 6px));
+  will-change: transform, opacity;
+}
+
+/* ═══════════ INTRO SCENE (200svh) ═══════════ */
+.ss-intro {
+  --p: 0;
+  --header-h: 4.5rem;
+  position: relative;
+  height: 200svh;
+}
+.ss-intro-stage {
+  position: sticky;
+  top: var(--header-h, 4.5rem);
+  height: calc(100svh - var(--header-h, 4.5rem));
+  overflow: hidden;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 0 24px;
+  background: radial-gradient(
+    circle at 50% calc(25% + var(--p) * 45%),
+    rgba(212, 175, 55, 0.18),
+    transparent 55%
+  ),
+  linear-gradient(#0c1f3d, #050d1c);
+}
+
+/* Eyebrow */
+.ss-eyebrow {
+  color: #D4AF37;
+  letter-spacing: 0.28em;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: var(--font-sans);
+}
+
+/* Heading */
+.ss-heading {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 11vw, 84px);
+  line-height: 1.05;
+  margin: 18px 0 0;
+  color: #FAF8F3;
+  font-weight: 700;
+}
+.ss-heading em {
+  color: #E8CB6A;
+  display: block;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Gold centre line */
+.ss-gold-line {
+  width: min(60vw, 320px);
+  height: 1px;
+  margin: 28px auto;
+  background: #D4AF37;
+  transform: scaleX(clamp(0, calc(var(--p) * 3), 1));
+  transform-origin: center;
+}
+
+/* Scroll cue pulse */
+.ss-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(#D4AF37, transparent);
+  animation: ss-cue-bob 1.8s ease-in-out infinite;
+  opacity: calc(1 - var(--p) * 4);
+}
+@keyframes ss-cue-bob {
+  0%   { transform: translateX(-50%) scaleY(0.2); transform-origin: top; }
+  60%  { transform: translateX(-50%) scaleY(1); }
+  100% { transform: translateX(-50%) scaleY(1); opacity: 0; }
+}
+
+/* Gold dust particles */
+.ss-dust { position: absolute; inset: 0; pointer-events: none; }
+.ss-dust i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #D4AF37;
+  opacity: 0.5;
+  left: var(--x);
+  top: var(--y);
+  animation: ss-dust-float var(--d) ease-in-out infinite alternate;
+}
+@keyframes ss-dust-float {
+  to { transform: translate3d(18px, -60px, 0); opacity: 0.1; }
+}
+
+
+/* ═══════════ GLASS HOUSE SCENE (340svh) ═══════════ */
+.ss-gh {
+  --p: 0;
+  --header-h: 4.5rem;
+  --in: clamp(0, calc(var(--p) * 8), 1);         /* letterbox open */
+  --n: clamp(0, calc((var(--p) - 0.15) * 2.5), 1); /* night opacity */
+  position: relative;
+  height: 340svh;
+}
+.ss-gh-stage {
+  position: sticky;
+  top: var(--header-h, 4.5rem);
+  height: calc(100svh - var(--header-h, 4.5rem));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(#0B1F3A, #050d1c);
+}
+
+/* Letterbox bars */
+.ss-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: calc((1 - var(--in)) * 14svh);
+  background: #000;
+  z-index: 5;
+  pointer-events: none;
+}
+.ss-bar-t { top: 0; }
+.ss-bar-b { bottom: 0; }
+
+/* Image container */
+.ss-gh-media {
+  position: relative;
+  flex: 0 0 50svh;
+  margin: 14px 14px 0;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  clip-path: inset(calc((1 - var(--in)) * 18%) round 22px);
+}
+
+/* Day + Night image layers */
+.ss-gh-media img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  object-position: center;
+  background: #050d1c;
+  transform: scale(calc(1 + var(--p) * 0.015));
+}
+.ss-night-img {
+  opacity: var(--n);
+  z-index: 1;
+}
+.ss-day-img {
+  filter: brightness(calc(1 - var(--p) * 0.35));
+}
+
+/* Manual override: smooth transition when user clicks toggle */
+.ss-gh[data-manual] .ss-night-img {
+  transition: opacity 0.7s ease-out;
+}
+.ss-gh[data-manual="day"] .ss-night-img {
+  opacity: 0;
+}
+.ss-gh[data-manual="night"] .ss-night-img {
+  opacity: 1;
+}
+
+/* Night atmosphere */
+.ss-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(circle at 50% 60%, transparent 20%, rgba(2, 6, 16, 0.75));
+  opacity: var(--n);
+  pointer-events: none;
+}
+.ss-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  mix-blend-mode: screen;
+  opacity: calc(var(--n) * 0.9);
+  background:
+    radial-gradient(circle at 30% 70%, rgba(255, 196, 80, 0.35), transparent 40%),
+    radial-gradient(circle at 72% 62%, rgba(255, 214, 140, 0.3), transparent 38%);
+  animation: ss-glow-pulse 3.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes ss-glow-pulse {
+  from { filter: brightness(0.8); }
+  to   { filter: brightness(1.25); }
+}
+
+/* Day/Night toggle */
+.ss-toggle {
+  position: absolute;
+  left: 28px;
+  bottom: calc(50svh - 52px + 14px + 22px);
+  z-index: 10;
+  display: flex;
+  padding: 5px;
+  border-radius: 99px;
+  background: rgba(8, 18, 38, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.ss-toggle-btn {
+  position: relative;
+  z-index: 1;
+  padding: 12px 18px;
+  width: 112px;
+  text-align: center;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  min-height: 44px;
+  transition: color 0.2s;
+}
+.ss-toggle-btn[data-active="true"] { color: #0B1F3A; }
+.ss-toggle-pill {
+  position: absolute;
+  z-index: 0;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: 112px;
+  border-radius: 99px;
+  background: #D4AF37;
+  transition: transform 0.3s ease-out;
+}
+
+/* Copy column */
+.ss-copy {
+  position: relative;
+  z-index: 2;
+  padding: 22px 24px 90px;
+  overflow: hidden;
+}
+.ss-kind {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ss-kind b { color: #D4AF37; }
+.ss-kind span { color: #9aa6bd; }
+
+.ss-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 9vw, 56px);
+  line-height: 1.1;
+  margin: 12px 0 8px;
+  color: #FAF8F3;
+  font-weight: 700;
+}
+.ss-text {
+  color: #c3cce0;
+  line-height: 1.6;
+  font-size: 16px;
+  font-family: var(--font-sans);
+  margin: 0 0 14px;
+}
+
+/* Service chips */
+.ss-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.ss-chips li {
+  padding: 9px 14px;
+  border-radius: 99px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cfd7e8;
+}
+
+/* Bullet list */
+.ss-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  display: grid;
+  gap: 10px;
+}
+.ss-bullets li {
+  padding-left: 26px;
+  position: relative;
+  color: #d5dcec;
+  font-size: 14px;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+.ss-bullets li::before {
+  content: '\2726';
+  position: absolute;
+  left: 0;
+  color: #D4AF37;
+}
+
+/* CTA link */
+.ss-cta-link {
+  color: #E8CB6A;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 13px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.ss-cta-link:hover .ss-cta-arrow {
+  transform: translateX(6px);
+}
+.ss-cta-arrow {
+  transition: transform 0.25s;
+}
+
+/* Progress rail */
+.ss-rail {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 2px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-50%);
+  z-index: 6;
+}
+.ss-rail::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #D4AF37;
+  transform: scaleY(var(--p));
+  transform-origin: top;
+}
+
+
+/* ═══════════ MOONGATE SCENE (340svh) ═══════════ */
+.ss-mg {
+  --p: 0;
+  --header-h: 4.5rem;
+  --m: clamp(0, calc(var(--p) * 3), 1);
+  position: relative;
+  height: 340svh;
+}
+.ss-mg-stage {
+  position: sticky;
+  top: var(--header-h, 4.5rem);
+  height: calc(100svh - var(--header-h, 4.5rem));
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(#0B1F3A, #050d1c);
+}
+
+/* Moon container (rises + grows) */
+.ss-mg-media {
+  position: relative;
+  flex: 0 0 auto;
+  width: min(78vw, 46svh);
+  aspect-ratio: 1;
+  margin: 6svh auto 0;
+  border-radius: 50%;
+  overflow: visible;
+  clip-path: none;
+  transform: translateY(calc((1 - var(--m)) * 30svh));
+  opacity: calc(0.2 + var(--m) * 0.8);
+}
+
+/* Circular disc with expanding clip */
+.ss-mg-disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  clip-path: circle(calc(3% + var(--m) * 47%));
+  box-shadow: 0 0 calc(var(--m) * 90px) rgba(255, 214, 120, 0.55);
+}
+.ss-mg-disc img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  transform: scale(calc(1.25 - var(--p) * 0.2));
+}
+
+/* Rotating gold ring */
+.ss-mg-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  opacity: var(--m);
+  background: conic-gradient(from 0deg, transparent, rgba(240, 211, 106, 0.9), transparent 40%);
+  animation: ss-ring-spin 7s linear infinite;
+  -webkit-mask: radial-gradient(circle, transparent 66%, #000 67%, #000 68%, transparent 69%);
+  mask: radial-gradient(circle, transparent 66%, #000 67%, #000 68%, transparent 69%);
+}
+@keyframes ss-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* MoonGate copy spacing */
+.ss-mg .ss-copy { padding-top: 20px; }
+
+
+/* ═══════════ DESKTOP (≥900px) ═══════════ */
+@media (min-width: 900px) {
+  .ss-gh-stage {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    padding: 0 8vw;
+  }
+  .ss-gh-media {
+    flex: 1 1 55%;
+    height: 64svh;
+    margin: 0;
+    background: #050d1c;
+  }
+  .ss-copy {
+    flex: 1 1 40%;
+    padding: 0;
+  }
+  .ss-toggle {
+    bottom: auto;
+    top: calc(50% + 32svh + 14px);
+    left: 8vw;
+  }
+
+  .ss-mg-stage {
+    flex-direction: row;
+    align-items: center;
+    gap: 48px;
+    padding: 0 8vw;
+  }
+  .ss-mg-media {
+    flex: 0 0 auto;
+    width: min(46vw, 70svh);
+    margin: 0;
+  }
+}
+
+
+/* ═══════════ REDUCED MOTION ═══════════ */
+@media (prefers-reduced-motion: reduce) {
+  .ss-glow,
+  .ss-cue,
+  .ss-dust i,
+  .ss-mg-ring {
+    animation: none !important;
+  }
+  .ss-mg-media::after {
+    display: none !important;
+  }
+  .ss-rv {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+
+/* ═══════════ MOBILE POSTER SCENES (<900px) ═══════════ */
+@media (max-width: 899px) {
+  /* Common scene & stage sizing */
+  .ss-intro, .ss-gh, .ss-mg {
+    --header-h: 4rem;
+    --bar-h: 3.5rem;
+  }
+  .ss-intro { height: 170svh; }
+  .ss-gh, .ss-mg { height: 300svh; }
+  .ss-intro-stage, .ss-gh-stage, .ss-mg-stage {
+    top: var(--header-h);
+    height: calc(100svh - var(--header-h));
+    contain: layout paint;
+    background: #050d1c;
+  }
+
+  /* Hide desktop letterbox bars on mobile (curtain wipe handles reveal) */
+  .ss-bar { display: none; }
+  .ss-rv { filter: none !important; }
+  .ss-dust i:nth-child(n+7) { display: none; }
+
+  /* ── A. Aspect Ratios & Image Band ── */
+  .ss-gh {
+    --ratio: 1.5;
+    --img-h: min(calc(100vw / var(--ratio)), 36svh);
+  }
+  .ss-mg {
+    --ratio: 1.5516;
+    --img-h: min(calc(100vw / var(--ratio)), 36svh);
+  }
+
+  /* Screens shorter than 700px: cap at 25svh (23svh on <=650px) */
+  @media (max-height: 699px) {
+    .ss-gh, .ss-mg {
+      --img-h: min(calc(100vw / var(--ratio)), 25svh);
+    }
+  }
+  @media (max-height: 650px) {
+    .ss-gh, .ss-mg {
+      --img-h: min(calc(100vw / var(--ratio)), 23svh);
+    }
+  }
+
+  /* Image band: never cropped */
+  .ss-gh-media,
+  .ss-mg-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--img-h);
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    overflow: hidden;
+    background: #050d1c;
+  }
+
+  /* Images inside: contain (NOT cover), centered, no cropping zoom */
+  .ss-gh-media img,
+  .ss-mg-disc img {
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: none !important;
+  }
+
+  /* ── B. Cinematic Effects in Band ── */
+  /* Glass House curtain wipe opening */
+  .ss-gh-media {
+    clip-path: inset(0 0 calc((1 - var(--in)) * 100%) 0);
+  }
+
+  /* Glass House day/night atmosphere */
+  .ss-glow {
+    mix-blend-mode: normal;
+    opacity: calc(var(--n) * 0.6);
+  }
+
+  /* Glass House day/night toggle: positioned cleanly below image band, never obscuring photo */
+  .ss-toggle {
+    position: absolute;
+    top: calc(var(--img-h) + 10px);
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-left: 0;
+    width: 210px;
+    padding: 4px;
+    box-sizing: border-box;
+    z-index: 10;
+  }
+  .ss-toggle-btn {
+    width: 101px;
+    min-height: 44px;
+    padding: 10px 4px;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .ss-toggle-pill {
+    left: 4px;
+    top: 4px;
+    bottom: 4px;
+    width: 101px;
+  }
+  @media (max-height: 699px) {
+    .ss-toggle {
+      top: calc(var(--img-h) + 6px);
+      padding: 3px;
+      width: 196px;
+    }
+    .ss-toggle-btn {
+      width: 95px;
+      min-height: 40px;
+      padding: 8px 4px;
+      font-size: 10px;
+    }
+    .ss-toggle-pill {
+      width: 95px;
+    }
+  }
+
+  /* MoonGate circle reveal inside the band */
+  .ss-mg {
+    --m: clamp(0, calc(var(--p) * 2.5), 1);
+    --c: calc(0.04 + var(--m) * 0.72);
+  }
+  .ss-mg-stage {
+    background: #050d1c;
+  }
+  .ss-mg-media {
+    width: auto;
+    aspect-ratio: auto;
+    transform: none;
+    opacity: 1;
+    background: radial-gradient(circle at 50% 50%, #10264a, #050d1c 70%);
+  }
+  .ss-mg-ring { display: none; }
+  .ss-mg-disc {
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    clip-path: circle(calc(var(--c) * 100%) at 50% 50%);
+    box-shadow: none;
+  }
+  .ss-mg-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at 50% 50%,
+      transparent calc(var(--c) * 141% - 1.4%),
+      rgba(240, 211, 106, 0.95) calc(var(--c) * 141% - 0.4%),
+      transparent calc(var(--c) * 141% + 1.6%)
+    );
+    opacity: calc(1 - clamp(0, calc((var(--p) - 0.45) * 4), 1));
+  }
+
+  /* ── C. Copy Below Image: All Content Visible ── */
+  /* Glass House copy starts below the toggle */
+  .ss-gh .ss-copy {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--img-h) + 64px);
+    bottom: 0;
+    padding: 0 22px calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 12px);
+    overflow: visible;
+  }
+  @media (max-height: 699px) {
+    .ss-gh .ss-copy {
+      top: calc(var(--img-h) + 52px);
+      padding: 0 18px calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 8px);
+    }
+  }
+  @media (max-height: 650px) {
+    .ss-gh .ss-copy {
+      top: calc(var(--img-h) + 48px);
+      padding: 0 16px calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 6px);
+    }
+  }
+
+  /* MoonGate copy starts directly below the image band */
+  .ss-mg .ss-copy {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--img-h) + 16px);
+    bottom: 0;
+    padding: 0 22px calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 12px);
+    overflow: visible;
+  }
+  @media (max-height: 699px) {
+    .ss-mg .ss-copy {
+      top: calc(var(--img-h) + 10px);
+      padding: 0 18px calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 8px);
+    }
+  }
+  @media (max-height: 650px) {
+    .ss-mg .ss-copy {
+      top: calc(var(--img-h) + 8px);
+      padding: 0 16px calc(var(--bar-h) + env(safe-area-inset-bottom, 0px) + 6px);
+    }
+  }
+
+  /* Remove gradient scrim */
+  .ss-copy::before {
+    display: none !important;
+  }
+
+  /* Typography */
+  .ss-kind {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+  }
+  .ss-title {
+    font-size: clamp(26px, 4.2svh, 38px);
+    line-height: 1.1;
+    margin: 8px 0 6px;
+  }
+  @media (max-height: 699px) {
+    .ss-title {
+      font-size: clamp(22px, 3.6svh, 27px);
+      margin: 4px 0 4px;
+    }
+  }
+  @media (max-height: 650px) {
+    .ss-title {
+      font-size: clamp(20px, 3.3svh, 24px);
+      margin: 3px 0 3px;
+    }
+  }
+
+  /* Paragraph: no line-clamp, fully visible */
+  .ss-text {
+    font-size: clamp(13px, 1.8svh, 15px);
+    line-height: 1.5;
+    display: block;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    overflow: visible;
+    margin: 0 0 12px;
+  }
+  @media (max-height: 699px) {
+    .ss-text {
+      font-size: 12.5px;
+      line-height: 1.4;
+      margin: 0 0 8px;
+    }
+  }
+  @media (max-height: 650px) {
+    .ss-text {
+      font-size: 11.5px;
+      line-height: 1.35;
+      margin: 0 0 6px;
+    }
+  }
+
+  /* Chips: multi-row wrapped, all 6 visible without scrolling */
+  .ss-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 12px;
+    padding: 0;
+    overflow: visible;
+  }
+  .ss-chips li {
+    flex: none;
+    padding: 6px 11px;
+    font-size: 11px;
+    border-radius: 99px;
+  }
+  @media (max-height: 699px) {
+    .ss-chips {
+      margin: 0 0 8px;
+      gap: 5px;
+    }
+    .ss-chips li {
+      padding: 4px 9px;
+      font-size: 10px;
+    }
+  }
+  @media (max-height: 650px) {
+    .ss-chips {
+      margin: 0 0 6px;
+      gap: 4px;
+    }
+    .ss-chips li {
+      padding: 3px 8px;
+      font-size: 9.5px;
+    }
+  }
+
+  /* Bullets & CTA */
+  .ss-bullets {
+    margin: 0 0 12px;
+    gap: 8px;
+  }
+  .ss-bullets li {
+    font-size: clamp(12px, 1.6svh, 14px);
+    line-height: 1.4;
+    padding-left: 20px;
+  }
+  @media (max-height: 699px) {
+    .ss-bullets {
+      margin: 0 0 8px;
+      gap: 5px;
+    }
+    .ss-bullets li {
+      font-size: 11.5px;
+      line-height: 1.35;
+      padding-left: 18px;
+    }
+  }
+
+  .ss-cta-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* MoonGate copy reveal thresholds */
+  .ss-mg .ss-kind { --s: 0.25 !important; }
+  .ss-mg .ss-title { --s: 0.30 !important; }
+  .ss-mg .ss-text { --s: 0.36 !important; }
+  .ss-mg .ss-bullets li:nth-child(1) { --s: 0.44 !important; }
+  .ss-mg .ss-bullets li:nth-child(2) { --s: 0.52 !important; }
+  .ss-mg .ss-cta-link { --s: 0.68 !important; }
+}

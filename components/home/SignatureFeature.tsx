@@ -1,112 +1,507 @@
 "use client";
 
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 import { signatureSets, customSetCTA } from "@/lib/content";
-import { ease, duration } from "@/lib/motion";
 import { Section } from "@/components/layout/Section";
-
-const EXPO = ease.expo;
+import "./signature-feature.css";
 
 /* =========================================================================
-   DESKTOP TEXT COMPONENT (UNTOUCHED)
+   IMAGE PATHS (actual project assets)
    ========================================================================= */
-function SignatureText({ set }: { set: typeof signatureSets[0] }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
-  const rm = useReducedMotion();
-  
-  const v = {
-    hidden: { opacity: 0, y: 15 },
-    visible: { opacity: 1, y: 0, transition: { duration: duration.reveal, ease: EXPO } },
-  };
-  const cV = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
-  };
+const GH_DAY = "/images/signature-sets/DJI_20260816180926_0336_D_VG.jpg";
+const GH_NIGHT = "/images/signature-sets/PHOTOS_DEE05557.jpg";
+const MG_IMAGE = signatureSets[1].image || "/images/signature-sets/moongate.jpg";
 
-  const cleanCtaLabel = set.ctaLabel.replace(/→|\u2192/g, '').trim();
+/* =========================================================================
+   HOMEPAGE COPY (from content.ts — first sentence for preview)
+   ========================================================================= */
+const GH = {
+  index: "01",
+  kind: signatureSets[0].eyebrow,
+  title: signatureSets[0].title,
+  text: "South India\u2019s first-of-its-kind glass theme set \u2014 a new canvas for extraordinary celebrations. A transparent venue within your venue, glowing by day and lit like a lantern by night.",
+  chips: signatureSets[0].bestFor ?? [],
+  ctaLabel: "Discover The Glass House",
+  ctaHref: signatureSets[0].ctaHref,
+};
 
+const MG = {
+  index: "02",
+  kind: signatureSets[1].eyebrow,
+  title: signatureSets[1].title,
+  text: signatureSets[1].body,
+  bullets: signatureSets[1].bullets ?? [],
+  ctaLabel: signatureSets[1].ctaLabel.replace(/\u2192|→/g, "").trim(),
+  ctaHref: signatureSets[1].ctaHref,
+};
+
+/* =========================================================================
+   DUST PARTICLES (16 gold motes, 4–8s drift cycles)
+   ========================================================================= */
+const DUST = Array.from({ length: 16 }, (_, i) => ({
+  x: `${(i * 37) % 100}%`,
+  y: `${(i * 53) % 100}%`,
+  d: `${4 + (i % 5)}s`,
+}));
+
+/* =========================================================================
+   DAMPING & ANIMATION LIFECYCLE
+   DAMPING_COEFF = 9 yields smooth frame-rate independent easing (~0.14 at 60fps)
+   that absorbs touch scroll jitter while maintaining prompt response.
+   ========================================================================= */
+const DAMPING_COEFF = 9;
+
+/* =========================================================================
+   useSceneProgress — drives --p (0→1) via rAF with time-based damping.
+   Caches section top & travel; re-measures on resize/load/DOM shifts.
+   Zero getBoundingClientRect calls during scroll for optimal 60/120fps.
+   IntersectionObserver & visibilitychange pause ticking when offscreen.
+   ========================================================================= */
+function useSceneProgress(
+  rm: boolean,
+  onProgressRef?: React.RefObject<((p: number) => void) | null>
+) {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (rm) {
+      el.style.setProperty("--p", "1");
+      onProgressRef?.current?.(1);
+      return;
+    }
+
+    let target = 0;
+    let cur = 0;
+    let raf = 0;
+    let lastTime = 0;
+    let isIntersecting = true;
+    let geom = { pinStart: 0, travel: 1 };
+
+    // Measure once & cache geometry; re-measure on resize, load, or DOM shifts
+    const measure = () => {
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const scrollTop = window.scrollY || window.pageYOffset;
+      const sectionTop = rect.top + scrollTop;
+
+      // Header height: 4.5rem (72px) on md+ (>=900px), 4rem (64px) on mobile (<900px)
+      const headerH = window.innerWidth >= 900 ? 72 : 64;
+
+      // First child is the sticky stage (.ss-intro-stage, .ss-gh-stage, etc.)
+      const stageEl = el.firstElementChild as HTMLElement | null;
+      const stageH = stageEl ? stageEl.offsetHeight : window.innerHeight - headerH;
+
+      // Travel is the exact scroll distance while stage stays pinned
+      const travel = el.offsetHeight - stageH;
+      const pinStart = sectionTop - headerH;
+
+      geom = {
+        pinStart,
+        travel: Math.max(travel, 1),
+      };
+      update();
+    };
+
+    const update = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      target = Math.min(1, Math.max(0, (scrollY - geom.pinStart) / geom.travel));
+      if (!raf && isIntersecting && !document.hidden) {
+        lastTime = performance.now();
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      // Frame-rate independent exponential damping with DAMPING_COEFF = 9
+      const damping = 1 - Math.exp(-DAMPING_COEFF * dt);
+      cur += (target - cur) * damping;
+
+      if (Math.abs(target - cur) < 0.0004) cur = target;
+      el.style.setProperty("--p", cur.toFixed(4));
+      onProgressRef?.current?.(cur);
+
+      if (cur !== target && isIntersecting && !document.hidden) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+
+    measure();
+
+    // IntersectionObserver to pause ticking when section is offscreen
+    let io: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.target === el) {
+              isIntersecting = entry.isIntersecting;
+              if (isIntersecting) {
+                measure();
+              } else if (raf) {
+                cancelAnimationFrame(raf);
+                raf = 0;
+              }
+            }
+          }
+        },
+        { rootMargin: "100px 0px 100px 0px" }
+      );
+      io.observe(el);
+    }
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      } else if (isIntersecting) {
+        update();
+      }
+    };
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", measure);
+    window.addEventListener("load", measure);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    // Watch for layout shifts from assets loading above
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(() => measure());
+      ro.observe(el);
+      if (document.body) ro.observe(document.body);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("load", measure);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      if (io) io.disconnect();
+      if (ro) ro.disconnect();
+      if (raf) cancelAnimationFrame(raf);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rm]);
+
+  return ref;
+}
+
+/* =========================================================================
+   DESKTOP · INTRO SCENE (200svh)
+   Eyebrow → Heading → Gold line → Scroll cue
+   ========================================================================= */
+function IntroScene({ rm }: { rm: boolean }) {
+  const ref = useSceneProgress(rm);
   return (
-    <motion.div ref={ref} variants={cV} initial="hidden" animate={rm ? "visible" : (isInView ? "visible" : "hidden")} className="flex flex-col items-start text-left max-w-lg">
-      <motion.span variants={v} className="font-sans text-[0.65rem] tracking-[0.2em] uppercase font-bold text-gold-border mb-4 block">
-        {set.eyebrow}
-      </motion.span>
-      <motion.h3 variants={v} className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-cream mb-6 leading-tight">
-        {set.title}
-      </motion.h3>
-      <motion.p variants={v} className="font-sans text-base text-cream/80 leading-relaxed mb-6">
-        {set.body}
-      </motion.p>
-      
-      {set.bullets && (
-        <motion.ul variants={v} className="flex flex-col gap-3 mb-8">
-          {set.bullets.map((b: string, i: number) => (
-            <li key={i} className="flex items-start gap-3 font-sans text-sm text-cream/70">
-              <span className="text-gold-light mt-0.5">✦</span>
-              {b}
-            </li>
-          ))}
-        </motion.ul>
-      )}
-
-      {set.bestFor && (
-        <motion.div variants={v} className="flex flex-wrap gap-2 mb-8">
-          {set.bestFor.map((b: string, i: number) => (
-            <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full font-sans text-xs text-cream/80 uppercase tracking-widest">
-              {b}
-            </span>
-          ))}
-        </motion.div>
-      )}
-
-      <motion.div variants={v}>
-        <Link
-          href={set.ctaHref}
-          className="inline-flex items-center gap-3 font-sans text-sm font-bold text-gold-light hover:text-gold transition-colors duration-300 uppercase tracking-widest group"
+    <section ref={ref} className="ss-intro">
+      <div className="ss-intro-stage">
+        {!rm && (
+          <div className="ss-dust">
+            {DUST.map((d, i) => (
+              <i
+                key={i}
+                style={
+                  { "--x": d.x, "--y": d.y, "--d": d.d } as React.CSSProperties
+                }
+              />
+            ))}
+          </div>
+        )}
+        <p
+          className="ss-rv ss-eyebrow"
+          style={{ "--s": "0" } as React.CSSProperties}
         >
-          {cleanCtaLabel}
-          <ArrowRight size={16} className="transition-transform duration-300 ease-out group-hover:translate-x-1" />
-        </Link>
-      </motion.div>
-    </motion.div>
+          Signature Sets
+        </p>
+        <h2
+          className="ss-rv ss-heading"
+          style={{ "--s": "0.05" } as React.CSSProperties}
+        >
+          Sets that define <em>the space.</em>
+        </h2>
+        <div className="ss-gold-line" />
+        {!rm && <div className="ss-cue" />}
+      </div>
+    </section>
   );
 }
 
+/* =========================================================================
+   GLASS HOUSE SCENE (340svh desktop, 300svh mobile)
+   Letterbox bars → Image reveal → Day-to-night → Text choreography
+   ========================================================================= */
+function GlassHouseDesktop({ rm }: { rm: boolean }) {
+  const [activeView, setActiveView] = useState<"day" | "night">(
+    rm ? "night" : "day"
+  );
+  const [manual, setManual] = useState<"day" | "night" | null>(null);
+  const lastScrollY = useRef(0);
+  const activeRef = useRef(activeView);
+  const onProgress = useRef<((p: number) => void) | null>(null);
+
+  // Keep refs fresh after each render (not during render)
+  useEffect(() => {
+    activeRef.current = activeView;
+    onProgress.current = (p) => {
+      if (manual !== null) return;
+      const n = Math.min(1, Math.max(0, (p - 0.15) * 2.5));
+      const next = n >= 0.5 ? "night" : "day";
+      if (next !== activeRef.current) {
+        setActiveView(next);
+      }
+    };
+  });
+
+  const ref = useSceneProgress(rm, onProgress);
+
+  // Manual override handler
+  const handleSelect = useCallback((view: "day" | "night") => {
+    setActiveView(view);
+    setManual(view);
+    lastScrollY.current = window.scrollY;
+  }, []);
+
+  // Auto-reset manual override after 220px scroll travel
+  useEffect(() => {
+    if (manual === null || rm) return;
+    const check = () => {
+      if (Math.abs(window.scrollY - lastScrollY.current) > 220) {
+        setManual(null);
+      }
+    };
+    window.addEventListener("scroll", check, { passive: true });
+    return () => window.removeEventListener("scroll", check);
+  }, [manual, rm]);
+
+  return (
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      className="ss-gh"
+      data-manual={manual || undefined}
+      id="glass-house-scene"
+      style={{ "--ratio": "1.5" } as React.CSSProperties}
+    >
+      <div className="ss-gh-stage">
+        {/* Letterbox bars */}
+        <div className="ss-bar ss-bar-t" />
+        <div className="ss-bar ss-bar-b" />
+
+        {/* Progress rail */}
+        <div className="ss-rail" />
+
+        {/* Image container */}
+        <div className="ss-gh-media relative">
+          <Image
+            src={GH_DAY}
+            alt="The Glass House pavilion, aerial daytime view"
+            fill
+            priority
+            sizes="(min-width: 900px) 55vw, 100vw"
+            className="ss-day-img"
+          />
+          <Image
+            src={GH_NIGHT}
+            alt="The Glass House illuminated at night"
+            fill
+            loading="lazy"
+            sizes="(min-width: 900px) 55vw, 100vw"
+            className="ss-night-img"
+          />
+          <div className="ss-shade" />
+          {!rm && <div className="ss-glow" />}
+        </div>
+
+        {/* Day/Night toggle */}
+        <div
+          className="ss-toggle ss-rv"
+          style={{ "--s": "0.05" } as React.CSSProperties}
+        >
+          <div
+            className="ss-toggle-pill"
+            style={{
+              transform: `translateX(${activeView === "night" ? "100%" : "0"})`,
+            }}
+          />
+          <button
+            type="button"
+            className="ss-toggle-btn"
+            data-active={activeView === "day"}
+            onClick={() => handleSelect("day")}
+            aria-label="View Glass House daytime aerial"
+            aria-pressed={activeView === "day"}
+          >
+            Day aerial
+          </button>
+          <button
+            type="button"
+            className="ss-toggle-btn"
+            data-active={activeView === "night"}
+            onClick={() => handleSelect("night")}
+            aria-label="View Glass House at night"
+            aria-pressed={activeView === "night"}
+          >
+            By night
+          </button>
+        </div>
+
+        {/* Copy */}
+        <div className="ss-copy">
+          <div
+            className="ss-rv ss-kind"
+            style={{ "--s": "0.10" } as React.CSSProperties}
+          >
+            <b>{GH.index} / {GH.kind}</b>
+          </div>
+          <h3
+            className="ss-rv ss-title"
+            style={{ "--s": "0.18" } as React.CSSProperties}
+          >
+            {GH.title}
+          </h3>
+          <p
+            className="ss-rv ss-text"
+            style={{ "--s": "0.26" } as React.CSSProperties}
+          >
+            {GH.text}
+          </p>
+          <ul className="ss-chips">
+            {GH.chips.map((chip, i) => (
+              <li
+                key={chip}
+                className="ss-rv"
+                style={
+                  { "--s": `${0.36 + i * 0.04}` } as React.CSSProperties
+                }
+              >
+                {chip}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href={GH.ctaHref}
+            className="ss-rv ss-cta-link"
+            style={{ "--s": "0.62" } as React.CSSProperties}
+          >
+            {GH.ctaLabel}
+            <ArrowRight size={14} className="ss-cta-arrow" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   MOONGATE SCENE (340svh desktop, 300svh mobile)
+   Moon rises → Circle reveals → Ring rotates → Text choreography
+   ========================================================================= */
+function MoonGateDesktop({ rm }: { rm: boolean }) {
+  const ref = useSceneProgress(rm);
+  return (
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      className="ss-mg"
+      id="moongate-scene"
+      style={{ "--ratio": "1.5516" } as React.CSSProperties}
+    >
+      <div className="ss-mg-stage">
+        {/* Letterbox bars */}
+        <div className="ss-bar ss-bar-t" />
+        <div className="ss-bar ss-bar-b" />
+
+        {/* Progress rail */}
+        <div className="ss-rail" />
+
+        {/* Moon media */}
+        <div className="ss-mg-media">
+          {!rm && <div className="ss-mg-ring" />}
+          <div className="ss-mg-disc relative">
+            <Image
+              src={MG_IMAGE}
+              alt={signatureSets[1].imageAlt || "MoonGate circular arch"}
+              fill
+              loading="lazy"
+              sizes="(min-width: 900px) 46vw, 100vw"
+            />
+          </div>
+        </div>
+
+        {/* Copy */}
+        <div className="ss-copy">
+          <div
+            className="ss-rv ss-kind"
+            style={{ "--s": "0.10" } as React.CSSProperties}
+          >
+            <b>{MG.index} / {MG.kind}</b>
+          </div>
+          <h3
+            className="ss-rv ss-title"
+            style={{ "--s": "0.18" } as React.CSSProperties}
+          >
+            {MG.title}
+          </h3>
+          <p
+            className="ss-rv ss-text"
+            style={{ "--s": "0.26" } as React.CSSProperties}
+          >
+            {MG.text}
+          </p>
+          <ul className="ss-bullets">
+            {MG.bullets.map((b, i) => (
+              <li
+                key={b}
+                className="ss-rv"
+                style={
+                  { "--s": `${0.36 + i * 0.08}` } as React.CSSProperties
+                }
+              >
+                {b}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href={MG.ctaHref}
+            className="ss-rv ss-cta-link"
+            style={{ "--s": "0.62" } as React.CSSProperties}
+          >
+            {MG.ctaLabel}
+            <ArrowRight size={14} className="ss-cta-arrow" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   CUSTOM COMMISSIONS CTA (preserved verbatim from content.ts)
+   ========================================================================= */
 function CustomCTA() {
   return (
-    <div className="w-full flex flex-col items-center text-center p-8 border border-white/5 bg-white/5 backdrop-blur-sm rounded-sm">
-      <h4 className="font-display text-2xl text-cream font-bold mb-4">
+    <div className="w-full flex flex-col items-center text-center p-8 sm:p-12 md:p-16 border border-white/10 bg-white/[0.03] backdrop-blur-sm rounded-sm max-w-4xl mx-auto shadow-2xl relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+      <h4 className="font-display text-2xl md:text-3xl lg:text-4xl text-cream font-bold mb-4">
         {customSetCTA.headline}
       </h4>
-      <p className="font-sans text-sm text-cream/70 mb-8 max-w-xl">
+      <p className="font-sans text-sm md:text-base text-cream/70 mb-8 max-w-xl leading-relaxed">
         {customSetCTA.body}
       </p>
       <Link
         href={customSetCTA.ctaHref}
-        className="inline-flex items-center justify-center bg-gold hover:bg-gold-light text-navy-deep font-sans text-xs font-bold uppercase tracking-widest px-8 py-4 transition-colors duration-300"
-      >
-        {customSetCTA.ctaLabel}
-      </Link>
-    </div>
-  );
-}
-
-function MobileCustomCTA() {
-  return (
-    <div className="w-full max-w-none flex flex-col items-start text-left p-6 sm:p-8 border border-white/5 bg-white/5 backdrop-blur-sm rounded-sm">
-      <h4 className="font-display text-2xl text-cream font-bold mb-3 text-left">
-        {customSetCTA.headline}
-      </h4>
-      <p className="font-sans text-sm text-cream/70 mb-6 max-w-xl text-left leading-relaxed">
-        {customSetCTA.body}
-      </p>
-      <Link
-        href={customSetCTA.ctaHref}
-        className="inline-flex items-center justify-center bg-gold hover:bg-gold-light text-navy-deep font-sans text-xs font-bold uppercase tracking-widest px-6 py-3.5 transition-colors duration-300 text-center"
+        className="inline-flex items-center justify-center bg-gold hover:bg-gold-light text-navy-deep font-sans text-xs sm:text-sm font-bold uppercase tracking-widest px-8 py-4 transition-colors duration-300 min-h-[44px]"
       >
         {customSetCTA.ctaLabel}
       </Link>
@@ -115,212 +510,28 @@ function MobileCustomCTA() {
 }
 
 /* =========================================================================
-   MOBILE SIGNATURE SEQUENCE: DESKTOP-MIRROR STICKY OVERLAP CHOREOGRAPHY
+   MAIN EXPORT · SIGNATURE FEATURE
+   Desktop: cinematic scroll-driven storytelling (200svh + 340svh + 340svh)
+   Mobile: full-screen pinned poster scenes (170svh + 300svh + 300svh)
    ========================================================================= */
-function MobileSignatureSequence() {
-  const glassHouse = signatureSets[0];
-  const moongate = signatureSets[1];
-
-  return (
-    <div className="signature-mobile-section relative w-full pb-16 lg:hidden">
-      {/* ================= 1. GLASS HOUSE (STICKY PRIMARY) ================= */}
-      <div className="gh-stage w-full sticky top-[72px] z-0 bg-navy-deep pb-8 px-5 motion-reduce:static motion-reduce:top-auto">
-        <article className="signature-mobile-card glass-house w-full rounded-2xl overflow-hidden bg-[#0C223F] border border-gold/25 shadow-2xl">
-          <div className="signature-card-inner flex flex-col p-5 sm:p-6">
-            
-            {/* Glass House Image */}
-            <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-white/10 mb-5">
-              <Image
-                src={glassHouse.image}
-                alt={glassHouse.imageAlt}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 1200px"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-navy-deep/15 pointer-events-none" />
-            </div>
-
-            {/* Glass House Content Panel */}
-            <div className="signature-card-content flex flex-col items-start text-left">
-              <span className="font-sans text-[0.65rem] tracking-[0.25em] uppercase font-bold text-gold-border mb-2 block">
-                Signature Set 01
-              </span>
-              <h3 className="font-display text-3xl font-bold text-cream mb-3 leading-tight">
-                {glassHouse.title}
-              </h3>
-              <p className="font-sans text-sm text-cream/75 leading-relaxed mb-5">
-                A walk-in glass structure set inside your venue or on an open lawn. By day it fills with natural light. By night it glows like a lantern, lit from within and visible from every corner of the event.
-              </p>
-              <Link
-                href="/signature-sets#glass-house"
-                className="inline-flex items-center gap-2.5 font-sans text-xs font-bold text-gold-light hover:text-gold uppercase tracking-widest min-h-[44px] group"
-              >
-                <span>View set</span>
-                <ArrowRight size={14} className="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-              </Link>
-            </div>
-
-          </div>
-        </article>
-      </div>
-
-      {/* ================= 2. MOONGATE (NORMAL DOCUMENT FLOW, RISING OVER GLASS HOUSE) ================= */}
-      <div className="mg-stage w-full relative z-10 bg-navy-deep pt-6 pb-12 px-5 shadow-[0_-40px_80px_rgba(11,31,58,1)]">
-        <article className="signature-mobile-card moongate w-full rounded-2xl overflow-hidden bg-[#0d2647] border border-gold/30 shadow-2xl">
-          <div className="signature-card-inner flex flex-col p-5 sm:p-6">
-            
-            {/* MoonGate Circular Image */}
-            <div className="w-full flex justify-center mb-5">
-              <div className="w-[170px] h-[170px] relative rounded-full overflow-hidden border border-gold/35 shadow-xl">
-                <Image
-                  src={moongate.image}
-                  alt={moongate.imageAlt || "MoonGate"}
-                  fill
-                  sizes="170px"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(11,31,58,0.7)] rounded-full pointer-events-none" />
-              </div>
-            </div>
-
-            {/* MoonGate Content Panel */}
-            <div className="signature-card-content flex flex-col items-start text-left">
-              <span className="font-sans text-[0.65rem] tracking-[0.25em] uppercase font-bold text-gold-border mb-2 block">
-                Signature Set 02
-              </span>
-              <h3 className="font-display text-3xl font-bold text-cream mb-3 leading-tight">
-                {moongate.title}
-              </h3>
-              <p className="font-sans text-sm text-cream/75 leading-relaxed mb-5">
-                Our circular arch set: a full-moon frame for entries, stages and photo moments. It turns a walkway into a threshold and gives every guest the photograph they came for.
-              </p>
-              <Link
-                href="/signature-sets#moongate"
-                className="inline-flex items-center gap-2.5 font-sans text-xs font-bold text-gold-light hover:text-gold uppercase tracking-widest min-h-[44px] group"
-              >
-                <span>View set</span>
-                <ArrowRight size={14} className="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-              </Link>
-            </div>
-
-          </div>
-        </article>
-
-        {/* ================= 3. BESPOKE CUSTOM SETS CTA (IMMEDIATELY FOLLOWS) ================= */}
-        <div className="w-full mt-8">
-          <MobileCustomCTA />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function SignatureFeature() {
-  const glassHouse = signatureSets[0];
-  const moongate = signatureSets[1];
-  const rm = useReducedMotion();
-
-  // Desktop Refs
-  const ghRefD = useRef(null);
-  const ghInViewD = useInView(ghRefD, { once: true, margin: "0px 0px -10% 0px" });
-
-  const mgRefD = useRef(null);
-  const mgInViewD = useInView(mgRefD, { once: true, margin: "0px 0px -10% 0px" });
+  const rm = Boolean(useReducedMotion());
 
   return (
-    <Section tone="stage" aria-label="Signature Sets" className="overflow-visible pb-0">
-      
-      {/* Intro */}
-      <div className="container-site mb-16 lg:mb-24 text-center">
-        <h2 className="font-display text-4xl md:text-5xl lg:text-7xl text-cream font-bold leading-tight">
-          Sets that define<br/>
-          <span className="italic text-gold-light font-medium pr-2 relative inline-block">
-            the space.
-            <div className="absolute -bottom-2 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
-          </span>
-        </h2>
+    <Section
+      tone="stage"
+      id="signature-sets"
+      aria-label="Signature Sets"
+      className="overflow-x-clip relative !py-0"
+    >
+      <IntroScene rm={rm} />
+      <GlassHouseDesktop rm={rm} />
+      <MoonGateDesktop rm={rm} />
+
+      {/* ── Custom commissions CTA ── */}
+      <div className="container-site relative z-10 pb-16 sm:pb-20 md:pb-28 pt-8 sm:pt-10">
+        <CustomCTA />
       </div>
-
-      {/* ================= DESKTOP (>=1024px) (UNTOUCHED) ================= */}
-      <div className="relative w-full pb-32 hidden lg:block">
-        {/* Glass House - Primary (Sticky on Desktop) */}
-        <div className="w-full lg:sticky lg:top-24 z-0 bg-navy-deep pb-16 lg:pb-32">
-          <div className="container-site flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            {/* Image */}
-            <div className="w-full lg:w-[60%] flex-shrink-0" ref={ghRefD}>
-              <motion.div 
-                className="relative w-full aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-sm group"
-                initial={rm ? {} : { clipPath: "inset(5% 5% 5% 5%)" }}
-                animate={rm ? {} : (ghInViewD ? { clipPath: "inset(0% 0% 0% 0%)" } : { clipPath: "inset(5% 5% 5% 5%)" })}
-                transition={{ duration: 1.2, ease: EXPO }}
-              >
-                <Image
-                  src={glassHouse.image}
-                  alt={glassHouse.imageAlt}
-                  fill
-                  sizes="60vw"
-                  className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.03]"
-                />
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-tr from-transparent via-gold-light/20 to-transparent w-[200%] h-[200%] origin-bottom-left mix-blend-overlay"
-                  initial={{ x: "-100%", y: "100%" }}
-                  animate={ghInViewD ? { x: "100%", y: "-100%" } : { x: "-100%", y: "100%" }}
-                  transition={{ duration: 2.5, ease: EXPO, delay: 0.5 }}
-                />
-              </motion.div>
-            </div>
-            
-            {/* Text */}
-            <div className="w-full lg:w-[40%] flex justify-center lg:justify-start">
-              <SignatureText set={glassHouse} />
-            </div>
-          </div>
-        </div>
-
-        {/* MoonGate - Secondary (Overlaps Glass House on Scroll) */}
-        <div className="w-full relative z-10 bg-navy-deep lg:mt-[10vh] pt-16 lg:pt-32 lg:shadow-[0_-40px_80px_rgba(11,31,58,1)]">
-          <div className="container-site flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20">
-            {/* Image */}
-            <div className="w-full lg:w-[50%] flex justify-center" ref={mgRefD}>
-              <motion.div 
-                className="relative w-[85%] md:w-[70%] lg:w-[85%] aspect-square rounded-full overflow-hidden group border-[1px] border-gold/15"
-                initial={rm ? {} : { clipPath: "circle(0% at 50% 50%)", opacity: 0, scale: 0.95 }}
-                animate={rm ? {} : (mgInViewD ? { clipPath: "circle(100% at 50% 50%)", opacity: 1, scale: 1 } : { clipPath: "circle(0% at 50% 50%)", opacity: 0, scale: 0.95 })}
-                transition={{ duration: 1.5, ease: EXPO }}
-              >
-                <Image
-                  src={moongate.image}
-                  alt={moongate.imageAlt || "MoonGate Signature Set"}
-                  fill
-                  sizes="40vw"
-                  className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.05]"
-                />
-                <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(11,31,58,0.7)] pointer-events-none rounded-full" />
-                <motion.div
-                  className="absolute inset-0 bg-gold-light/10 mix-blend-overlay rounded-full"
-                  initial={{ opacity: 0 }}
-                  animate={mgInViewD ? { opacity: [0, 0.3, 0] } : { opacity: 0 }}
-                  transition={{ duration: 2, ease: EXPO, delay: 0.8 }}
-                />
-              </motion.div>
-            </div>
-
-            {/* Text */}
-            <div className="w-full lg:w-[50%] flex justify-center lg:justify-end">
-              <SignatureText set={moongate} />
-            </div>
-          </div>
-
-          {/* Custom Sets CTA */}
-          <div className="container-site mt-24 lg:mt-32">
-             <CustomCTA />
-          </div>
-        </div>
-      </div>
-
-      {/* ================= MOBILE (<1024px) (IMAGE + TEXT MOVE AS ONE UNIT) ================= */}
-      <MobileSignatureSequence />
-
     </Section>
   );
 }

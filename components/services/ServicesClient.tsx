@@ -57,18 +57,18 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     // 0: Lighting - diagonal beam sweep
     if (index === 0) {
       return (
-        <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
+        <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm flex items-center justify-center border border-white/10">
           <motion.div data-reveal
             initial={rm ? {} : { clipPath: "inset(0 100% 0 0)" }}
             animate={animateState === "visible" ? { clipPath: "inset(0 0% 0 0)" } : {}}
             transition={{ duration: duration.hero, ease: EXPO }}
-            className="w-full h-full absolute inset-0"
+            className="w-full h-full absolute inset-0 flex items-center justify-center"
           >
             <Image
               src={service.image}
               alt={service.imageAlt}
               fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority={true}
               quality={60}
@@ -89,18 +89,18 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     // 1: Power - subtle energy pulse
     if (index === 1) {
       return (
-        <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
+        <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm flex items-center justify-center border border-white/10">
           <motion.div data-reveal
             initial={rm ? {} : { opacity: 0, scale: 0.98 }}
             animate={animateState === "visible" ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: duration.hero, ease: EXPO }}
-            className="w-full h-full absolute inset-0"
+            className="w-full h-full absolute inset-0 flex items-center justify-center"
           >
             <Image
               src={service.image}
               alt={service.imageAlt}
               fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority={false}
             />
@@ -120,18 +120,18 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     // 2: Truss - structural draw
     if (index === 2) {
       return (
-        <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
+        <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm flex items-center justify-center border border-white/10">
           <motion.div data-reveal
             initial={rm ? {} : { clipPath: "inset(0 0 100% 0)" }}
             animate={animateState === "visible" ? { clipPath: "inset(0 0 0% 0)" } : {}}
             transition={{ duration: duration.hero, ease: EXPO }}
-            className="w-full h-full absolute inset-0"
+            className="w-full h-full absolute inset-0 flex items-center justify-center"
           >
             <Image
               src={service.image}
               alt={service.imageAlt}
               fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+              className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority={false}
             />
@@ -144,21 +144,21 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
     // 3, 4, 5: Editorial reveals
     const clipDirection = imageLeft ? "inset(0 100% 0 0)" : "inset(0 0 0 100%)";
     return (
-      <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm">
+      <div className="relative w-full h-full group bg-navy-deep overflow-hidden rounded-sm flex items-center justify-center border border-white/10">
         <motion.div data-reveal
           initial={rm ? {} : { clipPath: clipDirection }}
           animate={animateState === "visible" ? { clipPath: "inset(0 0 0 0)" } : {}}
           transition={{ duration: duration.hero, ease: EXPO }}
-          className="w-full h-full absolute inset-0"
+          className="w-full h-full absolute inset-0 flex items-center justify-center"
         >
           <Image
             src={service.image}
             alt={service.imageAlt}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+            className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             sizes="(max-width: 1024px) 100vw, 50vw"
-              priority={false}
-            />
+            priority={false}
+          />
         </motion.div>
       </div>
     );
@@ -174,7 +174,7 @@ function ServiceItemSection({ service, index }: { service: (typeof servicesPageL
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           {/* Image */}
-          <div className={`relative w-full h-[360px] sm:h-[420px] lg:h-[560px] ${!imageLeft ? "lg:order-last" : ""}`}>
+          <div className={`relative w-full aspect-[16/10] sm:aspect-[4/3] lg:aspect-[16/10] min-h-[260px] max-h-[520px] ${!imageLeft ? "lg:order-last" : ""}`}>
             {renderImageMotion()}
           </div>
 

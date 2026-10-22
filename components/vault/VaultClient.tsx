@@ -3,6 +3,7 @@
 import { Section } from "@/components/layout/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
+import Image from "next/image";
 import { EditorialPlaceholder } from "@/components/ui/EditorialPlaceholder";
 import { 
   vaultHero, 
@@ -155,17 +156,29 @@ function WarehouseSection() {
   return (
     <Section tone="stage" className="py-24 lg:py-32 overflow-hidden border-t border-gold/15">
       <div className="container-site flex flex-col gap-12 lg:gap-16">
-        {/* Large Architectural Image Placeholder */}
-        <div className="w-full relative aspect-[16/10] md:aspect-[21/9]">
-          <Reveal delay={0.1}>
-            <EditorialPlaceholder
-              aspectRatio="aspect-[16/10] md:aspect-[21/9]"
-              tone="dark"
-              contextLabel="WAREHOUSE"
-              caption="Kothanur Inventory & Maintenance Facility"
-              subline="Central facility for 10,000+ chairs, 1,100+ sofa units, power & structures"
-              className="w-full shadow-2xl"
-            />
+        {/* Large Architectural Image */}
+        <div className="w-full relative aspect-[16/10] md:aspect-[16/9] max-h-[640px] rounded-sm overflow-hidden bg-navy-deep flex items-center justify-center border border-gold/15">
+          <Reveal delay={0.1} className="w-full h-full">
+            {warehouseSection.image ? (
+              <div className="relative w-full h-full shadow-2xl flex items-center justify-center">
+                <Image
+                  src={warehouseSection.image}
+                  alt={warehouseSection.imageAlt || "Kothanur Inventory & Maintenance Facility"}
+                  fill
+                  sizes="100vw"
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <EditorialPlaceholder
+                aspectRatio="aspect-[16/10] md:aspect-[16/9]"
+                tone="dark"
+                contextLabel="WAREHOUSE"
+                caption="Kothanur Inventory & Maintenance Facility"
+                subline="Central facility for 10,000+ chairs, 1,100+ sofa units, power & structures"
+                className="w-full shadow-2xl"
+              />
+            )}
           </Reveal>
         </div>
 
@@ -222,16 +235,28 @@ function CrewSection() {
           <div className="w-12 h-[1px] bg-gold-dark/40 my-2" />
         </Reveal>
 
-        {/* Authentic Crew / Scale Image Placeholder */}
+        {/* Authentic Crew / Scale Image */}
         <Reveal delay={0.3} className="w-full">
-          <EditorialPlaceholder
-            aspectRatio="aspect-[16/10] sm:aspect-[21/9]"
-            tone="light"
-            contextLabel="CREW / BACKSTAGE"
-            caption="Own crew on every build — riggers, carpenters, and technicians"
-            subline="From load-in to final strike"
-            className="w-full max-w-3xl mx-auto my-3 shadow-sm"
-          />
+          {crewSection.image ? (
+            <div className="relative w-full max-w-4xl mx-auto my-3 aspect-[3/2] rounded-sm overflow-hidden shadow-sm bg-navy-deep flex items-center justify-center border border-navy-deep/10">
+              <Image
+                src={crewSection.image}
+                alt={crewSection.imageAlt || "Own crew on every build"}
+                fill
+                sizes="(max-width: 768px) 100vw, 900px"
+                className="object-contain"
+              />
+            </div>
+          ) : (
+            <EditorialPlaceholder
+              aspectRatio="aspect-[3/2]"
+              tone="light"
+              contextLabel="CREW / BACKSTAGE"
+              caption="Own crew on every build — riggers, carpenters, and technicians"
+              subline="From load-in to final strike"
+              className="w-full max-w-4xl mx-auto my-3 shadow-sm"
+            />
+          )}
         </Reveal>
 
         <Reveal delay={0.35}>

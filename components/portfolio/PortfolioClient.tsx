@@ -81,18 +81,18 @@ function FeaturedStoriesSection() {
                 <div className={`lg:col-span-7 order-first ${isReversed ? "lg:order-last" : "lg:order-first"}`}>
                   <Reveal delay={0.1}>
                     {story.image ? (
-                      <div className="relative overflow-hidden rounded-sm aspect-[16/10] w-full shadow-md bg-navy-deep">
+                      <div className="relative overflow-hidden rounded-sm aspect-[3/2] w-full shadow-md bg-navy-deep flex items-center justify-center border border-navy-deep/10">
                         <Image
                           src={story.image}
                           alt={story.imageAlt || story.title}
                           fill
                           sizes="(max-width: 1024px) 100vw, 60vw"
-                          className="object-cover"
+                          className="object-contain"
                         />
                       </div>
                     ) : (
                       <EditorialPlaceholder
-                        aspectRatio="aspect-[16/10]"
+                        aspectRatio="aspect-[3/2]"
                         tone="light"
                         contextLabel={story.tag.includes("EARLY") ? "ARCHIVAL PHOTOGRAPH" : "EVENT PHOTOGRAPH"}
                         caption={story.title}
