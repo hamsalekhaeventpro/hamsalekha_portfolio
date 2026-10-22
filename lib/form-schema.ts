@@ -13,6 +13,7 @@ export const enquirySchema = z.object({
     .string()
     .email("Please enter a valid email address")
     .optional()
+    .nullable()
     .or(z.literal("")),
   clientType: z.enum(
     ["Family", "Planner / Decorator", "Corporate / Agency", "Venue"] as const,

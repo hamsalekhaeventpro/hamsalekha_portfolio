@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/dev.js",
+    "prebuild": "node scripts/update-asset-manifest.js",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "update-images": "node scripts/update-asset-manifest.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

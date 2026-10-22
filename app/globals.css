@@ -477,26 +477,6 @@ h1, h2, h3 {
   border-color: rgba(212, 175, 55, 0.40);
 }
 
-/* ─── Mobile Signature Sets (Desktop-Mirror Scroll Choreography) ─── */
-@media (max-width: 1023px) {
-  .gh-stage {
-    position: sticky;
-    top: 72px;
-    z-index: 0;
-  }
-  .mg-stage {
-    position: relative;
-    z-index: 10;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gh-stage {
-    position: static !important;
-    top: auto !important;
-  }
-}
-
 /* ─── No-JS safety ─── */
 /* (Also declared inline in root layout noscript tag) */
 
@@ -509,4 +489,118 @@ h1, h2, h3 {
 }
 [data-reveal] {
   animation: forceReveal 0.1s 3.5s forwards;
+}
+
+
+
+
+/* ==========================================================================
+   Hero Cinematic Slideshow (7.4s Zoom-Out, Drift & 1.4s Overlapping Crossfade)
+   ========================================================================== */
+
+/* Slide 0: Daytime Wedding (Zoom-out 1.14 -> 1.0 with subtle upward drift) */
+@keyframes hero-zoom-drift-0 {
+  0% {
+    transform: scale(1.14) translate3d(0, 0.8%, 0);
+  }
+  100% {
+    transform: scale(1.0) translate3d(0, -0.6%, 0);
+  }
+}
+
+/* Slide 1: Tech Production (Zoom-out 1.14 -> 1.0 with subtle leftward drift) */
+@keyframes hero-zoom-drift-1 {
+  0% {
+    transform: scale(1.14) translate3d(0.8%, 0, 0);
+  }
+  100% {
+    transform: scale(1.0) translate3d(-0.6%, 0, 0);
+  }
+}
+
+/* Slide 2: Evening Reception (Zoom-out 1.14 -> 1.0 with subtle rightward/downward drift) */
+@keyframes hero-zoom-drift-2 {
+  0% {
+    transform: scale(1.14) translate3d(-0.6%, -0.4%, 0);
+  }
+  100% {
+    transform: scale(1.0) translate3d(0.6%, 0.4%, 0);
+  }
+}
+
+.hero-zoom-0 {
+  animation: hero-zoom-drift-0 7400ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform-origin: 50% 45%;
+  will-change: transform;
+}
+
+.hero-zoom-1 {
+  animation: hero-zoom-drift-1 7400ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+
+.hero-zoom-2 {
+  animation: hero-zoom-drift-2 7400ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform-origin: 52% 54%;
+  will-change: transform;
+}
+
+/* 1.4-Second Overlapping Crossfade */
+.hero-crossfade-in {
+  animation: hero-fade-in 1400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity;
+}
+
+.hero-crossfade-out {
+  animation: hero-fade-out 1400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity;
+}
+
+@keyframes hero-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Pause on Hover / Focus / Visibility Hidden */
+.hero-paused .hero-zoom-0,
+.hero-paused .hero-zoom-1,
+.hero-paused .hero-zoom-2,
+.hero-paused .hero-crossfade-in,
+.hero-paused .hero-crossfade-out {
+  animation-play-state: paused !important;
+}
+
+/* Save-Data & Slow-Connection Fallback */
+.hero-data-saver .hero-zoom-0,
+.hero-data-saver .hero-zoom-1,
+.hero-data-saver .hero-zoom-2 {
+  animation: none !important;
+  transform: scale(1.0) !important;
+}
+
+/* Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  .hero-zoom-0,
+  .hero-zoom-1,
+  .hero-zoom-2,
+  .hero-crossfade-in,
+  .hero-crossfade-out {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }

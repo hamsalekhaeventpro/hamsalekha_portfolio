@@ -13,17 +13,21 @@ export function StickyMobileBar() {
   )}`;
 
   useEffect(() => {
+    const visibilityMap = new Map<Element, boolean>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        // Hide if any observed element (CTA or footer) is intersecting
-        const anyVisible = entries.some((entry) => entry.isIntersecting);
+        entries.forEach((entry) => {
+          visibilityMap.set(entry.target, entry.isIntersecting);
+        });
+        const anyVisible = Array.from(visibilityMap.values()).some(Boolean);
         setIsHidden(anyVisible);
       },
       { rootMargin: "0px 0px 50px 0px", threshold: 0.05 }
     );
 
-    const targets = document.querySelectorAll("[data-final-cta], #final-cta, footer");
-    targets.forEach((target) => observer.observe(target));
+    const targetSet = new Set(document.querySelectorAll("[data-final-cta], #final-cta, footer"));
+    targetSet.forEach((target) => observer.observe(target));
 
     return () => {
       observer.disconnect();

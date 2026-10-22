@@ -17,25 +17,24 @@ const PROOF = [
 
 export function BehindTheBuild() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
   const rm = useReducedMotion();
   const animate = rm ? "visible" : (isInView ? "visible" : "hidden");
 
   const imgV = {
-    hidden:  { clipPath: "inset(0 0 100% 0)", scale: rm ? 1 : 1.04 },
-    visible: { clipPath: "inset(0 0 0% 0)", scale: 1, transition: { duration: 1.0, ease: EXPO } },
+    hidden:  { opacity: 0.6, scale: rm ? 1 : 1.04 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.9, ease: EXPO } },
   };
-  const eyebrowV = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5, delay: 0.5, ease: EXPO } } };
-  const headingV = { hidden: { clipPath: "inset(0 0 100% 0)" }, visible: { clipPath: "inset(0 0 0% 0)", transition: { duration: 0.8, delay: 0.65, ease: EXPO } } };
-  const bodyV    = { hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: duration.reveal, delay: 0.85, ease: EXPO } } };
-  const ctaV     = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.4, delay: 1.25, ease: EXPO } } };
+  const eyebrowV = { hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.1, ease: EXPO } } };
+  const headingV = { hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.2, ease: EXPO } } };
+  const bodyV    = { hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: duration.reveal, delay: 0.35, ease: EXPO } } };
+  const ctaV     = { hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.55, ease: EXPO } } };
 
   return (
     <section
       ref={ref}
       aria-label="Behind The Build"
-      className="relative overflow-hidden bg-navy-deep"
-      style={{ minHeight: "clamp(420px, 65vh, 800px)" }}
+      className="relative overflow-hidden bg-navy-deep min-h-[480px] md:min-h-[600px] flex items-center justify-center"
     >
       {/* Full-bleed warehouse image */}
       <motion.div
@@ -54,10 +53,10 @@ export function BehindTheBuild() {
       </motion.div>
 
       {/* Dark gradient — heavy at bottom, lighter at top */}
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/70 to-navy-deep/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/75 to-navy-deep/30 pointer-events-none" />
 
       {/* Content — centered, sits above gradient */}
-      <div className="relative z-10 flex flex-col items-center justify-end h-full text-center container-site pb-16 md:pb-24 pt-24">
+      <div className="relative z-10 flex flex-col items-center justify-center text-center container-site py-20 md:py-28">
 
         <motion.div variants={eyebrowV} initial="hidden" animate={animate} className="flex items-center gap-4 mb-5">
           <span className="h-px w-8 bg-gold/50" />
@@ -92,7 +91,7 @@ export function BehindTheBuild() {
         <motion.div
           variants={{
             hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 1.05 } }
+            visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.45 } }
           }}
           initial="hidden"
           animate={animate}

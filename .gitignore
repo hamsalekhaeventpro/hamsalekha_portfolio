@@ -55,4 +55,12 @@ extract_svg.py
 *-READY.md
 *-AUDIT.md
 
+# Local recordings, raw captures and IDE files
+*.mp4
+/images/
+/.vscode/
+/docs/screenshots/
+/docs/archive/
+
+
 figma pdfs/

@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Script from "next/script";
+import { useSearchParams } from "next/navigation";
 import { formMessages, microcopy } from "@/lib/content";
 import { enquirySchema, type EnquiryFormValues } from "@/lib/form-schema";
 import { Button } from "@/components/ui/Button";
 
-const AVAILABLE_SERVICES = [
+export const AVAILABLE_SERVICES = [
   "Lighting",
   "Gensets",
   "Truss & Structures",
@@ -17,6 +18,132 @@ const AVAILABLE_SERVICES = [
   "Signature Set",
   "Full Production",
 ] as const;
+
+export type AvailableService = (typeof AVAILABLE_SERVICES)[number];
+
+export function resolveCanonicalService(query: string | null | undefined): AvailableService | null {
+  if (!query) return null;
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return null;
+
+  // Exact match against available services (case-insensitive)
+  const exact = AVAILABLE_SERVICES.find(
+    (s) => s.toLowerCase() === normalized
+  );
+  if (exact) return exact;
+
+  // Canonical mapping for aliases and URL-friendly parameters
+  switch (normalized) {
+    case "light":
+    case "lights":
+    case "lighting":
+    case "ambient lighting":
+    case "stage lighting":
+      return "Lighting";
+
+    case "power":
+    case "genset":
+    case "gensets":
+    case "generator":
+    case "generators":
+    case "gensets & power":
+    case "gensets and power":
+      return "Gensets";
+
+    case "truss":
+    case "trusses":
+    case "structures":
+    case "structure":
+    case "truss & structures":
+    case "truss and structures":
+    case "bombay truss":
+    case "rigging":
+      return "Truss & Structures";
+
+    case "furniture":
+    case "chairs":
+    case "sofa":
+    case "sofas":
+    case "seating":
+    case "lounge":
+    case "premium furniture":
+      return "Furniture";
+
+    case "decor":
+    case "props":
+    case "decor & props":
+    case "decor and props":
+    case "mandap props":
+    case "mandap":
+      return "Decor & Props";
+
+    case "signature set":
+    case "signature sets":
+    case "signature-set":
+    case "signature-sets":
+    case "glass house":
+    case "glasshouse":
+    case "glass-house":
+    case "the glass house":
+    case "moongate":
+    case "moon gate":
+    case "moon-gate":
+    case "the moongate":
+    case "the moon gate":
+      return "Signature Set";
+
+    case "production":
+    case "full production":
+    case "full-production":
+    case "complete production":
+    case "full event production":
+    case "end to end":
+      return "Full Production";
+
+    default:
+      return null;
+  }
+}
+
+export function parseServicesFromParams(params: URLSearchParams): AvailableService[] {
+  const result: AvailableService[] = [];
+  const addService = (val: string) => {
+    const canonical = resolveCanonicalService(val);
+    if (canonical && !result.includes(canonical)) {
+      result.push(canonical);
+    }
+  };
+
+  const serviceParams = [...params.getAll("service"), ...params.getAll("services")];
+  for (const raw of serviceParams) {
+    const parts = raw.split(",");
+    for (const part of parts) {
+      addService(part);
+    }
+  }
+
+  const setParam = params.get("set");
+  if (setParam) {
+    addService(setParam);
+  }
+
+  const briefParam = params.get("brief");
+  if (briefParam === "custom") {
+    addService("Full Production");
+  }
+
+  return result;
+}
+
+function UrlParamSync({ onParamsChange }: { onParamsChange: (params: URLSearchParams) => void }) {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    onParamsChange(new URLSearchParams(searchParams.toString()));
+  }, [searchParams, onParamsChange]);
+
+  return null;
+}
 
 export function ContactForm() {
   const [submitState, setSubmitState] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -48,91 +175,114 @@ export function ContactForm() {
     setValue("services", updated, { shouldValidate: true });
   };
 
-  // URL parameter prefill on client without blocking SSR
+  const lastSyncedSearchRef = useRef<string | null>(null);
+
+  const applyParams = useCallback(
+    (params: URLSearchParams) => {
+      const searchString = params.toString();
+      // Avoid re-running and overwriting user manual selections if query string is identical
+      if (lastSyncedSearchRef.current === searchString) {
+        return;
+      }
+      lastSyncedSearchRef.current = searchString;
+
+      // 1. Services prefill
+      const matchedServices = parseServicesFromParams(params);
+      if (matchedServices.length > 0) {
+        setValue("services", matchedServices, { shouldValidate: true });
+      }
+
+      // 2. Set / service contextual messages
+      const setParam = params.get("set")?.toLowerCase();
+      const serviceValues = [...params.getAll("service"), ...params.getAll("services")].map((s) => s.toLowerCase());
+      const isGlassHouse =
+        setParam === "glass-house" ||
+        serviceValues.some((s) => s.includes("glass"));
+      const isMoonGate =
+        setParam === "moongate" ||
+        serviceValues.some((s) => s.includes("moon"));
+      const isCustomBrief =
+        params.get("brief") === "custom" ||
+        serviceValues.some((s) => s.includes("custom"));
+
+      if (isGlassHouse) {
+        setValue("message", "Enquiry for The Glass House signature set.\n", { shouldDirty: true });
+      } else if (isMoonGate) {
+        setValue("message", "Enquiry for The MoonGate signature set.\n", { shouldDirty: true });
+      } else if (isCustomBrief) {
+        setValue("message", "Custom brief event enquiry.\n", { shouldDirty: true });
+      }
+
+      // 3. Type prefill (?type=warehouse-visit)
+      const typeParam = params.get("type");
+      if (typeParam === "warehouse-visit") {
+        setValue("message", `Warehouse visit appointment request: ${microcopy.address}.\n`, { shouldDirty: true });
+      }
+
+      // 4. Direct field prefills (?name, ?phone, ?email, ?venue, ?date, ?eventType, ?guestCount, ?message, ?ref)
+      const nameParam = params.get("name");
+      if (nameParam) setValue("name", nameParam, { shouldValidate: true });
+
+      const phoneParam = params.get("phone");
+      if (phoneParam) setValue("phone", phoneParam, { shouldValidate: true });
+
+      const emailParam = params.get("email");
+      if (emailParam) setValue("email", emailParam, { shouldValidate: true });
+
+      const venueParam = params.get("venue");
+      if (venueParam) setValue("venue", venueParam, { shouldValidate: true });
+
+      const dateParam = params.get("date") || params.get("eventDate");
+      if (dateParam) setValue("eventDate", dateParam, { shouldValidate: true });
+
+      const clientTypeParam = params.get("clientType") || params.get("client_type");
+      if (clientTypeParam && ["Family", "Planner / Decorator", "Corporate / Agency", "Venue"].includes(clientTypeParam)) {
+        setValue("clientType", clientTypeParam as EnquiryFormValues["clientType"], { shouldValidate: true });
+      }
+
+      const eventTypeParam = params.get("eventType") || params.get("event_type");
+      if (eventTypeParam && ["Wedding", "Reception", "Sangeet / Mehendi", "Puja", "Corporate", "Launch", "Other"].includes(eventTypeParam)) {
+        setValue("eventType", eventTypeParam as EnquiryFormValues["eventType"], { shouldValidate: true });
+      }
+
+      const guestCountParam = params.get("guestCount") || params.get("guests");
+      if (guestCountParam && ["Under 200", "200–500", "500–1,000", "1,000+"].includes(guestCountParam)) {
+        setValue("guestCount", guestCountParam as EnquiryFormValues["guestCount"], { shouldValidate: true });
+      }
+
+      const refParam = params.get("ref");
+      const msgParam = params.get("message");
+      if (refParam || msgParam) {
+        const combined = [refParam ? `Reference: ${refParam}` : "", msgParam || ""].filter(Boolean).join("\n");
+        setValue("message", combined, { shouldDirty: true });
+      }
+    },
+    [setValue]
+  );
+
+  // Immediate prefill on client mount without blocking SSR
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-
-    // 1. Set prefill (?set=glass-house | ?set=moongate)
-    const setParam = params.get("set");
-    if (setParam === "glass-house") {
-      setValue("services", ["Signature Set"], { shouldValidate: true });
-      setValue("message", "Enquiry for The Glass House signature set.\n", { shouldDirty: true });
-    } else if (setParam === "moongate") {
-      setValue("services", ["Signature Set"], { shouldValidate: true });
-      setValue("message", "Enquiry for The MoonGate signature set.\n", { shouldDirty: true });
+    if (typeof window !== "undefined") {
+      applyParams(new URLSearchParams(window.location.search));
     }
+  }, [applyParams]);
 
-    // 2. Brief prefill (?brief=custom)
-    const briefParam = params.get("brief");
-    if (briefParam === "custom") {
-      setValue("services", ["Full Production"], { shouldValidate: true });
-      setValue("message", "Custom brief event enquiry.\n", { shouldDirty: true });
-    }
-
-    // 3. Type prefill (?type=warehouse-visit)
-    const typeParam = params.get("type");
-    if (typeParam === "warehouse-visit") {
-      setValue("message", `Warehouse visit appointment request: ${microcopy.address}.\n`, { shouldDirty: true });
-    }
-
-    // 4. Service prefill (?service=lighting|power|truss|furniture|decor|production)
-    const serviceParam = params.get("service");
-    if (serviceParam) {
-      const serviceMap: Record<string, string> = {
-        lighting: "Lighting",
-        power: "Gensets",
-        truss: "Truss & Structures",
-        furniture: "Furniture",
-        decor: "Decor & Props",
-        production: "Full Production",
-      };
-      const matched = serviceMap[serviceParam.toLowerCase()];
-      if (matched) {
-        setValue("services", [matched], { shouldValidate: true });
+  const resetTurnstile = () => {
+    if (typeof window !== "undefined") {
+      const w = window as unknown as { turnstile?: { reset: () => void } };
+      if (w.turnstile && typeof w.turnstile.reset === "function") {
+        try {
+          w.turnstile.reset();
+        } catch {
+          // ignore widget reset errors
+        }
       }
     }
-
-    // 5. Direct field prefills (?name, ?phone, ?email, ?venue, ?date, ?eventType, ?guestCount, ?message, ?ref)
-    const nameParam = params.get("name");
-    if (nameParam) setValue("name", nameParam, { shouldValidate: true });
-
-    const phoneParam = params.get("phone");
-    if (phoneParam) setValue("phone", phoneParam, { shouldValidate: true });
-
-    const emailParam = params.get("email");
-    if (emailParam) setValue("email", emailParam, { shouldValidate: true });
-
-    const venueParam = params.get("venue");
-    if (venueParam) setValue("venue", venueParam, { shouldValidate: true });
-
-    const dateParam = params.get("date") || params.get("eventDate");
-    if (dateParam) setValue("eventDate", dateParam, { shouldValidate: true });
-
-    const clientTypeParam = params.get("clientType") || params.get("client_type");
-    if (clientTypeParam && ["Family", "Planner / Decorator", "Corporate / Agency", "Venue"].includes(clientTypeParam)) {
-      setValue("clientType", clientTypeParam as EnquiryFormValues["clientType"], { shouldValidate: true });
-    }
-
-    const eventTypeParam = params.get("eventType") || params.get("event_type");
-    if (eventTypeParam && ["Wedding", "Reception", "Sangeet / Mehendi", "Puja", "Corporate", "Launch", "Other"].includes(eventTypeParam)) {
-      setValue("eventType", eventTypeParam as EnquiryFormValues["eventType"], { shouldValidate: true });
-    }
-
-    const guestCountParam = params.get("guestCount") || params.get("guests");
-    if (guestCountParam && ["Under 200", "200–500", "500–1,000", "1,000+"].includes(guestCountParam)) {
-      setValue("guestCount", guestCountParam as EnquiryFormValues["guestCount"], { shouldValidate: true });
-    }
-
-    const refParam = params.get("ref");
-    const msgParam = params.get("message");
-    if (refParam || msgParam) {
-      const combined = [refParam ? `Reference: ${refParam}` : "", msgParam || ""].filter(Boolean).join("\n");
-      setValue("message", combined, { shouldDirty: true });
-    }
-  }, [setValue]);
+  };
 
   const onSubmit = async (data: EnquiryFormValues, e?: React.BaseSyntheticEvent) => {
+    if (submitState === "loading") return;
+
     if (e) {
       const formData = new FormData(e.target);
       data.turnstileToken = (formData.get("cf-turnstile-response") as string) || "";
@@ -147,8 +297,10 @@ export function ContactForm() {
       if (!res.ok) throw new Error("Failed to submit enquiry");
       setSubmitState("success");
       reset();
+      resetTurnstile();
     } catch {
       setSubmitState("error");
+      resetTurnstile();
     }
   };
 
@@ -160,6 +312,9 @@ export function ContactForm() {
 
   return (
     <div className="w-full">
+      <Suspense fallback={null}>
+        <UrlParamSync onParamsChange={applyParams} />
+      </Suspense>
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="lazyOnload" />
 
       {/* Success Notification Banner */}
@@ -167,7 +322,7 @@ export function ContactForm() {
         <div
           role="status"
           aria-live="polite"
-          className="p-6 mb-8 bg-gold/10 border-l-4 border-gold text-navy-deep space-y-2 rounded-r transition-all"
+          className="p-6 mb-8 bg-gold/10 border-l-4 border-gold text-navy-deep space-y-2 rounded-r transition-opacity duration-300"
         >
           <div className="flex items-center gap-3">
             <svg viewBox="0 0 24 24" className="w-6 h-6 text-gold-dark shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -184,7 +339,7 @@ export function ContactForm() {
         <div
           role="alert"
           aria-live="assertive"
-          className="p-6 mb-8 bg-red-50 border-l-4 border-red-600 text-navy-deep space-y-2 rounded-r transition-all"
+          className="p-6 mb-8 bg-red-50 border-l-4 border-red-600 text-navy-deep space-y-2 rounded-r transition-opacity duration-300"
         >
           <h3 className="font-display text-2xl font-bold text-red-700">Something went wrong</h3>
           <p className="font-sans text-sm text-text-slate leading-relaxed">{formMessages.error}</p>

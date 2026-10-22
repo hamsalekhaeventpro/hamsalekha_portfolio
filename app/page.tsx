@@ -87,6 +87,7 @@ export default function HomePage() {
       <BehindTheBuild />
       
       {/* BehindTheBuild (dark) → WhoWeWorkWith (panel) */}
+      <div className="section-divider-gold" />
       <WhoWeWorkWith />
       
       <RecognitionStrip />
