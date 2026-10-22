@@ -67,6 +67,7 @@ export interface GalleryImage {
   year?: string;
   catalogueHref?: string;
   enquireHref?: string;
+  caseStudySlug?: string;
   span?: "normal" | "tall"; // for masonry visual variation
 }
 

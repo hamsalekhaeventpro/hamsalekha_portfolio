@@ -20,10 +20,7 @@ export function PortfolioPreview() {
   const rm = useReducedMotion();
 
   const getProjectHref = (slug: string) => {
-    if (slug === "glass-house" || slug === "moongate") {
-      return `/signature-sets#${slug}`;
-    }
-    return `/portfolio#${slug}`;
+    return `/portfolio/${slug}`;
   };
 
   const getProjectTag = (slug: string, category: string) => {
@@ -75,7 +72,7 @@ export function PortfolioPreview() {
               sizes = "100vw";
             }
 
-            const hasRealImage = project.slug === "glass-house" || project.slug === "moongate";
+            const hasRealImage = Boolean(project.images?.[0]?.src);
             const tag = getProjectTag(project.slug, project.category);
             const targetHref = getProjectHref(project.slug);
 
@@ -104,8 +101,6 @@ export function PortfolioPreview() {
                       aspectRatio="aspect-auto"
                       tone="dark"
                       contextLabel={project.slug.includes("eden") ? "ARCHIVAL PHOTOGRAPH" : "EVENT PHOTOGRAPH"}
-                      caption={project.title}
-                      subline={project.summary}
                       className="w-full h-full"
                     />
                   )}

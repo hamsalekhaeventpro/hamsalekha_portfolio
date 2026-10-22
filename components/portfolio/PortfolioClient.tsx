@@ -2,18 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { ExternalLink, X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { portfolioHero, featuredStories, galleryImages, portfolioCTA } from "@/lib/content";
 import type { GalleryCategory } from "@/types/content";
 import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { EditorialPlaceholder } from "@/components/ui/EditorialPlaceholder";
-import { ease } from "@/lib/motion";
-
-const EXPO = ease.expo;
-
 const filters: { label: string; value: GalleryCategory | "all" }[] = [
   { label: "All", value: "all" },
   { label: "Weddings", value: "weddings" },
@@ -80,17 +77,29 @@ function FeaturedStoriesSection() {
                 key={story.title} 
                 className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center"
               >
-                {/* Image Placeholder: Mobile first, desktop alternating */}
+                {/* Image: Mobile first, desktop alternating */}
                 <div className={`lg:col-span-7 order-first ${isReversed ? "lg:order-last" : "lg:order-first"}`}>
                   <Reveal delay={0.1}>
-                    <EditorialPlaceholder
-                      aspectRatio="aspect-[16/10]"
-                      tone="light"
-                      contextLabel={story.tag.includes("EARLY") ? "ARCHIVAL PHOTOGRAPH" : "EVENT PHOTOGRAPH"}
-                      caption={story.title}
-                      subline={`${story.tag} · ${story.subtitle}`}
-                      className="w-full shadow-md"
-                    />
+                    {story.image ? (
+                      <div className="relative overflow-hidden rounded-sm aspect-[16/10] w-full shadow-md bg-navy-deep">
+                        <Image
+                          src={story.image}
+                          alt={story.imageAlt || story.title}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 60vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <EditorialPlaceholder
+                        aspectRatio="aspect-[16/10]"
+                        tone="light"
+                        contextLabel={story.tag.includes("EARLY") ? "ARCHIVAL PHOTOGRAPH" : "EVENT PHOTOGRAPH"}
+                        caption={story.title}
+                        subline={`${story.tag} · ${story.subtitle}`}
+                        className="w-full shadow-md"
+                      />
+                    )}
                   </Reveal>
                 </div>
 
@@ -187,7 +196,7 @@ function GallerySection() {
 
   return (
     <Section tone="base" className="py-20 lg:py-32 min-h-screen">
-      <div className="container-site flex flex-col gap-16">
+      <div className="container-site flex flex-col gap-12 sm:gap-16">
         
         {/* Editorial Filter Navigation */}
         <div className="flex flex-wrap justify-center gap-6 sm:gap-10" role="tablist" aria-label="Filter gallery">
@@ -208,7 +217,7 @@ function GallerySection() {
                   <motion.div
                     layoutId="filter-indicator"
                     className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gold-dark"
-                    transition={{ duration: 0.5, ease: EXPO }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
                   />
                 )}
               </button>
@@ -216,12 +225,16 @@ function GallerySection() {
           })}
         </div>
 
-        {/* Asymmetric Editorial Grid */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6 auto-rows-[280px] sm:auto-rows-[320px]"
-        >
-          <AnimatePresence mode="popLayout">
+        {/* Gallery Container: Mobile Swipe + Desktop Editorial Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={active}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="flex md:grid overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-none pb-4 md:pb-0 gap-4 lg:gap-6 md:grid-cols-12 md:auto-rows-[280px] lg:auto-rows-[320px]"
+          >
             {filtered.map((img, idx) => {
               let spanClasses = "md:col-span-4 row-span-1";
               if (idx % 7 === 0) spanClasses = "md:col-span-8 row-span-2";
@@ -232,60 +245,86 @@ function GallerySection() {
               if (img.span === "tall") spanClasses = "md:col-span-4 row-span-2";
 
               return (
-                <motion.div data-reveal
-                  layout
-                  initial={rm ? {} : { opacity: 0, clipPath: "inset(10% 10% 10% 10%)" }}
-                  whileInView={rm ? {} : { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }}
-                  viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-                  exit={{ opacity: 0, scale: rm ? 1 : 0.95 }}
-                  transition={{ duration: 0.8, ease: EXPO }}
+                <div
                   key={img.id}
-                  className={`group relative overflow-hidden cursor-pointer bg-navy-deep rounded-sm ${spanClasses}`}
+                  className={`group relative overflow-hidden cursor-pointer bg-navy-deep rounded-sm min-w-[85vw] sm:min-w-[65vw] md:min-w-0 snap-center shrink-0 md:shrink h-[380px] sm:h-[420px] md:h-auto ${spanClasses}`}
                   onClick={() => openLightbox(idx)}
                 >
-                  <EditorialPlaceholder
-                    aspectRatio="aspect-auto"
-                    tone="dark"
-                    contextLabel={img.category === "signature-sets" ? "SIGNATURE SET" : "EVENT PHOTOGRAPH"}
-                    caption={img.alt.split("by Hamsalekha")[0].replace(/at an? Indian wedding.*|at a.*|staged by.*/i, '').trim()}
-                    subline={`${img.eventType} · ${img.venue}${img.year ? ` · ${img.year}` : ""}`}
-                    className="h-full w-full"
-                  />
+                  {img.src ? (
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="(max-width: 768px) 85vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  ) : (
+                    <EditorialPlaceholder
+                      aspectRatio="aspect-auto"
+                      tone="dark"
+                      contextLabel={img.category === "signature-sets" ? "SIGNATURE SET" : "EVENT PHOTOGRAPH"}
+                      caption={img.caption || "From our archive"}
+                      subline={`${img.eventType}${img.venue ? ` · ${img.venue}` : ""}${img.year ? ` · ${img.year}` : ""}`}
+                      className="h-full w-full"
+                    />
+                  )}
                   
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-navy-deep/0 group-hover:bg-navy-deep/60 transition duration-500 ease-out flex flex-col justify-end p-6 md:p-8">
-                    <div className="translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition duration-500 ease-out">
-                      <p className="font-sans text-xs md:text-sm font-semibold tracking-widest text-cream/90 uppercase mb-2">
-                        {img.eventType} · {img.venue} {img.year ? `· ${img.year}` : ""}
+                  {/* Subtle Gradient Overlay for Legibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-transparent to-transparent pointer-events-none md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Caption & Interaction */}
+                  <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 bg-navy-deep/40 md:bg-navy-deep/0 md:group-hover:bg-navy-deep/70 transition-all duration-300">
+                    <div className="md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-300">
+                      <h3 className="font-display text-lg sm:text-xl font-bold text-cream mb-1">
+                        {img.caption || "From our archive"}
+                      </h3>
+                      <p className="font-sans text-[0.7rem] sm:text-xs tracking-widest text-cream/80 uppercase mb-3">
+                        {img.eventType}{img.venue ? ` · ${img.venue}` : ""}{img.year ? ` · ${img.year}` : ""}
                       </p>
-                      {img.catalogueHref && (
+                      
+                      {img.caseStudySlug ? (
+                        <Link 
+                          href={`/portfolio/${img.caseStudySlug}`}
+                          onClick={(e) => e.stopPropagation()} 
+                          className="inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest font-bold text-gold-light hover:text-gold transition-colors"
+                        >
+                          <span>View Case Study</span>
+                          <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
+                        </Link>
+                      ) : img.enquireHref ? (
                         <a 
-                          href={img.catalogueHref} 
+                          href={img.enquireHref} 
                           target="_blank" 
                           rel="noopener noreferrer" 
                           onClick={(e) => e.stopPropagation()} 
-                          className="inline-flex items-center gap-2 font-display italic text-base text-gold-light hover:text-gold transition-colors"
+                          className="inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest font-bold text-gold-light hover:text-gold transition-colors"
                         >
-                          Shop this setup <ExternalLink size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+                          <span>Enquire about this setup</span>
+                          <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
                         </a>
-                      )}
+                      ) : null}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Mobile Swipe Hint */}
+        <div className="md:hidden flex items-center justify-center gap-2 text-text-slate/60 text-xs font-sans tracking-widest uppercase">
+          <span>← Swipe to explore archive →</span>
+        </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox Modal */}
       <AnimatePresence>
         {lightboxIdx !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed inset-0 z-50 bg-navy-deep/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
             onClick={closeLightbox}
           >
@@ -307,31 +346,65 @@ function GallerySection() {
               <ChevronLeft size={40} strokeWidth={1.5} />
             </button>
 
-            {/* Image Placeholder Wrapper */}
+            {/* Image Wrapper */}
             <motion.div
               key={lightboxIdx}
               initial={{ scale: rm ? 1 : 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: rm ? 1 : 0.98, opacity: 0 }}
-              transition={{ duration: 0.5, ease: EXPO }}
-              className="relative w-full max-w-4xl max-h-[82vh] flex items-center justify-center p-4"
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="relative w-full max-w-5xl h-[70vh] flex items-center justify-center p-4"
               onClick={(e) => e.stopPropagation()}
             >
-              <EditorialPlaceholder
-                aspectRatio="aspect-[16/10]"
-                tone="dark"
-                contextLabel={filtered[lightboxIdx].category === "signature-sets" ? "SIGNATURE SET" : "EVENT PHOTOGRAPH"}
-                caption={filtered[lightboxIdx].alt}
-                subline={`${filtered[lightboxIdx].eventType} · ${filtered[lightboxIdx].venue}${filtered[lightboxIdx].year ? ` · ${filtered[lightboxIdx].year}` : ""}`}
-                className="w-full shadow-2xl"
-              />
+              {filtered[lightboxIdx].src ? (
+                <div className="relative w-full h-full rounded-sm overflow-hidden shadow-2xl">
+                  <Image
+                    src={filtered[lightboxIdx].src}
+                    alt={filtered[lightboxIdx].alt}
+                    fill
+                    sizes="90vw"
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <EditorialPlaceholder
+                  aspectRatio="aspect-[16/10]"
+                  tone="dark"
+                  contextLabel={filtered[lightboxIdx].category === "signature-sets" ? "SIGNATURE SET" : "EVENT PHOTOGRAPH"}
+                  caption={filtered[lightboxIdx].caption || "From our archive"}
+                  subline={`${filtered[lightboxIdx].eventType}${filtered[lightboxIdx].venue ? ` · ${filtered[lightboxIdx].venue}` : ""}${filtered[lightboxIdx].year ? ` · ${filtered[lightboxIdx].year}` : ""}`}
+                  className="w-full shadow-2xl"
+                />
+              )}
             </motion.div>
 
-            {/* Caption */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center w-full px-4">
-              <p className="font-sans text-xs md:text-sm uppercase tracking-widest text-cream/80 font-medium">
-                {filtered[lightboxIdx].eventType} · {filtered[lightboxIdx].venue} {filtered[lightboxIdx].year ? `· ${filtered[lightboxIdx].year}` : ""}
+            {/* Caption & Actions in Lightbox */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center w-full px-4 flex flex-col items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+              <h4 className="font-display text-base md:text-xl font-bold text-cream">
+                {filtered[lightboxIdx].caption || "From our archive"}
+              </h4>
+              <p className="font-sans text-xs md:text-sm uppercase tracking-widest text-cream/70 font-medium">
+                {filtered[lightboxIdx].eventType}{filtered[lightboxIdx].venue ? ` · ${filtered[lightboxIdx].venue}` : ""}{filtered[lightboxIdx].year ? ` · ${filtered[lightboxIdx].year}` : ""}
               </p>
+              {filtered[lightboxIdx].caseStudySlug ? (
+                <Link
+                  href={`/portfolio/${filtered[lightboxIdx].caseStudySlug}`}
+                  className="mt-1 inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest font-bold text-gold-light hover:text-gold bg-navy-deep/80 px-4 py-2 rounded-sm border border-gold/30 transition-colors"
+                >
+                  <span>View Case Study</span>
+                  <ArrowRight size={13} />
+                </Link>
+              ) : filtered[lightboxIdx].enquireHref ? (
+                <a
+                  href={filtered[lightboxIdx].enquireHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest font-bold text-gold-light hover:text-gold bg-navy-deep/80 px-4 py-2 rounded-sm border border-gold/30 transition-colors"
+                >
+                  <span>Enquire about this setup</span>
+                  <ArrowRight size={13} />
+                </a>
+              ) : null}
             </div>
 
             {/* Next */}

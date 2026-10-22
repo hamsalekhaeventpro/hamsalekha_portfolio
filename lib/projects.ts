@@ -1,3 +1,4 @@
+import { asset } from "@/lib/assets";
 export type Project = {
   slug: string;
   title: string;
@@ -37,13 +38,15 @@ export const projects: Project[] = [
       eventType: "Signature Set",
     },
     images: [
-      { src: "/images/signature-sets/glass-house.jpg", alt: "The Glass House glowing at night", kind: "night" }
+      { src: asset("/images/signature-sets/glass-house.jpg"), alt: "The Glass House glowing at night", kind: "night" },
+      { src: asset("/images/portfolio/glass-house.jpg"), alt: "The Glass House daytime lawn view", kind: "day" }
     ]
   },
   {
     slug: "moongate",
     title: "MoonGate",
     category: "signature-set",
+    year: 2025,
     summary: "Our circular arch set: a full-moon frame for entries, stages and photo moments.",
     story: [
       "MoonGate turns a walkway into a threshold and gives every guest the photograph they came for, with built-in halo lighting."
@@ -52,7 +55,7 @@ export const projects: Project[] = [
       eventType: "Signature Set",
     },
     images: [
-      { src: "/images/signature-sets/moongate.jpg", alt: "MoonGate circular arch", kind: "hero" }
+      { src: asset("/images/portfolio/moongate.jpg"), alt: "MoonGate circular arch", kind: "hero" }
     ]
   },
   {
@@ -64,11 +67,13 @@ export const projects: Project[] = [
       "Providing premium furniture and seating arrangements for Bengaluru's premier wedding industry gathering."
     ],
     production: {
-      eventType: "Industry Event",
+      eventType: "Industry Event / Trade Partnership",
+      furniture: "Curved velvet lounge sofas, armchairs, and styled tables",
     },
-    // TODO(owner): confirm image mapping for BWF Meet Up 4
     images: [
-      { src: "/images/about-timeline.jpg", alt: "BWF Meet Up 4.0 event", kind: "hero" }
+      { src: asset("/images/portfolio/bwf-furniture-meetup.jpg"), alt: "BWF Meet Up 4.0 event lounge setup", kind: "hero" },
+      { src: asset("/images/portfolio/bwf-furniture-meetup(1).jpg"), alt: "BWF Meet Up 4.0 seating arrangement", kind: "detail" },
+      { src: asset("/images/portfolio/bw-fruniture-meetup(2).png"), alt: "BWF Meet Up 4.0 stage furniture perspective", kind: "detail" }
     ]
   },
   {
@@ -81,10 +86,13 @@ export const projects: Project[] = [
     ],
     production: {
       venue: "Eden Gardens, Palace Grounds",
+      eventType: "Wedding Reception",
+      structures: "Truss Rigging",
+      lighting: "Stage & Ambient Lighting",
+      power: "Silent Gensets",
     },
-    // TODO(owner): confirm image mapping for Eden Gardens
     images: [
-      { src: "/images/hero.jpg", alt: "Palace Grounds early event", kind: "hero" }
+      { src: asset("/images/hero.jpg"), alt: "Palace Grounds early event", kind: "hero" }
     ]
   }
 ];

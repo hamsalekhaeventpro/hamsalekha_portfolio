@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 
 import { SITE_URL } from "@/lib/config";
+import { projects } from "@/lib/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_URL;
-  const routes = [
+  const staticRoutes = [
     "",
     "/about",
     "/services",
@@ -16,6 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/terms",
   ];
+
+  const projectRoutes = projects.map((p) => `/portfolio/${p.slug}`);
+  const routes = [...staticRoutes, ...projectRoutes];
 
   return routes.map((route) => ({
     url: `${base}${route}`,
