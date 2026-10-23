@@ -19,7 +19,8 @@
 
 # production
 /build
-/.netlify/
+/.netlify/*
+!/.netlify/.gitkeep
 
 # misc
 .DS_Store
