@@ -254,8 +254,7 @@ export function Hero() {
     <section
       className={cn(
         "relative flex items-end md:items-center overflow-hidden bg-navy-deep",
-        "min-h-[min(780px,100svh)] h-auto",
-        "md:min-h-[680px] md:max-h-[900px] md:h-[clamp(680px,88vh,900px)]",
+        "min-h-screen min-h-svh h-screen h-svh",
         isPaused && "hero-paused",
         isDataSaver && "hero-data-saver"
       )}
@@ -384,7 +383,7 @@ export function Hero() {
 
       {/* 2. Hero Content (Stationary Foreground Layer) */}
       <div className="relative z-40 container-site pb-28 pt-32 md:pb-0 md:pt-0 w-full">
-        <div className="max-w-[960px] flex flex-col gap-7">
+        <div className="max-w-6xl flex flex-col gap-7">
 
           {/* Eyebrow */}
           <div className="flex items-center gap-4">
@@ -400,12 +399,12 @@ export function Hero() {
             aria-label={`${homeHero.line1} ${homeHero.line2}`}
           >
             <span className="block overflow-hidden pb-0 md:pb-1" aria-hidden="true">
-              <span className="block">
+              <span className="block lg:whitespace-nowrap">
                 {homeHero.line1}
               </span>
             </span>
             <span className="block overflow-hidden mt-0 md:mt-1 pb-0 md:pb-2" aria-hidden="true">
-              <span className="block font-display italic font-medium text-gold-light">
+              <span className="block font-display italic font-medium text-gold-light lg:whitespace-nowrap">
                 {homeHero.line2}
               </span>
             </span>
