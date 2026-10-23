@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/dev.js",
-    "prebuild": "node scripts/update-asset-manifest.js",
-    "build": "next build --webpack",
+    "build": "next build",
+    "build:webpack": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "update-images": "node scripts/update-asset-manifest.js"
