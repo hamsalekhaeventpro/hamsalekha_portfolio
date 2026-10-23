@@ -1,5 +1,7 @@
 "use client";
 
+import { asset } from "@/lib/assets";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Warehouse, Users, Zap } from "lucide-react";
@@ -44,7 +46,7 @@ export function BehindTheBuild() {
         animate={animate}
       >
         <Image
-          src="/images/vault/warehouse.jpg"
+          src={asset("/images/vault/warehouse.jpg")}
           alt="Hamsalekha Event Production warehouse with equipment staging"
           fill
           sizes="100vw"

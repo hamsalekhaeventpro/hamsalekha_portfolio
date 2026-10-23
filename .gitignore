@@ -45,6 +45,7 @@ next-env.d.ts
 
 # design reference and generated docs
 scratch/
+backup/
 design-reference/
 "figma pdfs/"
 AGENTS.md

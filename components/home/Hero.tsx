@@ -14,24 +14,33 @@ const HERO_SLIDES = [
     label: "Daytime Wedding",
     zoomClass: "hero-zoom-0",
     desktop: asset("/images/hero/hero-daytime-wedding-desktop.jpg"),
+    desktopWebp: asset("/images/hero/hero-daytime-wedding-desktop.webp"),
     tablet: asset("/images/hero/hero-daytime-wedding-tablet.jpg"),
+    tabletWebp: asset("/images/hero/hero-daytime-wedding-tablet.webp"),
     mobile: asset("/images/hero/hero-daytime-wedding-mobile.jpg"),
+    mobileWebp: asset("/images/hero/hero-daytime-wedding-mobile.webp"),
   },
   {
     id: "tech-production",
     label: "Tech Production",
     zoomClass: "hero-zoom-1",
     desktop: asset("/images/hero/hero-tech-production-desktop.jpg"),
+    desktopWebp: asset("/images/hero/hero-tech-production-desktop.webp"),
     tablet: asset("/images/hero/hero-tech-production-tablet.jpg"),
+    tabletWebp: asset("/images/hero/hero-tech-production-tablet.webp"),
     mobile: asset("/images/hero/hero-tech-production-mobile.jpg"),
+    mobileWebp: asset("/images/hero/hero-tech-production-mobile.webp"),
   },
   {
     id: "evening-reception",
     label: "Evening Reception",
     zoomClass: "hero-zoom-2",
     desktop: asset("/images/hero/hero-evening-reception-desktop.jpg"),
+    desktopWebp: asset("/images/hero/hero-evening-reception-desktop.webp"),
     tablet: asset("/images/hero/hero-evening-reception-tablet.jpg"),
+    tabletWebp: asset("/images/hero/hero-evening-reception-tablet.webp"),
     mobile: asset("/images/hero/hero-evening-reception-mobile.jpg"),
+    mobileWebp: asset("/images/hero/hero-evening-reception-mobile.webp"),
   },
 ] as const;
 
@@ -101,28 +110,41 @@ export function Hero() {
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 
-  // 3. Pre-decode images on mount and start first slide zoom as soon as image 0 is ready
+  // 3. Pre-decode Slide 0 image on mount and start first slide zoom as soon as image 0 is ready
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const imgElements = document.querySelectorAll<HTMLImageElement>(
-        'section[aria-label="Hero"] picture img'
+      const img0 = document.querySelector<HTMLImageElement>(
+        'section[aria-label="Hero"] [data-slide-index="0"] picture img'
       );
-      imgElements.forEach((img, idx) => {
-        if (img.decode) {
-          img
+      if (img0) {
+        if (img0.decode) {
+          img0
             .decode()
-            .then(() => {
-              if (idx === 0) setFirstImageReady(true);
-            })
-            .catch(() => {
-              if (idx === 0) setFirstImageReady(true);
-            });
-        } else if (img.complete) {
-          if (idx === 0) setFirstImageReady(true);
+            .then(() => setFirstImageReady(true))
+            .catch(() => setFirstImageReady(true));
+        } else if (img0.complete) {
+          queueMicrotask(() => setFirstImageReady(true));
         }
-      });
+      }
     }
   }, []);
+
+  // Preload upcoming slide ahead of transition once Slide 0 is settled
+  useEffect(() => {
+    if (!firstImageReady) return;
+    const nextIdx = (activeIndex + 1) % HERO_SLIDES.length;
+    const nextImg = document.querySelector<HTMLImageElement>(
+      `section[aria-label="Hero"] [data-slide-index="${nextIdx}"] picture img`
+    );
+    if (nextImg) {
+      if (nextImg.loading === "lazy") {
+        nextImg.loading = "eager";
+      }
+      if (nextImg.decode) {
+        nextImg.decode().catch(() => {});
+      }
+    }
+  }, [firstImageReady, activeIndex]);
 
   // Check image readiness before transitioning
   const checkImageReady = (targetIndex: number): Promise<void> => {
@@ -321,10 +343,24 @@ export function Hero() {
               >
                 <picture className="w-full h-full block">
                   <source
+                    type="image/webp"
+                    media="(min-width: 1024px)"
+                    srcSet={slide.desktopWebp}
+                    width={2560}
+                    height={1440}
+                  />
+                  <source
                     media="(min-width: 1024px)"
                     srcSet={slide.desktop}
                     width={2560}
                     height={1440}
+                  />
+                  <source
+                    type="image/webp"
+                    media="(min-width: 768px)"
+                    srcSet={slide.tabletWebp}
+                    width={2048}
+                    height={1536}
                   />
                   <source
                     media="(min-width: 768px)"
@@ -332,13 +368,19 @@ export function Hero() {
                     width={2048}
                     height={1536}
                   />
+                  <source
+                    type="image/webp"
+                    srcSet={slide.mobileWebp}
+                    width={1440}
+                    height={1800}
+                  />
                   <img
                     src={slide.mobile}
                     alt=""
                     width={1440}
                     height={1800}
-                    loading="eager"
-                    fetchPriority={index === 0 ? "high" : "auto"}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchPriority={index === 0 ? "high" : "low"}
                     decoding="async"
                     className="w-full h-full object-cover object-center"
                     onLoad={() => {

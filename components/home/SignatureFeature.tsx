@@ -308,7 +308,7 @@ function GlassHouseDesktop({ rm }: { rm: boolean }) {
             src={GH_DAY}
             alt="The Glass House pavilion, aerial daytime view"
             fill
-            priority
+            loading="lazy"
             sizes="(min-width: 900px) 55vw, 100vw"
             className="ss-day-img"
           />

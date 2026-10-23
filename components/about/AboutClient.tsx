@@ -97,6 +97,7 @@ function ItBeganAtHomeSection() {
                   src={aboutHero.image}
                   alt={aboutHero.imageAlt || "Warehouse & office established in Kothanur · 2006"}
                   fill
+                  priority
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-contain"
                 />
@@ -483,7 +484,6 @@ function FounderPortraitPlaceholder() {
           fill
           sizes="(max-width: 1024px) 100vw, 480px"
           className="object-contain"
-          priority
         />
       </div>
     );
