@@ -1,2 +1,5 @@
 [build.environment]
   NODE_VERSION = "20"
+  # The enquiry email addresses are public contact details (shown on the site and
+  # in email templates), not secrets. RESEND_API_KEY is still scanned.
+  SECRETS_SCAN_OMIT_KEYS = "ENQUIRY_FROM_EMAIL,ENQUIRY_TO_EMAIL"
