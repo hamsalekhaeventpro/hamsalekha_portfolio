@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navItems, microcopy } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/assets";
 
 /**
  * Header — Phase 1 spec:
@@ -88,7 +89,7 @@ export function Header() {
             aria-label="Hamsalekha Event Production — Home"
           >
             <Image
-              src="/images/hamsalekha-logo-v4.png"
+              src={asset("/images/hamsalekha-logo-v4.png")}
               alt="Hamsalekha Event Production"
               width={839}
               height={422}

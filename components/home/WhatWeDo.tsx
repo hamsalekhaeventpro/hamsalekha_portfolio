@@ -146,7 +146,6 @@ export function WhatWeDo() {
                         fill
                         sizes="92vw"
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                        priority={i === 0}
                       />
                     ) : (
                       <EditorialPlaceholder
@@ -221,7 +220,7 @@ export function WhatWeDo() {
                     aria-hidden={activeIndex !== i}
                   >
                     {s.image ? (
-                      <Image src={s.image} alt={s.imageAlt} fill sizes="50vw" className="object-cover" priority={i === 0} />
+                      <Image src={s.image} alt={s.imageAlt} fill sizes="50vw" className="object-cover" />
                     ) : (
                       <EditorialPlaceholder aspectRatio="aspect-auto" tone="dark" contextLabel="SERVICE" className="w-full h-full" />
                     )}
